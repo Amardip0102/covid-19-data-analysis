@@ -36,7 +36,19 @@ basic_layout = html.Div([
                 options=[{'label': v[i], 'value': v[i]} for k, v in filtering.teamsList.items() for i in range(len(v))],
                 value='All',
                 multi=False
-            )
+            ),
+
+            html.Label(
+                'Reset Filters to ALL',
+                style={'color': 'black', 'font-weight': 'bold'}
+            ),
+            html.Button(
+                'Reset Button',
+                style={'color': 'black', 'font-weight': 'bold','width': '100%','display':'table-cell'},
+                id='reset-filter-button',
+                type = 'submit',
+                n_clicks=0
+                )
         ], className="four columns"),
         ##############################################################
 
@@ -97,7 +109,7 @@ basic_layout = html.Div([
                 disabled=False,
                 multi=False
             )
-        ], className="four columns")
+        ], className="four columns"),
         ##############################################################
     ], style={"border": "2px black solid"}, className="row"),
     # end : basic filters here

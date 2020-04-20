@@ -299,6 +299,21 @@ def update_table(team_name, design_name, gender, age, exp):
     return data
 ########################################################################
 
+########################################################################
+# App Callback: Button
+########################################################################
+@app.callback(
+    [dash.dependencies.Output('spec-team-dropdown', 'value'),
+    dash.dependencies.Output('team-cat-dropdown', 'value'),
+    dash.dependencies.Output('designation-dropdown', 'value'),
+    dash.dependencies.Output('gender-dropdown', 'value'),
+    dash.dependencies.Output('age-dropdown', 'value'),
+    dash.dependencies.Output('exp-dropdown', 'value')],
+    [dash.dependencies.Input('reset-filter-button', 'n_clicks')]
+)
+def update_filter(reset_btn):
+    return 'All', 'All', 'All', 'All', 'All', 'All'
+
 
 ########################################################################
 # Start Server Here
