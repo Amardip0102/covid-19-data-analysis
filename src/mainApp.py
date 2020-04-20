@@ -6,6 +6,7 @@ import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
 from tabs import basic_tab
+from tabs import advance_tab
 from support_func import calc_counts
 from support_func import read_data
 from support_func import filtering
@@ -109,7 +110,7 @@ app.layout = html.Div([
             ################################################################################################
 
             # Enter Different Tabs Section
-            dcc.Tab(label='Advanced Filter', children=[], style=tab_style),
+            dcc.Tab(label='Advanced Filter', value='Advance-tab', style=tab_style),
             dcc.Tab(label='Help', children=[],style=tab_style),
             dcc.Tab(label='About', children=[],style=tab_style),
         ], style=tabs_styles),
@@ -132,6 +133,8 @@ app.layout = html.Div([
 def render_content(tab):
     if tab == 'basic-tab':
         return basic_tab.basic_layout
+    elif tab =='Advance-tab' :
+        return advance_tab.advance_layout
 #############################################################
 # start: callback for updating teams based on main team categories
 #############################################################
@@ -298,7 +301,27 @@ def update_table(team_name, design_name, gender, age, exp):
     data = out_df.to_dict("rows")
     return data
 ########################################################################
+@app.callback(
+    dash.dependencies.Output('Returned-Travelers-dropdown', 'disabled'),
+    [dash.dependencies.Input('Traveled-history-dropdown', 'value')]
+)
+def update_Returned_travelers_dropdown(name):
+    if(name == '0'):
+        ret_val=False
+    else:
+        ret_val = True
+    return ret_val
 
+@app.callback(
+    dash.dependencies.Output('COVID19-Result-dropdown', 'disabled'),
+    [dash.dependencies.Input('COVID19-dropdown', 'value')]
+)
+def update_Result_dropdown(name):
+    if(name == '0'):
+        ret_val = False
+    else:
+        ret_val = True
+    return ret_val
 
 ########################################################################
 # Start Server Here
