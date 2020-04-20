@@ -260,7 +260,8 @@ def update_gender(team):
 # Update callback : Table
 ########################################################################
 @app.callback(
-    dash.dependencies.Output('table', 'data'),
+    [dash.dependencies.Output('table', 'data'),
+    dash.dependencies.Output('data-processed-count', 'children')],
     [dash.dependencies.Input('spec-team-dropdown', 'value'),
      dash.dependencies.Input('designation-dropdown', 'value'),
      dash.dependencies.Input('gender-dropdown', 'value'),
@@ -299,8 +300,9 @@ def update_table(team_name, design_name, gender, age, exp):
         out_df = out_df[is_age]
 
     data = out_df.to_dict("rows")
-    return data
+    return data, str(len(out_df.index)) + ' Employees'
 ########################################################################
+
 
 ########################################################################
 # App Callback: Button

@@ -115,6 +115,31 @@ basic_layout = html.Div([
     # end : basic filters here
     #############################################################
 
+    html.Div([
+        html.Div([
+            html.H5(
+                id='data-processed-text',
+                children='Data processed using this filter: ',
+                style={
+                    'textAlign': 'left',
+                    'color': 'blue',
+                    'font-weight': 'bold'}
+            )
+        ]),
+
+        html.Div([
+            html.H5(
+                id='data-processed-count',
+                children=' 0 Employees',
+                style={
+                    'textAlign': 'left',
+                    'color': 'red',
+                    'font-weight': 'bold'}
+            )
+        ])
+
+    ], style={"border": "2px black solid"}, className="row"),
+
     #############################################################
     html.Div([
         html.H3(children='Charts and Graphs',

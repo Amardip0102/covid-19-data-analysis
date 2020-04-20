@@ -5,6 +5,8 @@ from support_func import read_data as rd
 debug = False
 ############################################################
 
+###########################################################
+
 
 #############################################################
 # FUNCTION : calculate designations counts based on teams
@@ -111,3 +113,13 @@ def calcWorkExperience(team):
         print(listWE)
     return listWE
 #############################################################
+
+
+#############################################################
+# FUNCTION : calculate work experience counts based on teams
+#
+#############################################################
+def calc_distance_home_office(team):
+    if debug is True:
+        print(team)
+    listDistance = []

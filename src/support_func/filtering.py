@@ -6,7 +6,7 @@ teamsList = {
             'SupportFunctions': ['HR','ADMIN','SALES','FINANCE'],
             'IT+ToolsAndQuality': ['PMT','IT','QUALITY','INSTRU'],
             'advanceEngineering+2W/3W': ['AE-ML','AE','2W/3W'],
-            'MechanicalDesign': ['MechanicalDesign'],
+            'MechanicalDesign': ['MECHANICAL-DESIGN'],
             'System_Fusa': ['SYSTEM/FuSa'],
             'software': ['SW-DEV-EST','SW-DEV-DIAG','SW-DEV-EPS','SW-DEV-GL','SW-DEV-VBS','SW-DEV-STAR3','SW-DEV-ADAS',
                           'SW-DEV-TBCM','SW-DEV-RPAS','SW-DEV-DCDC','SW-DEV-OTHER'],
