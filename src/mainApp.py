@@ -19,6 +19,12 @@ from support_func import filtering
 debug = False
 ############################################################
 
+############################################################
+# Organization Name
+############################################################
+org_name = "HELLA India Automotive Pvt. Ltd. Pune"
+############################################################
+
 app = dash.Dash(__name__)
 #############################################################
 
@@ -73,12 +79,15 @@ app.layout = html.Div([
                         'font-weight': 'bold'
                     }
                     ),
-            html.Div(children='HELLA India Automotive Pvt. Ltd',
+
+            html.Div([
+                html.H2(children=org_name,
                      style={
                          'textAlign': 'center',
                          'color': '#0000ff'
                      }
-                     )
+                )
+            ])
         ], className="row"),
         html.Div([
             html.H1(children='----------------------------------------------------------------------------------------',
