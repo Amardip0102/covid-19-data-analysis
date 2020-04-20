@@ -6,6 +6,9 @@ import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
+from tabs import basic_tab
+from calc_counts import *
+import read_data
 #############################################################
 
 ############################################################
@@ -15,36 +18,6 @@ debug = False
 ############################################################
 
 app = dash.Dash(__name__)
-
-#############################################################
-# READING EXCEL and CREATING DATAFRAME
-#############################################################
-path_excel='C:\\Users\\ghodam2\\Downloads\\POST-COVID19_(1-10).xlsx'
-df = pd.read_excel(path_excel)
-
-
-#############################################################
-# Fetch Indexes from Specified Columns
-#############################################################
-TEAM_NAME_IDX   = df.columns.get_loc("Your Team")
-DESIGNATION_IDX = df.columns.get_loc("Designation")
-AGE_IDX         = df.columns.get_loc("Age (In Years)")
-GENDER_IDX      = df.columns.get_loc("Gender")
-WORK_EXP_IDX    = df.columns.get_loc("Work Experience (Approx. in Years)")
-#############################################################
-
-##########################################################################################################
-# Select only Specific Columns those which are required
-##########################################################################################################
-df_sel_col = df[["Your Name", "Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )",
-                 "Your Team", "Work Experience (Approx. in Years)", "Designation", "Age (In Years)",
-                 "Gender"]].drop_duplicates()
-
-''' Renaming name of columns
-'''
-df_sel_col.columns = ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
-######################################################################################################
-
 
 #############################################################
 # DATASET FOR ALL FILTERS SAME AS FORM
@@ -113,113 +86,6 @@ layout_table['border'] = '2px solid black',
 
 
 #############################################################
-# FUNCTION : calculate designations counts based on teams
-#
-#############################################################
-def calculate_designations_count(team):
-    listD = []
-    if debug is True:
-        print(team)
-    df_designation = df_sel_col.copy()
-    if team != 'All':
-        is_perteam = df_designation['Team'] == team
-        df_designation = df_designation[is_perteam]
-    # Sequence to Append
-    # 'All', 'Engineer', 'Sr. Engineer', 'Specialist', 'Sr.  Specialist', 'Tech-Team Lead', 'Dy. Manager', 'Manager',
-    #                 'Assistant Manager', 'Sr. Manager', 'Dy. Architect', 'Architect', 'Sr. Architect',
-    #                 'Dy. General Manager', 'General Manager', 'Other'
-    listD.append(len(df_designation[df_designation['Designation'] == 'Engineer']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Sr. Engineer']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Specialist']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Sr. Specialist']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Tech/Team Lead']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Dy. Manager']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Manager']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Assistant Manager']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Sr. Manager']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Dy. Architect']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Architect']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Sr. Architect']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Dy. General Manager']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'General Manager']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Other']))
-    return listD
-############################################################
-
-
-#############################################################
-# FUNCTION : calculate Age counts based on teams
-#
-#############################################################
-def calculate_age_counts(team):
-    listA = []
-    if debug is True:
-        print(team)
-
-    df_age = df_sel_col.copy()
-    if team != 'All':
-        is_ageperteam = df_age['Team'] == team
-        df_age = df_age[is_ageperteam]
-    listA.append(len(df_age[df_age['Age'] == '20 - 30']))
-    listA.append(len(df_age[df_age['Age'] == '30 - 40']))
-    listA.append(len(df_age[df_age['Age'] == '40 - 50']))
-    listA.append(len(df_age[df_age['Age'] == '> 50']))
-    # debug code
-    if debug is True:
-        print(listA)
-    return listA
-#############################################################
-
-
-#############################################################
-# FUNCTION : calculate work experience counts based on teams
-#
-#############################################################
-def calculate_gender_count(team):
-    listG = []
-    if debug is True:
-        print(team)
-
-    df_gender = df_sel_col.copy()
-    if team != 'All':
-        is_genderperteam = df_gender['Team'] == team
-        df_gender = df_gender[is_genderperteam]
-    listG.append(len(df_gender[df_gender['Gender'] == 'Male']))
-    listG.append(len(df_gender[df_gender['Gender'] == 'Female']))
-    listG.append(len(df_gender[df_gender['Gender'] == 'Other']))
-     # debug code
-    if debug is True:
-        print(listG)
-    return listG
-#############################################################
-
-
-#############################################################
-# FUNCTION : calculate work experience counts based on teams
-#
-#############################################################
-def calcWorkExperience(team):
-    if debug is True:
-        print(team)
-    listWE = []
-    # ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
-    df_work = df_sel_col.copy()
-    if team != 'All':
-        is_work = df_work['Team'] == team
-        df_work = df_work[is_work]
-    listWE.append(len(df_work[df_work['Experience'] == '0 - 2']))
-    listWE.append(len(df_work[df_work['Experience'] == '2 - 5']))
-    listWE.append(len(df_work[df_work['Experience'] == '5 -10']))
-    listWE.append(len(df_work[df_work['Experience'] == '> 10']))
-
-    # debug code
-    if debug is True:
-        print(listWE)
-    return listWE
-#############################################################
-
-
-#############################################################
 # APPLICATION LAYOUT IS HERE .....
 #############################################################
 app.layout = html.Div([
@@ -262,259 +128,19 @@ app.layout = html.Div([
         ], className='row'),
         #############################################################
 
-        dcc.Tabs([
+        dcc.Tabs(id ='tab-app',value='basic-tab',children=[
             ################################################################################################
             # Basic Tab Content
             ################################################################################################
-            dcc.Tab(label='Basic Filters', children=[
-                #############################################################
-                # Start: Basic Filter Options
-                html.Div([
-                    ##############################################################
-                    # First Four Columns
-                    ##############################################################
-                    html.Div([
-                        html.Label(
-                            children = 'Team Category',
-                            style={'color': 'black','font-weight': 'bold'}
-                        ),
-                        dcc.Dropdown(
-                            id='team-cat-dropdown',
-                            options=[{'label': v, 'value': v} for v in teamsList.keys()],
-                            value='All'
-                        ),
-
-                        html.Label(
-                            'Select Specific Team',
-                            style={'color': 'black', 'font-weight': 'bold'}
-                        ),
-                        dcc.Dropdown(
-                            id = 'spec-team-dropdown',
-                            options=[{'label': v[i], 'value': v[i]} for k,v in teamsList.items() for i in range(len(v))],
-                            value='All',
-                            multi=False
-                        )
-                    ], className="four columns"),
-                    ##############################################################
-
-
-                    ##############################################################
-                    #   Four Columns
-                    ##############################################################
-                    html.Div([
-                        html.Label(
-                            'Select Designations',
-                            style={'color': 'black', 'font-weight': 'bold'}
-                        ),
-                        dcc.Dropdown(
-                            id = 'designation-dropdown',
-                            options=[{'label': k, 'value': k} for k in designations],
-                            value='All',
-                            disabled=False,
-                            multi=False
-                        ),
-
-                        html.Label(
-                            'Experience',
-                            style={'color': 'black', 'font-weight': 'bold'}
-                        ),
-                        dcc.Dropdown(
-                            id = 'exp-dropdown',
-                            options=[{'label': k, 'value': v} for k,v in experience.items()],
-                            value='All',
-                            disabled=False,
-                            multi=False
-                        )
-                    ], className="four columns"),
-                    ##############################################################
-
-                    ##############################################################
-                    # Four Columns
-                    ##############################################################
-                    html.Div([
-                        html.Label(
-                            'Gender',
-                            style={'color': 'black', 'font-weight': 'bold'}
-                        ),
-                        dcc.Dropdown(
-                            id = 'gender-dropdown',
-                            options=[{'label': k, 'value': k} for k in gender],
-                            value='All',
-                            disabled=False,
-                            multi=False
-                        ),
-
-                        html.Label(
-                            'Age',
-                            style={'color': 'black', 'font-weight': 'bold'}
-                        ),
-                        dcc.Dropdown(
-                            id = 'age-dropdown',
-                            options=[{'label': k, 'value': v} for k,v in age.items()],
-                            value='All',
-                            disabled=False,
-                            multi=False
-                        )
-                    ], className="four columns")
-                    ##############################################################
-                ], style={"border":"2px black solid"},className="row"),
-                # end : basic filters here
-                #############################################################
-
-                #############################################################
-                html.Div([
-                    html.H3(children='Charts and Graphs',
-                            style={
-                                'textAlign': 'left',
-                                'color': 'blue',
-                                'font-weight': 'bold'
-                            })
-                ], className='row'),
-                #############################################################
-
-                #############################################################
-                # plotting graphs from here onwards
-                html.Div([
-                    html.Div([
-                        dcc.Graph(
-                            id = 'designations-Id',
-                            figure={
-                                'data' : [
-                                    {'x':['Engineer', 'Sr. Engineer', 'Specialist', 'Sr. Specialist', 'Tech-Team Lead',
-                                          'Dy. Manager', 'Manager','Assistant Manager', 'Sr. Manager', 'Dy. Architect',
-                                          'Architect', 'Sr. Architect','Dy. General Manager', 'General Manager', 'Other'],
-                                     'y':calculate_designations_count('All'),
-                                     'type': 'bar'},
-                                ],
-                                'layout': {
-                                    # experiment and finalise colors
-                                    # 'plot_bgcolor': '#90EE90',
-                                    # 'paper_bgcolor': '#90EE90',
-                                    'font' : {
-                                        'color' : 'black'
-                                    },
-                                    'title': 'Designations'
-                                }
-                            }
-                        )
-                    ], className='six columns'),
-
-                    html.Div([
-                        dcc.Graph(
-                            id = 'work-exp',
-                            figure={
-                                'data' :[
-                                    {
-                                        'values': calcWorkExperience('All'),
-                                        'type': 'pie',
-                                        'name': 'WorkExp',
-                                        "labels": ['0-2 Years', '2-5 Years', '5-10 Years', '> 10 years'],
-                                    }],
-                                'layout': {
-                                        'font' : {
-                                            'color' : 'black'
-                                        },
-                                        'title': 'Work Experience',
-                                }
-                            },
-                        )
-                    ], className ='six columns'),
-
-                    html.Div([
-                        dcc.Graph(
-                            id='gender-pie',
-                            figure={
-                                'data': [
-                                    {
-                                        'values': calculate_gender_count('All'),
-                                        'type': 'pie',
-                                        'name': 'genderPie',
-                                        "labels": ['Male', 'Female', 'Others'],
-                                    }],
-                                'layout': {
-                                    'font': {
-                                        'color': 'black'
-                                    },
-                                    'title': 'Gender Wise Distribution',
-                                }
-                            },
-                        )
-                    ], className='six columns'),
-
-                    html.Div([
-                        dcc.Graph(
-                            id = 'age-Id',
-                            figure={
-                                'data' : [
-                                    {'x':['20-30 Years', '30-40 Years', '40-50 Years', '> 50 Years'],
-                                     'y':calculate_age_counts('All'),
-                                     'type': 'bar'},
-                                ],
-                                'layout': {
-                                    # experiment and finalise colors
-                                    # 'plot_bgcolor': '#90EE90',
-                                    # 'paper_bgcolor': '#90EE90',
-                                    'font' : {
-                                        'color' : 'black'
-                                    },
-                                    'title': 'Age Wise Distribution'
-                                }
-                            }
-                        )
-                    ], className='five columns'),
-                ], style={"border":"2px black solid"},className="row"),
-                #############################################################
-                html.Div([
-                    html.H3(children='Display Data',
-                            style={
-                                'textAlign': 'left',
-                                'color': 'blue',
-                                'font-weight': 'bold'
-                            })
-                ], className='row'),
-                #############################################################
-                html.Div([
-                    dash_table.DataTable(
-                        id='table',
-                        columns=[{"name": i, "id": i} for i in df_sel_col.columns],
-                        data=df_sel_col.to_dict("rows"),
-                        editable=False,
-                        # scroll enabled
-                        style_table={'maxWidth': '1500px','overflowY': 'scroll', 'maxHeight': '400px','border': 'thin lightgrey solid'},
-                        style_cell_conditional=[
-                            {'if': {'column_id': 'Name'},
-                             'width': '25%'},
-                            {'if': {'column_id': 'ID'},
-                             'width': '10%'},
-                            {'if': {'column_id': 'Team'},
-                             'width': '20%'},
-                            {'if': {'column_id': 'Designation'},
-                             'width': '15%'},
-                        ],
-                        row_selectable="multi",
-                        selected_rows=[0],
-                        style_cell={"fontFamily": "Arial", "size": 15, 'textAlign': 'center'},
-                        style_data={'border': '1px solid blue'},
-                        style_header={'border': '2px solid black'},
-                        # freeze header row when scrolling
-                        fixed_rows={'headers': True},
-                        # sorting data in table
-                        sort_action="native",
-                        sort_mode="single",
-                    )
-                ],
-                style = layout_table,
-                className=" twelve columns"),
-            ],style=tab_style),
+            dcc.Tab(label='Basic Filters', value='basic-tab',style=tab_style),
             ################################################################################################
 
             # Enter Different Tabs Section
-            dcc.Tab(label='Advanced Filter', children=[
-
-            ], style=tab_style),
+            dcc.Tab(label='Advanced Filter', children=[], style=tab_style),
             dcc.Tab(label='Help', children=[],style=tab_style),
             dcc.Tab(label='About', children=[],style=tab_style),
-        ], style=tabs_styles)
+        ], style=tabs_styles),
+        html.Div(id='tabs-content-app')
 ], className='ten columns offset-by-one')
 
 
@@ -523,6 +149,12 @@ app.layout = html.Div([
 #############################################################
 # all callback functions to be designed here ...
 #############################################################
+@app.callback(
+    dash.dependencies.Output('tabs-content-app', 'children'),
+    [dash.dependencies.Input('tabs-app', 'value')])
+def render_content(tab):
+    if tab == 'basic-tab':
+        return basic_tab.basic_layout
 #############################################################
 # start: callback for updating teams based on main team categories
 #############################################################
@@ -547,7 +179,7 @@ def update_work_experience(team):
     return {
         'data': [
         {
-            'values': calcWorkExperience(team),
+            'values': calc_counts.calcWorkExperience(team),
             'type': 'pie',
             'name': 'WorkExp',
             "labels": ['0-2 Years', '2-5 Years', '5-10 Years', '> 10 years']
@@ -574,7 +206,7 @@ def update_gender(team):
     return {
         'data': [
             {
-                'values': calculate_gender_count(team),
+                'values': calc_counts.calculate_gender_count(team),
                 'type': 'pie',
                 'name': 'genderPie',
                 "labels": ['Male', 'Female', 'Others'],
@@ -601,7 +233,7 @@ def update_age(team):
     return {
         'data': [
             {'x': ['20-30 Years', '30-40 Years', '40-50 Years', '> 50 Years'],
-             'y': calculate_age_counts(team),
+             'y': calc_counts.calculate_age_counts(team),
              'type': 'bar'},
         ],
         'layout': {
@@ -630,7 +262,7 @@ def update_gender(team):
             {'x': ['Engineer', 'Sr. Engineer', 'Specialist', 'Sr. Specialist', 'Tech-Team Lead',
                    'Dy. Manager', 'Manager', 'Assistant Manager', 'Sr. Manager', 'Dy. Architect',
                    'Architect', 'Sr. Architect', 'Dy. General Manager', 'General Manager', 'Other'],
-             'y': calculate_designations_count(team),
+             'y': calc_counts.calculate_designations_count(team),
              'type': 'bar'},
         ],
         'layout': {
@@ -657,7 +289,7 @@ def update_gender(team):
 )
 def update_table(team_name, design_name, gender, age, exp):
     # create a copy of main data here
-    out_df = df_sel_col.copy()
+    out_df = read_data.df_sel_col.copy()
     # print(out_df.head(5))
     # ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender'] for reference
 
