@@ -6,6 +6,7 @@ import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
 from tabs import basic_tab
+from tabs import about
 from support_func import calc_counts
 from support_func import read_data
 from support_func import filtering
@@ -111,7 +112,7 @@ app.layout = html.Div([
             # Enter Different Tabs Section
             dcc.Tab(label='Advanced Filter', children=[], style=tab_style),
             dcc.Tab(label='Help', children=[],style=tab_style),
-            dcc.Tab(label='About', children=[],style=tab_style),
+            dcc.Tab(label='About', value= 'about-tab',children=[],style=tab_style),
         ], style=tabs_styles),
         html.Div(id='tabs-content-app')
 ], className='ten columns offset-by-one')
@@ -132,6 +133,8 @@ app.layout = html.Div([
 def render_content(tab):
     if tab == 'basic-tab':
         return basic_tab.basic_layout
+    elif tab == 'about-tab':
+        return about.about_layout
 #############################################################
 # start: callback for updating teams based on main team categories
 #############################################################
