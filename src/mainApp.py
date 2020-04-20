@@ -5,11 +5,12 @@ import dash
 import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
-import pandas as pd
 from tabs import basic_tab
-from calc_counts import *
-import read_data
+from support_func import calc_counts
+from support_func import read_data
+from support_func import filtering
 #############################################################
+
 
 ############################################################
 # Debug Variables
@@ -18,37 +19,9 @@ debug = False
 ############################################################
 
 app = dash.Dash(__name__)
-
-#############################################################
-# DATASET FOR ALL FILTERS SAME AS FORM
-#############################################################
-teamsList = {
-            'All' : ['All'],
-            'SupportFunctions': ['HR','ADMIN','SALES','FINANCE'],
-            'IT+ToolsAndQuality': ['PMT','IT','QUALITY','INSTRU'],
-            'advanceEngineering+2W/3W': ['AE-ML','AE','2W/3W'],
-            'MechanicalDesign': ['MechanicalDesign'],
-            'System_Fusa': ['SYSTEM/FuSa'],
-            'software': ['SW-DEV-EST','SW-DEV-DIAG','SW-DEV-EPS','SW-DEV-GL','SW-DEV-VBS','SW-DEV-STAR3','SW-DEV-ADAS',
-                          'SW-DEV-TBCM','SW-DEV-RPAS','SW-DEV-DCDC','SW-DEV-OTHER'],
-            'SystemTesting': ['SYS_TEST-AudiSAR','SYS_TEST-STAR3','SYS_TEST-EPS','SYS_TEST-TATA','SYS_TEST-BCM2Evo',
-                              'SYS_TEST-COBAS-VBS','SYS_TEST-RPAS','SYS-TEST-OTHER'],
-            'hardware': ['HW-LAYOUT-LIBRARY','HW-DESIGN','HW-RADIO-HOMOLOGATION','HW-OTHER'],
-            'others': ['OTHERS-NOT-LISTED']
-            }
-
-designations = ['All', 'Engineer', 'Sr. Engineer', 'Specialist', 'Sr.  Specialist', 'Tech/Team Lead', 'Dy. Manager', 'Manager',
-                'Assistant Manager', 'Sr. Manager', 'Dy. Architect', 'Architect', 'Sr. Architect',
-                'Dy. General Manager', 'General Manager', 'Other']
-
-
-experience = {'All': 'All','0-2 Years': '0 - 2', '2-5 Years': '2 - 5', '5-10 Years':'5 -10', '> 10 Years': '> 10'}
-
-age = {'All': 'All', '20-30 Years': '20 - 30', '30-40 Years': '30 - 40', '40-50 Years': '40 - 50', '> 50 Years': '> 50'}
-
-gender = ['All', 'Male', 'Female', 'Other']
 #############################################################
 
+app.config['suppress_callback_exceptions'] = True
 #############################################################
 # Styling for Tab and Tables
 #############################################################
@@ -149,9 +122,13 @@ app.layout = html.Div([
 #############################################################
 # all callback functions to be designed here ...
 #############################################################
+
+#############################################################
+# CallBack for rendering entire application..
+#############################################################
 @app.callback(
     dash.dependencies.Output('tabs-content-app', 'children'),
-    [dash.dependencies.Input('tabs-app', 'value')])
+    [dash.dependencies.Input('tab-app', 'value')])
 def render_content(tab):
     if tab == 'basic-tab':
         return basic_tab.basic_layout
@@ -163,7 +140,7 @@ def render_content(tab):
     [dash.dependencies.Input('team-cat-dropdown', 'value')]
 )
 def update_spc_team_dropdown(name):
-    return [{'label': i, 'value': i} for i in teamsList[name]]
+    return [{'label': i, 'value': i} for i in filtering.teamsList[name]]
 #############################################################
 
 

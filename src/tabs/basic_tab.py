@@ -5,9 +5,9 @@ import dash
 import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
-import filtering
-import calc_counts
-import read_data
+from support_func import filtering
+from support_func import calc_counts
+from support_func import read_data
 #############################################################
 # Start: Basic Filter Options
 ############################################################

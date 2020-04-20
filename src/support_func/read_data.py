@@ -1,9 +1,38 @@
 import pandas as pd
+import configparser
 #############################################################
 # READING EXCEL and CREATING DATAFRAME
 #############################################################
-path_excel='C:\\Users\\ghodam2\\Downloads\\POST-COVID19_(1-10).xlsx'
-df = pd.read_excel(path_excel)
+
+############################################################
+# Debug variable
+debug_flag = True
+############################################################
+
+# Parsing input config file
+config_rd = configparser.ConfigParser()
+
+
+def read_config_file(path, config):
+    """
+        Args:
+            config_file_name: path of file containing configuration parameters.
+            objec to configParser
+        Returns:
+            Dictionary containing all parameters read from configuration file.
+        Description:
+            Read configuration data.
+    """
+    data = {}
+    config.read(path)
+    data['excel_path'] = config['input_params']['input_excel_path']
+
+    return data
+
+
+path = read_config_file('..\src\input.config', config_rd)
+
+df = pd.read_excel(path['excel_path'])
 
 
 #############################################################

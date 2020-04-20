@@ -1,9 +1,11 @@
-from read_data import df_sel_col
+from support_func import read_data as rd
 ############################################################
 # Debug Variables
 ############################################################
 debug = False
 ############################################################
+
+
 #############################################################
 # FUNCTION : calculate designations counts based on teams
 #
@@ -12,7 +14,7 @@ def calculate_designations_count(team):
     listD = []
     if debug is True:
         print(team)
-    df_designation = df_sel_col.copy()
+    df_designation = rd.df_sel_col.copy()
     if team != 'All':
         is_perteam = df_designation['Team'] == team
         df_designation = df_designation[is_perteam]
@@ -48,7 +50,7 @@ def calculate_age_counts(team):
     if debug is True:
         print(team)
 
-    df_age = df_sel_col.copy()
+    df_age = rd.df_sel_col.copy()
     if team != 'All':
         is_ageperteam = df_age['Team'] == team
         df_age = df_age[is_ageperteam]
@@ -72,7 +74,7 @@ def calculate_gender_count(team):
     if debug is True:
         print(team)
 
-    df_gender = df_sel_col.copy()
+    df_gender = rd.df_sel_col.copy()
     if team != 'All':
         is_genderperteam = df_gender['Team'] == team
         df_gender = df_gender[is_genderperteam]
@@ -95,7 +97,7 @@ def calcWorkExperience(team):
         print(team)
     listWE = []
     # ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
-    df_work = df_sel_col.copy()
+    df_work = rd.df_sel_col.copy()
     if team != 'All':
         is_work = df_work['Team'] == team
         df_work = df_work[is_work]
