@@ -102,4 +102,5 @@ df_adv_col_out['Travel Risk'] = None
 ##################################################################
 sv.eval_travel_risk_severity()
 sv.eval_affected_areas_exposure_severity()
+sv.eval_contact_covid_severity()
 ##################################################################

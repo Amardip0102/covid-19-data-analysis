@@ -5,6 +5,10 @@ from support_func import read_data as rd
 import pandas as pd
 import numpy as np
 
+#######################################################################
+# Constant Section : which shall be later replaced by dynamic values
+######################################################################
+const_num_days = 14
 
 ########################################################################
 # Calculate Number of days
@@ -67,8 +71,23 @@ def eval_contact_covid_severity():
     --------------------------------------------------------------------------------------------------------
     :return: ['High', 'Medium', 'Low']
     '''
+    #todo: Add Healthcare facility visited column here..
+    # creating a local copy
+    df_contact_covid = rd.df_adv_col_in[['Contact_Travel','Living_with_Govt_HealthCare', 'Contact_Covid']].copy()
 
+    # decision table:
 
+    conditions = [
+        (df_contact_covid['Contact_Covid'] == 'Yes'),
+        (df_contact_covid['Contact_Travel'] == 'Yes') & (df_contact_covid['Living_with_Govt_HealthCare'] == 'Yes'),
+        (df_contact_covid['Contact_Travel'] == 'Yes') & (df_contact_covid['Living_with_Govt_HealthCare'] == 'No'),
+        (df_contact_covid['Contact_Travel'] == 'No') & (df_contact_covid['Living_with_Govt_HealthCare'] == 'Yes'),
+        (df_contact_covid['Contact_Travel'] == 'No') & (df_contact_covid['Living_with_Govt_HealthCare'] == 'No')
+    ]
+
+    outputs = ['High', 'High', 'Medium', 'Medium', 'Low']
+
+    rd.df_adv_col_out['Covid Contact Risk'] = np.select(conditions, outputs, default='Low')
     return 0
 
 
@@ -126,13 +145,13 @@ def eval_travel_risk_severity():
     # decision table:
     conditions = [
         (df_travel_risk['Travel out Pune'] == 'Yes') & (df_travel_risk['Stll There'] == "Yes"),
-        (df_travel_risk['Stll There'] == "No") & (df_travel_risk['When Came Back'] <= 14) &
+        (df_travel_risk['Stll There'] == "No") & (df_travel_risk['When Came Back'] <= const_num_days) &
         (df_travel_risk['When Came Back'] >= 0)& (df_travel_risk['Transportation'] == "Public Transport"),
-        (df_travel_risk['Stll There'] == "No") & (df_travel_risk['When Came Back'] <= 14) &
+        (df_travel_risk['Stll There'] == "No") & (df_travel_risk['When Came Back'] <= const_num_days) &
         (df_travel_risk['When Came Back'] >= 0)&(df_travel_risk['Transportation'] == "Personal Vehicle"),
-        (df_travel_risk['Stll There'] == "No") & (df_travel_risk['When Came Back'] > 14) &
+        (df_travel_risk['Stll There'] == "No") & (df_travel_risk['When Came Back'] > const_num_days) &
         (df_travel_risk['Transportation'] == "Public Transport"),
-        (df_travel_risk['Stll There'] == "No") & (df_travel_risk['When Came Back'] > 14) &
+        (df_travel_risk['Stll There'] == "No") & (df_travel_risk['When Came Back'] > const_num_days) &
         (df_travel_risk['Transportation'] == "Personal Vehicle")
     ]
 
