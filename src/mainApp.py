@@ -317,36 +317,6 @@ def update_table(team_name, design_name, gender, age, exp):
 ########################################################################
 
 
-#####################################################################################
-# call back is designed to enable returned traveller filter if people have traveled
-#####################################################################################
-
-@app.callback(
-    dash.dependencies.Output('returned-travelers-dropdown', 'disabled'),
-    [dash.dependencies.Input('traveled-history-dropdown', 'value')]
-)
-def update_Returned_travelers_dropdown(isTravelled):
-    if(isTravelled == 'Yes'):
-        ret_val= False
-    else:
-        ret_val = True
-    return ret_val
-
-#################################################################################
-# call back is designed to to enable Covid19 result filter if people have tested
-#################################################################################
-
-@app.callback(
-    dash.dependencies.Output('covid19-result-dropdown', 'disabled'),
-    [dash.dependencies.Input('covid19-dropdown', 'value')]
-)
-def update_Result_dropdown(isTested):
-    if(isTested == 'Yes'):
-        ret_val = False
-    else:
-        ret_val = True
-    return ret_val
-
 ########################################################################
 # App Callback: Button
 ########################################################################
