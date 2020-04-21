@@ -6,6 +6,7 @@ import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
 from tabs import basic_tab
+from tabs import advance_tab
 from tabs import about
 from support_func import calc_counts
 from support_func import read_data
@@ -119,7 +120,7 @@ app.layout = html.Div([
             ################################################################################################
 
             # Enter Different Tabs Section
-            dcc.Tab(label='Advanced Filter', children=[], style=tab_style),
+            dcc.Tab(label='Advanced Filter', value='advance-tab', style=tab_style),
             dcc.Tab(label='Help', children=[],style=tab_style),
             dcc.Tab(label='About', value= 'about-tab',children=[],style=tab_style),
         ], style=tabs_styles),
@@ -142,6 +143,8 @@ app.layout = html.Div([
 def render_content(tab):
     if tab == 'basic-tab':
         return basic_tab.basic_layout
+    elif tab == 'advance-tab':
+        return advance_tab.advance_layout
     elif tab == 'about-tab':
         return about.about_layout
 #############################################################
@@ -309,9 +312,40 @@ def update_table(team_name, design_name, gender, age, exp):
         out_df = out_df[is_age]
 
     data = out_df.to_dict("rows")
+
     return data, str(len(out_df.index)) + ' Employees'
 ########################################################################
 
+
+#####################################################################################
+# call back is designed to enable returned traveller filter if people have traveled
+#####################################################################################
+
+@app.callback(
+    dash.dependencies.Output('returned-travelers-dropdown', 'disabled'),
+    [dash.dependencies.Input('traveled-history-dropdown', 'value')]
+)
+def update_Returned_travelers_dropdown(isTravelled):
+    if(isTravelled == 'Yes'):
+        ret_val= False
+    else:
+        ret_val = True
+    return ret_val
+
+#################################################################################
+# call back is designed to to enable Covid19 result filter if people have tested
+#################################################################################
+
+@app.callback(
+    dash.dependencies.Output('covid19-result-dropdown', 'disabled'),
+    [dash.dependencies.Input('covid19-dropdown', 'value')]
+)
+def update_Result_dropdown(isTested):
+    if(isTested == 'Yes'):
+        ret_val = False
+    else:
+        ret_val = True
+    return ret_val
 
 ########################################################################
 # App Callback: Button

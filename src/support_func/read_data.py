@@ -50,9 +50,9 @@ WORK_EXP_IDX    = df.columns.get_loc("Work Experience (Approx. in Years)")
 ##########################################################################################################
 df_sel_col = df[["Your Name", "Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )",
                  "Your Team", "Work Experience (Approx. in Years)", "Designation", "Age (In Years)",
-                 "Gender"]].drop_duplicates()
+                 "Gender","Did you travel out of PUNE after 1st March ?","What is the distance between office and place of residence ? (Approx. in KM )"]].drop_duplicates()
 
 ''' Renaming name of columns
 '''
-df_sel_col.columns = ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
+df_sel_col.columns = ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender','Travel_history','Home_distance']
 ######################################################################################################
