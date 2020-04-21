@@ -110,7 +110,7 @@ app.layout = html.Div([
             ################################################################################################
 
             # Enter Different Tabs Section
-            dcc.Tab(label='Advanced Filter', value='Advance-tab', style=tab_style),
+            dcc.Tab(label='Advanced Filter', value='advance-tab', style=tab_style),
             dcc.Tab(label='Help', children=[],style=tab_style),
             dcc.Tab(label='About', children=[],style=tab_style),
         ], style=tabs_styles),
@@ -133,7 +133,7 @@ app.layout = html.Div([
 def render_content(tab):
     if tab == 'basic-tab':
         return basic_tab.basic_layout
-    elif tab =='Advance-tab' :
+    elif tab == 'advance-tab':
         return advance_tab.advance_layout
 #############################################################
 # start: callback for updating teams based on main team categories
@@ -300,24 +300,32 @@ def update_table(team_name, design_name, gender, age, exp):
 
     data = out_df.to_dict("rows")
     return data
-########################################################################
+
+#####################################################################################
+# call back is designed to enable returned traveller filter if people have traveled
+#####################################################################################
+
 @app.callback(
-    dash.dependencies.Output('Returned-Travelers-dropdown', 'disabled'),
-    [dash.dependencies.Input('Traveled-history-dropdown', 'value')]
+    dash.dependencies.Output('returned-travelers-dropdown', 'disabled'),
+    [dash.dependencies.Input('traveled-history-dropdown', 'value')]
 )
-def update_Returned_travelers_dropdown(name):
-    if(name == '0'):
-        ret_val=False
+def update_Returned_travelers_dropdown(isTravelled):
+    if(isTravelled == 'Yes'):
+        ret_val= False
     else:
         ret_val = True
     return ret_val
 
+#################################################################################
+# call back is designed to to enable Covid19 result filter if people have tested
+#################################################################################
+
 @app.callback(
-    dash.dependencies.Output('COVID19-Result-dropdown', 'disabled'),
-    [dash.dependencies.Input('COVID19-dropdown', 'value')]
+    dash.dependencies.Output('covid19-result-dropdown', 'disabled'),
+    [dash.dependencies.Input('covid19-dropdown', 'value')]
 )
-def update_Result_dropdown(name):
-    if(name == '0'):
+def update_Result_dropdown(isTested):
+    if(isTested == 'Yes'):
         ret_val = False
     else:
         ret_val = True

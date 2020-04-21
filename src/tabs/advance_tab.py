@@ -24,11 +24,13 @@ advance_layout =html.Div([
                     style={'color': 'black', 'font-weight': 'bold'}
                 ),
                 dcc.Dropdown(
-                    id='Traveled-history-dropdown',
+                    id='traveled-history-dropdown',
                     options=[
-                        {'label': 'YES', 'value': '0'},
-                        {'label': 'NO', 'value': '1'}
-                    ]
+                        {'label': 'All', 'value': 'All'},
+                        {'label': 'Yes', 'value': 'Yes'},
+                        {'label': 'No', 'value': 'No'}
+                    ],
+                    value= 'All'
                 ),
 
                 html.Label(
@@ -37,12 +39,14 @@ advance_layout =html.Div([
                 ),
                 dcc.Dropdown
                     (
-                    id='Returned-Travelers-dropdown',
+                    id='returned-travelers-dropdown',
                     options=[
-                        {'label': 'YES', 'value': '0'},
-                        {'label': 'NO', 'value': '1'}
+                       {'label': 'All', 'value': 'All'},
+                        {'label': 'Yes', 'value': 'Yes'},
+                        {'label': 'No', 'value': 'No'}
                     ],
-                    disabled=True
+                    value= 'All',
+                    disabled= True
                 )
             ], className="four columns"),
 
@@ -66,7 +70,7 @@ advance_layout =html.Div([
                 style={'color': 'black', 'font-weight': 'bold'}
             ),
             dcc.Dropdown(
-                id='Severity-dropdown',
+                id='severity-dropdown',
                 options=[{'label': k, 'value': k} for k in filtering.severity],
                 value='All',
                 multi=False
@@ -80,11 +84,13 @@ advance_layout =html.Div([
                     style={'color': 'black', 'font-weight': 'bold'}
                 ),
                 dcc.Dropdown(
-                    id='COVID19-dropdown',
+                    id='covid19-dropdown',
                     options=[
-                        {'label': 'YES', 'value': '0'},
-                        {'label': 'NO', 'value': '1'}
-                    ]
+                        {'label': 'All', 'value': 'All'},
+                        {'label': 'Yes', 'value': 'Yes'},
+                        {'label': 'No', 'value': 'No'}
+                    ],
+                    value = 'All'
                 ),
 
                 html.Label(
@@ -93,12 +99,14 @@ advance_layout =html.Div([
                 ),
                 dcc.Dropdown
                     (
-                    id='COVID19-Result-dropdown',
+                    id='covid19-result-dropdown',
                     options=[
-                        {'label': 'POSITIVE', 'value': '0'},
-                        {'label': 'NEGATIVE', 'value': '1'}
+                        {'label': 'All', 'value': 'All'},
+                        {'label': 'Yes', 'value': 'Yes'},
+                        {'label': 'No', 'value': 'No'}
                     ],
-                    disabled=True
+                     value = 'All',
+                    disabled= True
                 )
             ], className="four columns"),
         ##############################################################
@@ -118,6 +126,9 @@ advance_layout =html.Div([
         #############################################################
 
     ], style={"border": "2px black solid"}, className="row"),
+
+    # plotting graphs from here onwards
+    html.Div([
 
     html.Div([
         dcc.Graph(
@@ -140,5 +151,28 @@ advance_layout =html.Div([
         )
     ], className='six columns'),
 
-  ],
+        html.Div([
+            dcc.Graph(
+                id='travel-pie',
+                figure={
+                    'data': [
+                        {
+                            'values': calc_counts.calculate_gender_count('All'),
+                            'type': 'pie',
+                            'name': 'Travel history',
+                            "labels": ['Travelled', 'Not-Travelled'],
+                        }],
+                    'layout': {
+                        'font': {
+                            'color': 'black'
+                        },
+                        'title': 'Travel history Distribution',
+                    }
+                },
+            )
+        ], className='six columns'),
+
+     ], style={"border": "2px black solid"}, className="row"),
+
+  ]
 )
