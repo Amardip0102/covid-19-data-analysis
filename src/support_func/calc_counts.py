@@ -5,6 +5,8 @@ from support_func import read_data as rd
 debug = False
 ############################################################
 
+###########################################################
+
 
 #############################################################
 # FUNCTION : calculate designations counts based on teams
@@ -156,3 +158,4 @@ def calcWork_home_distance(team):
         print(listWE)
     return listWE
 #############################################################
+

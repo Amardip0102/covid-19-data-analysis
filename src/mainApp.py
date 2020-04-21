@@ -7,6 +7,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from tabs import basic_tab
 from tabs import advance_tab
+from tabs import about
 from support_func import calc_counts
 from support_func import read_data
 from support_func import filtering
@@ -17,6 +18,12 @@ from support_func import filtering
 # Debug Variables
 ############################################################
 debug = False
+############################################################
+
+############################################################
+# Organization Name
+############################################################
+org_name = "HELLA India Automotive Pvt. Ltd. Pune"
 ############################################################
 
 app = dash.Dash(__name__)
@@ -73,12 +80,15 @@ app.layout = html.Div([
                         'font-weight': 'bold'
                     }
                     ),
-            html.Div(children='HELLA India Automotive Pvt. Ltd',
+
+            html.Div([
+                html.H2(children=org_name,
                      style={
                          'textAlign': 'center',
                          'color': '#0000ff'
                      }
-                     )
+                )
+            ])
         ], className="row"),
         html.Div([
             html.H1(children='----------------------------------------------------------------------------------------',
@@ -112,7 +122,7 @@ app.layout = html.Div([
             # Enter Different Tabs Section
             dcc.Tab(label='Advanced Filter', value='advance-tab', style=tab_style),
             dcc.Tab(label='Help', children=[],style=tab_style),
-            dcc.Tab(label='About', children=[],style=tab_style),
+            dcc.Tab(label='About', value= 'about-tab',children=[],style=tab_style),
         ], style=tabs_styles),
         html.Div(id='tabs-content-app')
 ], className='ten columns offset-by-one')
@@ -135,6 +145,8 @@ def render_content(tab):
         return basic_tab.basic_layout
     elif tab == 'advance-tab':
         return advance_tab.advance_layout
+    elif tab == 'about-tab':
+        return about.about_layout
 #############################################################
 # start: callback for updating teams based on main team categories
 #############################################################
@@ -260,7 +272,8 @@ def update_gender(team):
 # Update callback : Table
 ########################################################################
 @app.callback(
-    dash.dependencies.Output('table', 'data'),
+    [dash.dependencies.Output('table', 'data'),
+    dash.dependencies.Output('data-processed-count', 'children')],
     [dash.dependencies.Input('spec-team-dropdown', 'value'),
      dash.dependencies.Input('designation-dropdown', 'value'),
      dash.dependencies.Input('gender-dropdown', 'value'),
@@ -299,7 +312,10 @@ def update_table(team_name, design_name, gender, age, exp):
         out_df = out_df[is_age]
 
     data = out_df.to_dict("rows")
-    return data
+
+    return data, str(len(out_df.index)) + ' Employees'
+########################################################################
+
 
 #####################################################################################
 # call back is designed to enable returned traveller filter if people have traveled
@@ -330,6 +346,22 @@ def update_Result_dropdown(isTested):
     else:
         ret_val = True
     return ret_val
+
+########################################################################
+# App Callback: Button
+########################################################################
+@app.callback(
+    [dash.dependencies.Output('spec-team-dropdown', 'value'),
+    dash.dependencies.Output('team-cat-dropdown', 'value'),
+    dash.dependencies.Output('designation-dropdown', 'value'),
+    dash.dependencies.Output('gender-dropdown', 'value'),
+    dash.dependencies.Output('age-dropdown', 'value'),
+    dash.dependencies.Output('exp-dropdown', 'value')],
+    [dash.dependencies.Input('reset-filter-button', 'n_clicks')]
+)
+def update_filter(reset_btn):
+    return 'All', 'All', 'All', 'All', 'All', 'All'
+
 
 ########################################################################
 # Start Server Here
