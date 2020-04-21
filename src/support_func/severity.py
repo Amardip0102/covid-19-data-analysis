@@ -20,9 +20,19 @@ def eval_exposure_affected_severity():
 
 def eval_contact_covid_severity():
     '''
-
-    :return:
+    --------------------------------------------------------------------------------------------------------
+    contact with covid19 patient | contact with travel history	 | allowed to work from family |	severity
+    --------------------------------------------------------------------------------------------------------
+            YES	                            X	                            X	                    High
+            No	                            Yes                         	Yes                    	 High
+            No	                            Yes                         	No	                    Medium
+            No	                            No	                           Yes	                    Medium
+            No	                            No	                            No	                    Low
+    --------------------------------------------------------------------------------------------------------
+    :return: ['High', 'Medium', 'Low']
     '''
+
+
     return 0
 
 
@@ -39,3 +49,20 @@ def eval_health_risk_severity():
     High -> Unhealthy
     '''
     return 0
+
+
+def eval_travel_risk_severity():
+    '''
+    Travel Risk
+    ------------------------------------------------------------------------------
+    Travelled   |  Still there	| Came Back |   when	        |   Transport	 |  Output
+        Yes	            Yes	        X	        X	                    X	        High
+        Yes	            No	        Yes	       Less than 14 days	    Public	    High
+        Yes	            No	        Yes	        Less than 14 days	    Private	    Medium
+        Yes         	No	        Yes	        More than 14 days	    Public	    Medium
+        Yes	            No	        Yes	        More than 14 days	    Private	    Low
+        No	            X	        X	        X	                    X	        Low
+    ---------------------------------------------------------------------------------
+
+    :return:
+    '''

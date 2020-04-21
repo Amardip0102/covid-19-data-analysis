@@ -56,3 +56,21 @@ df_sel_col = df[["Your Name", "Employee ID (e.g. HEDCI-123) (Please put ID numbe
 '''
 df_sel_col.columns = ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender','Travel_history','Home_distance']
 ######################################################################################################
+
+##########################################################################################################
+# Select only Specific Columns those which are required for advanced filter
+##########################################################################################################
+
+df_adv_col_in = df[["Your Name",
+                    "Your Team", "Work Experience (Approx. in Years)", "Designation", "Age (In Years)","Gender",
+                    "Have you come in contact with anyone with a travel history (within India/ abroad) ?",
+                    "Are any of the people you are living with, allowed to work under Government regulations ?( Ex: Govt. servants, Healthcare personnel etc)",
+                    "Have you come in contact with any person who tested POSITIVE for COVID-19 (directly/indirectly) ?"
+                    ]]
+
+df_adv_col_in.columns = ['Name', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Contact_Travel',
+                         'Living_with_Govt_HealthCare', 'Contact_Covid']
+
+
+df.adv_col_out = pd.DataFrame(columns=['Name','Team','Health Risk','Covid Contact Risk','Covid Exposure Risk',
+                                       'Distance','Members', 'E'])
