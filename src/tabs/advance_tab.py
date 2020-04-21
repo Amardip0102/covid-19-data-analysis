@@ -20,33 +20,24 @@ advance_layout =html.Div([
         html.Div(
             [
                 html.Label(
-                    children='Traveled Out of Pune',
+                    children='Travel risk severity',
                     style={'color': 'black', 'font-weight': 'bold'}
                 ),
                 dcc.Dropdown(
-                    id='traveled-history-dropdown',
-                    options=[
-                        {'label': 'All', 'value': 'All'},
-                        {'label': 'Yes', 'value': 'Yes'},
-                        {'label': 'No', 'value': 'No'}
-                    ],
+                    id='travel_risk_severity',
+                    options=[{'label': k, 'value': k} for k in filtering.severity],
                     value= 'All'
                 ),
 
                 html.Label(
-                    'Returned to Pune',
+                    'Exposure Severity to affected areas ',
                     style={'color': 'black', 'font-weight': 'bold'}
                 ),
                 dcc.Dropdown
                     (
-                    id='returned-travelers-dropdown',
-                    options=[
-                       {'label': 'All', 'value': 'All'},
-                        {'label': 'Yes', 'value': 'Yes'},
-                        {'label': 'No', 'value': 'No'}
-                    ],
-                    value= 'All',
-                    disabled= True
+                    id='exposure_affected_severity',
+                    options=[{'label': k, 'value': k} for k in filtering.severity],
+                    value= 'All'
                 )
             ], className="four columns"),
 
@@ -55,7 +46,7 @@ advance_layout =html.Div([
         ##############################################################
         html.Div([
             html.Label(
-                'office to home distance',
+                'Office to home Travel distance',
                 style={'color': 'black', 'font-weight': 'bold'}
             ),
             dcc.Dropdown(
@@ -66,7 +57,7 @@ advance_layout =html.Div([
             ),
 
             html.Label(
-                'Severity',
+                'Contact with covid19 severity',
                 style={'color': 'black', 'font-weight': 'bold'}
             ),
             dcc.Dropdown(
@@ -80,33 +71,24 @@ advance_layout =html.Div([
         html.Div(
             [
                 html.Label(
-                    children='COVID-19 Tested',
+                    children='Health Condition Severity',
                     style={'color': 'black', 'font-weight': 'bold'}
                 ),
                 dcc.Dropdown(
-                    id='covid19-dropdown',
-                    options=[
-                        {'label': 'All', 'value': 'All'},
-                        {'label': 'Yes', 'value': 'Yes'},
-                        {'label': 'No', 'value': 'No'}
-                    ],
+                    id='health_risk_severity',options=[{'label': k, 'value': k} for k in filtering.severity],
                     value = 'All'
                 ),
 
                 html.Label(
-                    'COVID19-Result',
+                    'Living with Number of people',
                     style={'color': 'black', 'font-weight': 'bold'}
                 ),
                 dcc.Dropdown
                     (
-                    id='covid19-result-dropdown',
-                    options=[
-                        {'label': 'All', 'value': 'All'},
-                        {'label': 'Yes', 'value': 'Yes'},
-                        {'label': 'No', 'value': 'No'}
-                    ],
-                     value = 'All',
-                    disabled= True
+                    id='people-living-count',
+                    options=[{'label': k, 'value': k} for k in filtering.personcount],
+                    value='All'
+
                 )
             ], className="four columns"),
         ##############################################################

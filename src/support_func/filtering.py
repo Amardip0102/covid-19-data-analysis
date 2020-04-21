@@ -29,6 +29,8 @@ gender = ['All', 'Male', 'Female', 'Other']
 
 distance = {'All' :'All', '0-5 Kms':'0 - 5', '6-10 kms':'6 - 10', '10-20 Kms':'10 - 20', '>20 Kms':'> 20'}
 
+personcount= {'All' :'All', '0-5 persons':'0 - 5', '5-10 persons':'5 - 10', '> 10 persons':'> 10'}
+
 severity = ['All', 'Low', 'Medium', 'High']
 #############################################################
 
