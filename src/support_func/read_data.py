@@ -4,6 +4,8 @@ import configparser
 # READING EXCEL and CREATING DATAFRAME
 #############################################################
 
+from support_func import severity as sv
+
 ############################################################
 # Debug variable
 debug_flag = True
@@ -67,11 +69,16 @@ df_adv_col_in = df[["Your Name",
                     "How many members are currently staying along with you ?",
                     "Have you come in contact with anyone with a travel history (within India/ abroad) ?",
                     "Are any of the people you are living with, allowed to work under Government regulations ?( Ex: Govt. servants, Healthcare personnel etc)",
-                    "Have you come in contact with any person who tested POSITIVE for COVID-19 (directly/indirectly) ?"
+                    "Have you come in contact with any person who tested POSITIVE for COVID-19 (directly/indirectly) ?",
+                    "Did you travel out of PUNE after 1st March ?",
+                    "Are you still staying at the same place?",
+                    "When did you travel back to PUNE ?",
+                    "Which mode of transportation did you use to travel back to PUNE ?",
                     ]]
 
 df_adv_col_in.columns = ['Name', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance', 'Members',
-                         'Contact_Travel','Living_with_Govt_HealthCare', 'Contact_Covid']
+                         'Contact_Travel','Living_with_Govt_HealthCare', 'Contact_Covid', 'Travel out Pune',
+                         'Stll There', 'When Came Back', 'Transportation']
 
 
 #######################################################
@@ -88,4 +95,9 @@ df_adv_col_out['Travel Risk'] = None
 
 # Above fields are None currently
 
+##################################################################
+# Update Output dataframe for advance tab
+##################################################################
+sv.eval_travel_risk_severity()
 
+##################################################################
