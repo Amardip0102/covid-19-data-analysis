@@ -86,6 +86,26 @@ def calculate_gender_count(team):
         print(listG)
     return listG
 #############################################################
+#############################################################
+# FUNCTION : calculate Travel history counts based on teams
+#
+#############################################################
+
+def calculate_Travel_count(team):
+    listG = []
+    if debug is True:
+        print(team)
+
+    df_gender = rd.df_sel_col.copy()
+    if team != 'All':
+        is_genderperteam = df_gender['Team'] == team
+        df_gender = df_gender[is_genderperteam]
+    listG.append(len(df_gender[df_gender['Travel_history'] == 'Yes']))
+    listG.append(len(df_gender[df_gender['Travel_history'] == 'No']))
+     # debug code
+    if debug is True:
+        print(listG)
+    return listG
 
 
 #############################################################
@@ -105,6 +125,31 @@ def calcWorkExperience(team):
     listWE.append(len(df_work[df_work['Experience'] == '2 - 5']))
     listWE.append(len(df_work[df_work['Experience'] == '5 -10']))
     listWE.append(len(df_work[df_work['Experience'] == '> 10']))
+
+    # debug code
+    if debug is True:
+        print(listWE)
+    return listWE
+#############################################################
+
+
+#############################################################
+# FUNCTION : calculate wwork home distance counts based on teams
+#
+#############################################################
+def calcWork_home_distance(team):
+    if debug is True:
+        print(team)
+    listWE = []
+    # ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
+    df_work = rd.df_sel_col.copy()
+    if team != 'All':
+        is_work = df_work['Team'] == team
+        df_work = df_work[is_work]
+    listWE.append(len(df_work[df_work['Home_distance'] == '0 - 5']))
+    listWE.append(len(df_work[df_work['Home_distance'] == '6-10']))
+    listWE.append(len(df_work[df_work['Home_distance'] == '10-15']))
+    listWE.append(len(df_work[df_work['Home_distance'] == '>20']))
 
     # debug code
     if debug is True:

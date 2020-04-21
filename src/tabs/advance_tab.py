@@ -136,7 +136,7 @@ advance_layout =html.Div([
             figure={
                 'data': [
                     {
-                        'values': calc_counts.calcWorkExperience('All'),
+                        'values': calc_counts.calcWork_home_distance('All'),
                         'type': 'pie',
                         'name': 'Work-home-distance',
                         "labels": ['0-5 Km', '5-10 kms', '10-20 kms', '> 20 Kms'],
@@ -157,7 +157,7 @@ advance_layout =html.Div([
                 figure={
                     'data': [
                         {
-                            'values': calc_counts.calculate_gender_count('All'),
+                            'values': calc_counts.calculate_Travel_count('All'),
                             'type': 'pie',
                             'name': 'Travel history',
                             "labels": ['Travelled', 'Not-Travelled'],
