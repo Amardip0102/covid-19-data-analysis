@@ -11,6 +11,8 @@ from support_func import severity as sv
 debug_flag = True
 ############################################################
 
+#from src.support_func.severity import eval_health_risk_severity
+
 # Parsing input config file
 config_rd = configparser.ConfigParser()
 
@@ -75,12 +77,20 @@ df_adv_col_in = df[["Your Name",
                     "When did you travel back to PUNE ?",
                     "Which mode of transportation did you use to travel back to PUNE ?",
                     "Did you travel or stay at any Red Zone areas marked by the Government ? (Mention Below)",
-                    "Have you recently visited any healthcare facilities(Hospitals, Labs, etc) in last 30 days ?"
+                    "Have you recently visited any healthcare facilities(Hospitals, Labs, etc) in last 30 days ?",
+                    "Are you currently having any symptoms which are mentioned below ?",
+                    "Any Pre-Existing Health Conditions ? (Medical History)",
+                    "Have you been tested for COVID-19 ?",
+                    "What is the result of your Test ?",
+                    "Have you Recovered from COVID-19 ?"
                     ]]
 
 df_adv_col_in.columns = ['Name', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance', 'Members',
                          'Contact_Travel','Living_with_Govt_HealthCare', 'Contact_Covid', 'Travel out Pune',
-                         'Stll There', 'When Came Back', 'Transportation','Redzone_visit','Healthcare_visit']
+                         'Stll There', 'When Came Back', 'Transportation','Redzone_visit','Healthcare_visit',
+                         'Symptoms', 'Pre_Existing_Disease', 'Tested_For_COVID',
+                         'Result_Of_Test', 'Recovered'
+                         ]
 
 
 #######################################################
@@ -89,6 +99,7 @@ df_adv_col_in.columns = ['Name', 'Team', 'Experience', 'Designation', 'Age', 'Ge
 
 df_adv_col_out = df_adv_col_in[['Name', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance',
                                 'Members']].copy()
+
 
 df_adv_col_out['Health Risk'] = None
 df_adv_col_out['Covid Contact Risk'] = None
@@ -103,4 +114,6 @@ df_adv_col_out['Travel Risk'] = None
 sv.eval_travel_risk_severity()
 sv.eval_affected_areas_exposure_severity()
 sv.eval_contact_covid_severity()
+sv.eval_health_risk_severity()
 ##################################################################
+
