@@ -54,11 +54,11 @@ WORK_EXP_IDX    = df.columns.get_loc("Work Experience (Approx. in Years)")
 ##########################################################################################################
 df_sel_col = df[["Your Name", "Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )",
                  "Your Team", "Work Experience (Approx. in Years)", "Designation", "Age (In Years)",
-                 "Gender","Did you travel out of PUNE after 1st March ?","What is the distance between office and place of residence ? (Approx. in KM )"]].drop_duplicates()
+                 "Gender"]].drop_duplicates()
 
 ''' Renaming name of columns
 '''
-df_sel_col.columns = ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender','Travel_history','Home_distance']
+df_sel_col.columns = ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
 ######################################################################################################
 
 ##########################################################################################################
@@ -103,7 +103,7 @@ df_adv_col_out = df_adv_col_in[['Name', 'Team', 'Experience', 'Designation', 'Ag
 
 df_adv_col_out['Health Risk'] = None
 df_adv_col_out['Covid Contact Risk'] = None
-df_adv_col_out['Covid Exposure Risk'] = None
+df_adv_col_out['RedZone Exposure Risk'] = None
 df_adv_col_out['Travel Risk'] = None
 
 # Above fields are None currently

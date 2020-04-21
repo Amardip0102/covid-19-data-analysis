@@ -98,12 +98,13 @@ def calculate_Travel_count(team):
     if debug is True:
         print(team)
 
-    df_gender = rd.df_sel_col.copy()
+    df_gender = rd.df_adv_col_out.copy()
     if team != 'All':
         is_genderperteam = df_gender['Team'] == team
         df_gender = df_gender[is_genderperteam]
-    listG.append(len(df_gender[df_gender['Travel_history'] == 'Yes']))
-    listG.append(len(df_gender[df_gender['Travel_history'] == 'No']))
+    listG.append(len(df_gender[df_gender['Travel Risk'] == 'High']))
+    listG.append(len(df_gender[df_gender['Travel Risk'] == 'Medium']))
+    listG.append(len(df_gender[df_gender['Travel Risk'] == 'Low']))
      # debug code
     if debug is True:
         print(listG)
@@ -144,14 +145,14 @@ def calcWork_home_distance(team):
         print(team)
     listWE = []
     # ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
-    df_work = rd.df_sel_col.copy()
+    df_work = rd.df_adv_col_out.copy()
     if team != 'All':
         is_work = df_work['Team'] == team
         df_work = df_work[is_work]
-    listWE.append(len(df_work[df_work['Home_distance'] == '0 - 5']))
-    listWE.append(len(df_work[df_work['Home_distance'] == '6-10']))
-    listWE.append(len(df_work[df_work['Home_distance'] == '10-15']))
-    listWE.append(len(df_work[df_work['Home_distance'] == '>20']))
+    listWE.append(len(df_work[df_work['Distance'] == '0 - 5']))
+    listWE.append(len(df_work[df_work['Distance'] == '6-10']))
+    listWE.append(len(df_work[df_work['Distance'] == '10-15']))
+    listWE.append(len(df_work[df_work['Distance'] == '>20']))
 
     # debug code
     if debug is True:
