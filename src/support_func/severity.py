@@ -17,17 +17,39 @@ def calculate_num_days(df_date):
 #########################################################################
 
 
-def eval_exposure_affected_severity():
+########################################################################
+#
+########################################################################
+
+
+def eval_affected_areas_exposure_severity():
+
     '''
     |-------------------------------------------------------------------------------|
-    | STAY AT HOT SPOTS | VISITED HOT SPOT AREAS | VISITED HEALTH CARE | OUTPUT     |
+    | VISITED HOT SPOT AREAS |  | VISITED HEALTH CARE    | OUTPUT     |
     |-------------------------------------------------------------------------------|
-    |       YES	        |           X 	          |         X	         |   HIGH
-    |       NO                     YES                     X               MEDIUM   |
-    |       NO                      NO                     YES             MEDIUM   |
-    |       NO         |            NO           |         NO           |   LOW     |
+    |       YES	             |            YES	         |   HIGH     |
+    |       YES              |            NO             |   MEDIUM   |
+    |       NO               |            YES            |   MEDIUM   |
+    |       NO               |            NO             |   LOW      |
     |-------------------------------------------------------------------------------|
+
+
     '''
+
+    df_intermediate = rd.df_adv_col_in.copy()
+
+    conditions =[
+         ((df_intermediate['Redzone_visit'] == 'No') & (df_intermediate['Healthcare_visit'] == 'No')),
+        ((rd.df_adv_col_in['Redzone_visit'] == 'Yes') & (rd.df_adv_col_in['Healthcare_visit'] == 'No')),
+        ((rd.df_adv_col_in['Redzone_visit'] == 'Yes') & (rd.df_adv_col_in['Healthcare_visit'] == 'No')),
+        ((rd.df_adv_col_in['Redzone_visit'] == 'Yes') & (rd.df_adv_col_in['Healthcare_visit'] == 'Yes'))
+
+     ]
+    output=['High','Medium','Medium','Low']
+
+    for k in range(len(output)):
+        rd.df_adv_col_out.loc[conditions[k],'Covid Exposure Risk'] = output[k]
 
     return 0
 

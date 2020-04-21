@@ -74,11 +74,13 @@ df_adv_col_in = df[["Your Name",
                     "Are you still staying at the same place?",
                     "When did you travel back to PUNE ?",
                     "Which mode of transportation did you use to travel back to PUNE ?",
+                    "Did you travel or stay at any Red Zone areas marked by the Government ? (Mention Below)",
+                    "Have you recently visited any healthcare facilities(Hospitals, Labs, etc) in last 30 days ?"
                     ]]
 
 df_adv_col_in.columns = ['Name', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance', 'Members',
                          'Contact_Travel','Living_with_Govt_HealthCare', 'Contact_Covid', 'Travel out Pune',
-                         'Stll There', 'When Came Back', 'Transportation']
+                         'Stll There', 'When Came Back', 'Transportation','Redzone_visit','Healthcare_visit']
 
 
 #######################################################
@@ -99,5 +101,5 @@ df_adv_col_out['Travel Risk'] = None
 # Update Output dataframe for advance tab
 ##################################################################
 sv.eval_travel_risk_severity()
-
+sv.eval_affected_areas_exposure_severity()
 ##################################################################
