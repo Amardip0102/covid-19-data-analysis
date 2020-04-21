@@ -1,8 +1,9 @@
 ########################################################################
 #
 ########################################################################
-
-
+import dash_html_components as html
+from src.support_func import read_data as rd
+import numpy as np
 def eval_exposure_affected_severity():
     '''
     |-------------------------------------------------------------------------------|
@@ -48,6 +49,103 @@ def eval_health_risk_severity():
     Medium -> Moderate Healthy and tending towards unhealthy
     High -> Unhealthy
     '''
+    df_health_risk = rd.df_adv_col_in[['Symptoms','Pre_Existing_Disease','Tested_For_COVID',
+                         'Result_Of_Test','Recovered']].copy()
+
+    print(df_health_risk.Symptoms)
+    len_of_index = len(df_health_risk.Symptoms)
+    Conditions = [ #Low
+                   (df_health_risk["Symptoms"] == "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "No"),
+                   (df_health_risk["Symptoms"] == "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "No"),
+                   (df_health_risk["Symptoms"] == "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "Yes") & (
+                           df_health_risk["Result_Of_Test"] == "Negative"),
+                   (df_health_risk["Symptoms"] == "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "Yes") & (
+                           df_health_risk["Result_Of_Test"] == "Negative"),
+
+                    #Medium
+                   (df_health_risk["Symptoms"] == "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "Yes") & (
+                           df_health_risk["Result_Of_Test"] == "Positive") & (
+                           df_health_risk["Recovered"] == "Yes"),
+
+                   (df_health_risk["Symptoms"] != "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "Yes") & (
+                           df_health_risk["Result_Of_Test"] == "Negative"),
+
+                   (df_health_risk["Symptoms"] != "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "No"),
+
+                   (df_health_risk["Symptoms"] != "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "Yes") & (
+                           df_health_risk["Result_Of_Test"] == "Negative"),
+
+
+                   #High
+                   (df_health_risk["Symptoms"] == "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "Yes") & (
+                           df_health_risk["Result_Of_Test"] == "Positive") & (
+                           df_health_risk["Recovered"] == "No"),
+
+                   (df_health_risk["Symptoms"] == "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "Yes") & (
+                           df_health_risk["Result_Of_Test"] == "Positive") & (
+                           df_health_risk["Recovered"] == "Yes"),
+
+
+                   (df_health_risk["Symptoms"] == "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "Yes") & (
+                           df_health_risk["Result_Of_Test"] == "Positive")& (
+                           df_health_risk["Recovered"] == "No"),
+
+                   (df_health_risk["Symptoms"] != "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "No"),
+
+                   (df_health_risk["Symptoms"] != "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "Yes") & (
+                           df_health_risk["Result_Of_Test"] == "Positive") & (
+                           df_health_risk["Recovered"] == "Yes"),
+
+                   (df_health_risk["Symptoms"] != "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "Yes") & (
+                           df_health_risk["Result_Of_Test"] == "Positive") & (
+                           df_health_risk["Recovered"] == "No"),
+
+                   (df_health_risk["Symptoms"] != "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "Yes") & (
+                           df_health_risk["Result_Of_Test"] == "Positive") & (
+                           df_health_risk["Recovered"] == "Yes"),
+
+                   (df_health_risk["Symptoms"] != "None of the above") & (
+                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
+                           df_health_risk["Tested_For_COVID"] == "Yes") & (
+                           df_health_risk["Result_Of_Test"] == "Positive") & (
+                           df_health_risk["Recovered"] == "No"),
+
+                ]
+    Outputs = ['Low','Low','Low','Low','Medium','Medium','Medium','Medium','High','High','High','High',
+               'High','High','High','High']
+
+    rd.df_adv_col_out['Health Risk']  = np.select(Conditions,Outputs)
+
     return 0
 
 

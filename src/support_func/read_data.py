@@ -9,6 +9,8 @@ import configparser
 debug_flag = True
 ############################################################
 
+#from src.support_func.severity import eval_health_risk_severity
+
 # Parsing input config file
 config_rd = configparser.ConfigParser()
 
@@ -63,14 +65,30 @@ df_sel_col.columns = ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 
 
 df_adv_col_in = df[["Your Name",
                     "Your Team", "Work Experience (Approx. in Years)", "Designation", "Age (In Years)","Gender",
-                    "Have you come in contact with anyone with a travel history (within India/ abroad) ?",
-                    "Are any of the people you are living with, allowed to work under Government regulations ?( Ex: Govt. servants, Healthcare personnel etc)",
-                    "Have you come in contact with any person who tested POSITIVE for COVID-19 (directly/indirectly) ?"
+                    "What is the distance between office and place of residence ? (Approx. in KM )",
+                    "How many members are currently staying along with you ?",
+                    "Are you currently having any symptoms which are mentioned below ?",
+                    "Any Pre-Existing Health Conditions ? (Medical History)",
+                    "Have you been tested for COVID-19 ?",
+                    "What is the result of your Test ?",
+                    "Have you Recovered from COVID-19 ?"
                     ]]
 
-df_adv_col_in.columns = ['Name', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Contact_Travel',
-                         'Living_with_Govt_HealthCare', 'Contact_Covid']
+df_adv_col_in.columns = ['Name', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance','Members','Symptoms','Pre_Existing_Disease','Tested_For_COVID',
+                         'Result_Of_Test','Recovered']
+
+#######################################################
+# copy 1ast six columns from "df_adv_col_in"
+#######################################################
+
+df_adv_col_out = df_adv_col_in[['Name', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance',
+                                'Members']].copy()
+df_adv_col_out['Health Risk'] = None
+df_adv_col_out['Covid Contact Risk'] = None
+df_adv_col_out['Covid Exposure Risk'] = None
+df_adv_col_out['Travel Risk'] = None
+#eval_health_risk_severity()
+
+# Above fields are None currently
 
 
-df.adv_col_out = pd.DataFrame(columns=['Name','Team','Health Risk','Covid Contact Risk','Covid Exposure Risk',
-                                       'Distance','Members', 'E'])
