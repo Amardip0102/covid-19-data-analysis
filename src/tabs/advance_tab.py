@@ -114,18 +114,18 @@ advance_layout =html.Div([
         # end : Advanced filters here
         #############################################################
 
-        #############################################################
-        html.Div([
-            html.H3(children='Charts and Graphs',
-                    style={
-                        'textAlign': 'left',
-                        'color': 'blue',
-                        'font-weight': 'bold'
-                    })
-        ], className='row'),
-        #############################################################
-
     ], style={"border": "2px black solid"}, className="row"),
+
+    #############################################################
+    html.Div([
+        html.H3(children='Charts and Graphs',
+                style={
+                    'textAlign': 'left',
+                    'color': 'blue',
+                    'font-weight': 'bold'
+                })
+    ], className='row'),
+    #############################################################
 
     # plotting graphs from here onwards
     html.Div([
