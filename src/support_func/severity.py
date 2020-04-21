@@ -57,7 +57,7 @@ def eval_travel_risk_severity():
     ------------------------------------------------------------------------------
     Travelled   |  Still there	| Came Back |   when	        |   Transport	 |  Output
         Yes	            Yes	        X	        X	                    X	        High
-        Yes	            No	        Yes	       Less than 14 days	    Public	    High
+        Yes	            No	        Yes	        Less than 14 days	    Public	    High
         Yes	            No	        Yes	        Less than 14 days	    Private	    Medium
         Yes         	No	        Yes	        More than 14 days	    Public	    Medium
         Yes	            No	        Yes	        More than 14 days	    Private	    Low
@@ -66,3 +66,4 @@ def eval_travel_risk_severity():
 
     :return:
     '''
+    return 0
