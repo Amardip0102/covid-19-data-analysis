@@ -98,13 +98,13 @@ def calculate_Travel_count(team):
     if debug is True:
         print(team)
 
-    df_gender = rd.df_adv_col_out.copy()
+    df_travel = rd.df_adv_col_out.copy()
     if team != 'All':
-        is_genderperteam = df_gender['Team'] == team
-        df_gender = df_gender[is_genderperteam]
-    listG.append(len(df_gender[df_gender['Travel Risk'] == 'High']))
-    listG.append(len(df_gender[df_gender['Travel Risk'] == 'Medium']))
-    listG.append(len(df_gender[df_gender['Travel Risk'] == 'Low']))
+        is_travelperteam = df_travel['Team'] == team
+        df_travel = df_travel[is_travelperteam]
+    listG.append(len(df_travel[df_travel['Travel Risk'] == 'High']))
+    listG.append(len(df_travel[df_travel['Travel Risk'] == 'Medium']))
+    listG.append(len(df_travel[df_travel['Travel Risk'] == 'Low']))
      # debug code
     if debug is True:
         print(listG)
@@ -159,4 +159,89 @@ def calcWork_home_distance(team):
         print(listWE)
     return listWE
 #############################################################
+#############################################################
+# FUNCTION : calculate hotspot exposure counts based on teams
+#
+#############################################################
+def calculate_hotspot_exposure_counts(team):
+    listA = []
+    if debug is True:
+        print(team)
 
+    df_rzone = rd.df_adv_col_out.copy()
+    if team != 'All':
+        is_rzoneperteam = df_rzone['Team'] == team
+        df_rzone = df_rzone[is_rzoneperteam]
+    listA.append(len(df_rzone[df_rzone['Covid Exposure Risk'] == 'High']))
+    listA.append(len(df_rzone[df_rzone['Covid Exposure Risk'] == 'Medium']))
+    listA.append(len(df_rzone[df_rzone['Covid Exposure Risk'] == 'Low']))
+    # debug code
+    if debug is True:
+        print(listA)
+    return listA
+#############################################################
+
+#############################################################
+# FUNCTION : calculate Covid19 exposure counts based on teams
+#
+#############################################################
+def calculate_covid_exposure_counts(team):
+    listA = []
+    if debug is True:
+        print(team)
+
+    df_cvd= rd.df_adv_col_out.copy()
+    if team != 'All':
+        is_cvdperteam = df_cvd['Team'] == team
+        df_cvd = df_cvd[is_cvdperteam]
+    listA.append(len(df_cvd[df_cvd['Covid Contact Risk'] == 'High']))
+    listA.append(len(df_cvd[df_cvd['Covid Contact Risk'] == 'Medium']))
+    listA.append(len(df_cvd[df_cvd['Covid Contact Risk'] == 'Low']))
+    # debug code
+    if debug is True:
+        print(listA)
+    return listA
+#############################################################
+
+
+
+#############################################################
+def calculate_staying_people_counts(team):
+    listA = []
+    if debug is True:
+        print(team)
+
+    df_mem= rd.df_adv_col_out.copy()
+    if team != 'All':
+        is_memperteam = df_mem['Team'] == team
+        df_mem = df_mem[is_memperteam]
+    listA.append(len(df_mem[df_mem['Members'] == '0 - 5']))
+    listA.append(len(df_mem[df_mem['Members'] == '5 - 10 ']))
+    listA.append(len(df_mem[df_mem['Members'] == '> 10']))
+    # debug code
+    if debug is True:
+        print(listA)
+    return listA
+#############################################################
+
+
+
+
+#############################################################
+def calculate_health_risk_counts(team):
+    listA = []
+    if debug is True:
+        print(team)
+
+    df_heal= rd.df_adv_col_out.copy()
+    if team != 'All':
+        is_memperteam = df_heal['Team'] == team
+        df_heal = df_heal[is_memperteam]
+    listA.append(len(df_heal[df_heal['Health Risk'] == 'High']))
+    listA.append(len(df_heal[df_heal['Health Risk'] == 'Medium']))
+    listA.append(len(df_heal[df_heal['Health Risk'] == 'Low']))
+    # debug code
+    if debug is True:
+        print(listA)
+    return listA
+#############################################################

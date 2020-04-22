@@ -140,35 +140,14 @@ advance_layout = html.Div([
     html.Div([
         html.Div([
             dcc.Graph(
-                id='work-distance',
-                figure={
-                    'data': [
-                        {
-                            'values': calc_counts.calcWork_home_distance('All'),
-                            'type': 'pie',
-                            'name': 'Work-home-distance',
-                            "labels": ['0-5 Km', '5-10 kms', '10-20 kms', '> 20 Kms'],
-                        }],
-                    'layout': {
-                        'font': {
-                            'color': 'black'
-                        },
-                        'title': 'Work-home-distance',
-                    }
-                },
-            )
-        ], className='six columns'),
-
-        html.Div([
-            dcc.Graph(
-                id='travel-pie',
+                id='travel-severity',
                 figure={
                     'data': [
                         {
                             'values': calc_counts.calculate_Travel_count('All'),
                             'type': 'pie',
-                            'name': 'Travel history',
-                            "labels": ['High Risk', 'Medium Risk', 'Low Risk'],
+                            'name': 'Travel Severity',
+                            "labels": ['High', 'Medium','Low'],
                         }],
                     'layout': {
                         'font': {
@@ -180,8 +159,125 @@ advance_layout = html.Div([
             )
         ], className='six columns'),
 
-     ], style={"border": "2px black solid"}, className="row"),
+        html.Div([
+            dcc.Graph(
+                id='work-distance',
+                figure={
+                    'data': [
+                        {
+                            'x': ['0-5 Km', '5-10 kms', '10-20 kms', '> 20 Kms'],
+                            'y': calc_counts.calcWork_home_distance('All'),
+                            'type': 'bar'
+                        },
+                    ],
+                    'layout': {
+                        'font': {
+                            'color': 'black'
+                        },
+                        'title': 'Work-Home Distance Distribution',
+                    }
+                },
+            )
+        ], className='five columns'),
 
+        html.Div([
+            dcc.Graph(
+                id='living-with',
+                figure={
+                    'data': [
+                        {'x': ['0-5 members', '5-10 members', '>10 members'],
+                         'y': calc_counts.calculate_staying_people_counts('All'),
+                         'type': 'bar'},
+                    ],
+                    'layout': {
+                        # experiment and finalise colors
+                        # 'plot_bgcolor': '#90EE90',
+                        # 'paper_bgcolor': '#90EE90',
+                        'font': {
+                            'color': 'black'
+                        },
+                        'title': 'Members Staying With Distribution'
+                    }
+                }
+            )
+        ], className='five columns'),
+
+        html.Div([
+            dcc.Graph(
+                id='redzone-exposure',
+                figure={
+                    'data': [
+                      {
+                         'values': calc_counts.calculate_hotspot_exposure_counts('All'),
+                         'type': 'pie',
+                         'name': 'Red Zone exposure Severity',
+                         'labels': ['High', 'Medium', 'Low'],
+
+                      },
+                    ],
+                    'layout': {
+                        # experiment and finalise colors
+                        # 'plot_bgcolor': '#90EE90',
+                        # 'paper_bgcolor': '#90EE90',
+                        'font': {
+                            'color': 'black'
+                        },
+                        'title': 'RedZone Exposed Employees '
+                    }
+                }
+            )
+        ], className='six columns'),
+
+        html.Div([
+            dcc.Graph(
+                id='covid-exposure',
+                figure={
+                    'data': [
+                         {
+                         'values': calc_counts.calculate_covid_exposure_counts('All'),
+                         'type': 'pie',
+                         'name': 'Red Zone exposure Severity',
+                         'labels': ['High', 'Medium', 'Low'],
+                         },
+                    ],
+                    'layout': {
+                        # experiment and finalise colors
+                        # 'plot_bgcolor': '#90EE90',
+                        # 'paper_bgcolor': '#90EE90',
+                        'font': {
+                            'color': 'black'
+                        },
+                        'title': 'Covid19 Contact Risk Employees'
+                    }
+                }
+            )
+        ], className='six columns'),
+
+        html.Div([
+            dcc.Graph(
+                id='health',
+                figure={
+                    'data': [
+                        {'x': ['High', 'Medium', 'Low'],
+                         'y': calc_counts.calculate_health_risk_counts('All'),
+                         'type': 'bar'},
+                    ],
+                    'layout': {
+                        # experiment and finalise colors
+                        # 'plot_bgcolor': '#90EE90',
+                        # 'paper_bgcolor': '#90EE90',
+                        'font': {
+                            'color': 'black'
+                        },
+                        'title': 'Health risk assessment '
+                    }
+                }
+            )
+        ], className='five columns'),
+
+     ], style={"border": "2px black solid"}, className="row"),
+  ]
+)
     #############################################################
     html.Div([
         html.H3(children='Display Data',
