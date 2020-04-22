@@ -346,6 +346,30 @@ def update_table(team_name, design_name, gender, age, exp):
 
 
 ########################################################################
+# Update callback : table-adv
+########################################################################
+@app.callback(
+    [dash.dependencies.Output('table-adv', 'data'),
+     dash.dependencies.Output('data-processed-count-adv', 'children')],
+    [dash.dependencies.Input('travel_risk_severity', 'value'),
+     dash.dependencies.Input('distance-dropdown', 'value'),
+     dash.dependencies.Input('people-living-count', 'value'),
+     dash.dependencies.Input('exposure_affected_severity', 'value'),
+     dash.dependencies.Input('severity-dropdown', 'value'),
+     dash.dependencies.Input('health_risk_severity', 'value')],
+    [dash.dependencies.State('shared-dropdown-data', 'data')]
+)
+def update_advance_table(travel_risk, work_dist, living_with, redzone, covid_contact, health_risk, cache):
+    adv_out_df = read_data.df_adv_col_out.copy()
+
+    adv_out_df = calc_counts.filter_advance_data(adv_out_df, travel_risk, work_dist, living_with,
+                                                 redzone, covid_contact, health_risk, cache)
+
+    data = adv_out_df.to_dict("rows")
+
+    return data, str(len(adv_out_df.index)) + ' Employees'
+
+########################################################################
 # App Callback: Button
 ########################################################################
 @app.callback(

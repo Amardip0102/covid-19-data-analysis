@@ -27,9 +27,10 @@ age = {'All': 'All', '20-30 Years': '20 - 30', '30-40 Years': '30 - 40', '40-50 
 
 gender = ['All', 'Male', 'Female', 'Other']
 
-distance = {'All' :'All', '0-5 Kms':'0 - 5', '6-10 kms':'6 - 10', '10-20 Kms':'10 - 20', '>20 Kms':'> 20'}
+distance = {'All' :'All', '0-5 Kms':'0 - 5', '6-10 kms':'6-10', '10-15 Kms':'10-15','15-20 Kms': '15-20',
+            '>20 Kms':'>20'}
 
-personcount= {'All' :'All', '0-5 persons':'0 - 5', '5-10 persons':'5 - 10', '> 10 persons':'> 10'}
+personcount= {'All' :'All', '0-5 persons':'0 - 5', '5-10 persons':'5 - 10  ', '> 10 persons':'> 10'}
 
 severity = ['All', 'Low', 'Medium', 'High']
 #############################################################

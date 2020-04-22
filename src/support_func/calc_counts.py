@@ -204,7 +204,6 @@ def calculate_covid_exposure_counts(team):
 #############################################################
 
 
-
 #############################################################
 def calculate_staying_people_counts(team):
     listA = []
@@ -225,8 +224,6 @@ def calculate_staying_people_counts(team):
 #############################################################
 
 
-
-
 #############################################################
 def calculate_health_risk_counts(team):
     listA = []
@@ -245,3 +242,67 @@ def calculate_health_risk_counts(team):
         print(listA)
     return listA
 #############################################################
+
+
+##############################################################
+#
+##############################################################
+def filter_advance_data(origdata, travel_risk, work_dist, living_with, redzone, covid_contact, health_risk, cache):
+
+    # check if team name is not All
+    if cache['Team'] != 'All':
+        is_team = origdata['Team'] == cache['Team']
+        origdata = origdata[is_team]
+
+    # check if designation is not all and filtering is required
+    if cache['Designation'] != 'All':
+        is_design = origdata['Designation'] == cache['Designation']
+        origdata = origdata[is_design]
+
+    # check if experience is not All
+    if cache['Exp'] != 'All':
+        is_exp = origdata['Experience'] == cache['Exp']
+        origdata = origdata[is_exp]
+
+    # check if gender is not all
+    if cache['Gender'] != 'All':
+        is_gender = origdata['Gender'] == cache['Gender']
+        origdata = origdata[is_gender]
+
+    # check if age is not All
+    if cache['Age'] != 'All':
+        is_age = origdata['Age'] == cache['Age']
+        origdata = origdata[is_age]
+
+    ###########################################################
+    # Advance Filter: travel_risk, work_dist, living_with, redzone, covid_contact, health_risk,
+    ###########################################################
+    if travel_risk != 'All':
+        is_travelRisk = origdata['Travel Risk'] == travel_risk
+        origdata = origdata[is_travelRisk]
+
+    # check if work_dist
+    if work_dist != 'All':
+        is_work_dist = origdata['Distance'] == work_dist
+        origdata = origdata[is_work_dist]
+
+    # check if living_with
+    if living_with != 'All':
+        is_member = origdata['Members'] == living_with
+        origdata = origdata[is_member]
+
+    # check if redZOne Exposed
+    if redzone != 'All':
+        is_redZone = origdata['RedZone Exposure Risk'] == redzone
+        origdata = origdata[is_redZone]
+
+    # check if covid contact
+    if covid_contact != 'All':
+        is_covidContact = origdata['Covid Contact Risk'] == covid_contact
+        origdata = origdata[is_covidContact]
+
+    if health_risk != 'All':
+        is_healthy = origdata['Health Risk'] == health_risk
+        origdata = origdata[is_healthy]
+
+    return origdata
