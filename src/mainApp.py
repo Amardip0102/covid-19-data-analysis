@@ -112,19 +112,20 @@ app.layout = html.Div([
         ], className='row'),
         #############################################################
 
-        dcc.Store(id='shared-dropdown-data',  data={}),
+        dcc.Store(id='shared-dropdown-data',  data={'Team': 'All', 'Designation': 'All',
+                                                    'Gender': 'All', 'Age': 'All', 'Exp': 'All'}),
 
         dcc.Tabs(id ='tab-app',value='basic-tab',children=[
             ################################################################################################
             # Basic Tab Content
             ################################################################################################
-            dcc.Tab(label='Basic Filters', value='basic-tab',style=tab_style),
+            dcc.Tab(label='Basic Filters', children=basic_tab.basic_layout,value='basic-tab',style=tab_style),
             ################################################################################################
 
             # Enter Different Tabs Section
-            dcc.Tab(label='Advanced Filter', value='advance-tab', style=tab_style),
+            dcc.Tab(label='Advanced Filter',children=advance_tab.advance_layout, value='advance-tab', style=tab_style),
             dcc.Tab(label='Help', children=[],style=tab_style),
-            dcc.Tab(label='About', value= 'about-tab',children=[],style=tab_style),
+            dcc.Tab(label='About', children=about.about_layout, value='about-tab',style=tab_style),
         ], style=tabs_styles),
         html.Div(id='tabs-content-app')
 ], className='ten columns offset-by-one')
@@ -139,6 +140,7 @@ app.layout = html.Div([
 #############################################################
 # CallBack for rendering entire application..
 #############################################################
+'''
 @app.callback(
     dash.dependencies.Output('tabs-content-app', 'children'),
     [dash.dependencies.Input('tab-app', 'value')])
@@ -149,6 +151,7 @@ def render_content(tab):
         return advance_tab.advance_layout
     elif tab == 'about-tab':
         return about.about_layout
+'''
 
 #############################################################
 #
@@ -356,10 +359,11 @@ def update_table(team_name, design_name, gender, age, exp):
      dash.dependencies.Input('people-living-count', 'value'),
      dash.dependencies.Input('exposure_affected_severity', 'value'),
      dash.dependencies.Input('severity-dropdown', 'value'),
-     dash.dependencies.Input('health_risk_severity', 'value')],
+     dash.dependencies.Input('health_risk_severity', 'value'),
+     dash.dependencies.Input('tab-app', 'value')],
     [dash.dependencies.State('shared-dropdown-data', 'data')]
 )
-def update_advance_table(travel_risk, work_dist, living_with, redzone, covid_contact, health_risk, cache):
+def update_advance_table(travel_risk, work_dist, living_with, redzone, covid_contact, health_risk, tab, cache):
     adv_out_df = read_data.df_adv_col_out.copy()
 
     adv_out_df = calc_counts.filter_advance_data(adv_out_df, travel_risk, work_dist, living_with,
@@ -382,6 +386,23 @@ def update_advance_table(travel_risk, work_dist, living_with, redzone, covid_con
     [dash.dependencies.Input('reset-filter-button', 'n_clicks')]
 )
 def update_filter(reset_btn):
+    return 'All', 'All', 'All', 'All', 'All', 'All'
+
+########################################################################
+# App Callback: reset-adv-filter-button
+# id='travel_risk_severity', id='exposure_affected_severity', id='distance-dropdown', id='severity-dropdown',
+# id='health_risk_severity', id='people-living-count'
+########################################################################
+@app.callback(
+    [dash.dependencies.Output('travel_risk_severity', 'value'),
+     dash.dependencies.Output('exposure_affected_severity', 'value'),
+     dash.dependencies.Output('distance-dropdown', 'value'),
+     dash.dependencies.Output('severity-dropdown', 'value'),
+     dash.dependencies.Output('health_risk_severity', 'value'),
+     dash.dependencies.Output('people-living-count', 'value')],
+    [dash.dependencies.Input('reset-adv-filter-button', 'n_clicks')]
+)
+def reset_adv_filter(adv_reset):
     return 'All', 'All', 'All', 'All', 'All', 'All'
 
 #######################################################################

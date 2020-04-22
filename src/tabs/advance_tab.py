@@ -40,6 +40,18 @@ advance_layout = html.Div([
                     options=[{'label': k, 'value': k} for k in filtering.severity],
                     value= 'All',
                     multi=False
+                ),
+
+                html.Label(
+                    'Reset Filters to ALL',
+                    style={'color': 'black', 'font-weight': 'bold'}
+                ),
+                html.Button(
+                    'Reset Button',
+                    style={'color': 'black', 'font-weight': 'bold', 'width': '100%', 'display': 'table-cell'},
+                    id='reset-adv-filter-button',
+                    type='submit',
+                    n_clicks=0
                 )
             ], className="four columns"),
 
