@@ -170,7 +170,7 @@ advance_layout = html.Div([
                 figure={
                     'data': [
                         {
-                            'x': ['0-5 Km', '5-10 kms', '10-20 kms', '> 20 Kms'],
+                            'x': ['0-5 Km', '5-10 kms', '10-15 kms','15-20 kms', '> 20 Kms'],
                             'y': calc_counts.calcWork_home_distance('All'),
                             'type': 'bar'
                         },
