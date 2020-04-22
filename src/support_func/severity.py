@@ -42,7 +42,7 @@ def eval_affected_areas_exposure_severity():
     conditions =[
          ((df_intermediate['Redzone_visit'] == 'No') & (df_intermediate['Healthcare_visit'] == 'No')),
         ((rd.df_adv_col_in['Redzone_visit'] == 'Yes') & (rd.df_adv_col_in['Healthcare_visit'] == 'No')),
-        ((rd.df_adv_col_in['Redzone_visit'] == 'Yes') & (rd.df_adv_col_in['Healthcare_visit'] == 'No')),
+        ((rd.df_adv_col_in['Redzone_visit'] == 'No') & (rd.df_adv_col_in['Healthcare_visit'] == 'Yes')),
         ((rd.df_adv_col_in['Redzone_visit'] == 'Yes') & (rd.df_adv_col_in['Healthcare_visit'] == 'Yes'))
 
      ]
