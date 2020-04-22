@@ -10,7 +10,7 @@ from support_func import calc_counts
 from support_func import read_data
 #############################################################
 
-advance_layout =html.Div([
+advance_layout = html.Div([
 
    html.Div([
         ##############################################################
@@ -95,8 +95,35 @@ advance_layout =html.Div([
 
         # end : Advanced filters here
         #############################################################
+    ], style={"border": "2px black solid"}, className="row"),
+    #############################################################
+
+    html.Div([
+        html.Div([
+            html.H5(
+                id='data-processed-text-adv',
+                children='Data processed using Basic+Advanced: ',
+                style={
+                    'textAlign': 'left',
+                    'color': 'blue',
+                    'font-weight': 'bold'}
+            )
+        ]),
+
+        html.Div([
+            html.H5(
+                id='data-processed-count-adv',
+                children=' 0 Employees',
+                style={
+                    'textAlign': 'left',
+                    'color': 'red',
+                    'font-weight': 'bold'}
+            )
+        ])
 
     ], style={"border": "2px black solid"}, className="row"),
+
+    #############################################################
 
     #############################################################
     html.Div([
@@ -111,7 +138,6 @@ advance_layout =html.Div([
 
     # plotting graphs from here onwards
     html.Div([
-
         html.Div([
             dcc.Graph(
                 id='travel-severity',
@@ -127,7 +153,7 @@ advance_layout =html.Div([
                         'font': {
                             'color': 'black'
                         },
-                        'title': 'Travelled Severity count of employees',
+                        'title': 'Travel Risk Distribution',
                     }
                 },
             )
@@ -148,7 +174,7 @@ advance_layout =html.Div([
                         'font': {
                             'color': 'black'
                         },
-                        'title': 'Employee count based on office to home distance',
+                        'title': 'Work-Home Distance Distribution',
                     }
                 },
             )
@@ -170,7 +196,7 @@ advance_layout =html.Div([
                         'font': {
                             'color': 'black'
                         },
-                        'title': 'Employee count staying with number of members'
+                        'title': 'Members Staying With Distribution'
                     }
                 }
             )
@@ -196,7 +222,7 @@ advance_layout =html.Div([
                         'font': {
                             'color': 'black'
                         },
-                        'title': 'Red zone exposed employees '
+                        'title': 'RedZone Exposed Employees '
                     }
                 }
             )
@@ -221,7 +247,7 @@ advance_layout =html.Div([
                         'font': {
                             'color': 'black'
                         },
-                        'title': 'Covid19 contact risk employees'
+                        'title': 'Covid19 Contact Risk Employees'
                     }
                 }
             )
@@ -250,7 +276,59 @@ advance_layout =html.Div([
         ], className='five columns'),
 
      ], style={"border": "2px black solid"}, className="row"),
-
-
   ]
 )
+    #############################################################
+    html.Div([
+        html.H3(children='Display Data',
+                style={
+                    'textAlign': 'left',
+                    'color': 'blue',
+                    'font-weight': 'bold'
+                })
+    ], className='row'),
+    #############################################################
+
+    #############################################################
+    # Plotting a table
+    #############################################################
+    html.Div([
+        dash_table.DataTable(
+            id='table-adv',
+            columns=[{"name": i, "id": i} for i in read_data.df_adv_col_out.loc[:,['Name','Team','Distance',
+                                                                                   'Members', 'Health Risk',
+                                                                                   'Covid Contact Risk',
+                                                                                   'RedZone Exposure Risk',
+                                                                                   'Travel Risk']]],
+            data=read_data.df_adv_col_out.to_dict("rows"),
+            editable=False,
+            # scroll enabled
+            style_table={'maxWidth': '1500px', 'overflowY': 'scroll', 'maxHeight': '400px',
+                         'border': 'thin lightgrey solid'},
+            style_cell_conditional=[
+                {'if': {'column_id': 'Name'},
+                 'width': '10%'},
+                {'if': {'column_id': 'ID'},
+                 'width': '5%'},
+                {'if': {'column_id': 'Team'},
+                 'width': '10%'},
+                {'if': {'column_id': 'Designation'},
+                 'width': '10%'},
+            ],
+            row_selectable="multi",
+            selected_rows=[0],
+            style_cell={"fontFamily": "Arial", "size": 15, 'textAlign': 'center'},
+            style_data={'border': '1px solid blue'},
+            style_header={'border': '2px solid black'},
+            # freeze header row when scrolling
+            fixed_rows={'headers': True},
+            # sorting data in table
+            sort_action="native",
+            sort_mode="single",
+        )
+    ],
+        style=filtering.layout_table,
+        className=" twelve columns")
+    ######################################################################################
+
+])

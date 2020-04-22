@@ -17,7 +17,7 @@ from support_func import filtering
 ############################################################
 # Debug Variables
 ############################################################
-debug = False
+debug = True
 ############################################################
 
 ############################################################
@@ -112,6 +112,8 @@ app.layout = html.Div([
         ], className='row'),
         #############################################################
 
+        dcc.Store(id='shared-dropdown-data',  data={}),
+
         dcc.Tabs(id ='tab-app',value='basic-tab',children=[
             ################################################################################################
             # Basic Tab Content
@@ -147,6 +149,32 @@ def render_content(tab):
         return advance_tab.advance_layout
     elif tab == 'about-tab':
         return about.about_layout
+
+#############################################################
+#
+############################################################
+@app.callback(
+    dash.dependencies.Output('shared-dropdown-data', 'data'),
+    [dash.dependencies.Input('spec-team-dropdown', 'value'),
+     dash.dependencies.Input('designation-dropdown', 'value'),
+     dash.dependencies.Input('gender-dropdown', 'value'),
+     dash.dependencies.Input('age-dropdown', 'value'),
+     dash.dependencies.Input('exp-dropdown', 'value'),
+     dash.dependencies.Input('tab-app', 'value')]
+)
+def update_dropdown_cache(team, designation, gender, age, exp, tabval):
+    data = {}
+    if tabval == 'basic-tab':
+        data['Team'] = team
+        data['Designation'] = designation
+        data['Gender'] = gender
+        data['Age'] = age
+        data['Exp'] = exp
+    if debug is True:
+        print(data)
+    return data
+
+
 #############################################################
 # start: callback for updating teams based on main team categories
 #############################################################
