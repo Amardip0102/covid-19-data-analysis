@@ -26,7 +26,8 @@ advance_layout = html.Div([
                 dcc.Dropdown(
                     id='travel_risk_severity',
                     options=[{'label': k, 'value': k} for k in filtering.severity],
-                    value= 'All'
+                    value= 'All',
+                    multi=False
                 ),
 
                 html.Label(
@@ -37,7 +38,8 @@ advance_layout = html.Div([
                     (
                     id='exposure_affected_severity',
                     options=[{'label': k, 'value': k} for k in filtering.severity],
-                    value= 'All'
+                    value= 'All',
+                    multi=False
                 )
             ], className="four columns"),
 
@@ -51,7 +53,7 @@ advance_layout = html.Div([
             ),
             dcc.Dropdown(
                 id='distance-dropdown',
-                options=[{'label': k, 'value': k} for k in filtering.distance],
+                options=[{'label': k, 'value': v} for k, v in filtering.distance.items()],
                 value='All',
                 multi=False
             ),
@@ -75,8 +77,10 @@ advance_layout = html.Div([
                     style={'color': 'black', 'font-weight': 'bold'}
                 ),
                 dcc.Dropdown(
-                    id='health_risk_severity',options=[{'label': k, 'value': k} for k in filtering.severity],
-                    value = 'All'
+                    id='health_risk_severity',
+                    options=[{'label': k, 'value': k} for k in filtering.severity],
+                    value = 'All',
+                    multi=False
                 ),
 
                 html.Label(
@@ -86,8 +90,9 @@ advance_layout = html.Div([
                 dcc.Dropdown
                     (
                     id='people-living-count',
-                    options=[{'label': k, 'value': k} for k in filtering.personcount],
-                    value='All'
+                    options=[{'label': k, 'value': v} for k, v in filtering.personcount.items()],
+                    value='All',
+                    multi=False
 
                 )
             ], className="four columns"),
@@ -165,7 +170,7 @@ advance_layout = html.Div([
                 figure={
                     'data': [
                         {
-                            'x': ['0-5 Km', '5-10 kms', '10-20 kms', '> 20 Kms'],
+                            'x': ['0-5 Km', '5-10 kms', '10-15 kms','15-20 kms', '> 20 Kms'],
                             'y': calc_counts.calcWork_home_distance('All'),
                             'type': 'bar'
                         },

@@ -17,7 +17,7 @@ from support_func import filtering
 ############################################################
 # Debug Variables
 ############################################################
-debug = True
+debug = False
 ############################################################
 
 ############################################################
@@ -346,6 +346,30 @@ def update_table(team_name, design_name, gender, age, exp):
 
 
 ########################################################################
+# Update callback : table-adv
+########################################################################
+@app.callback(
+    [dash.dependencies.Output('table-adv', 'data'),
+     dash.dependencies.Output('data-processed-count-adv', 'children')],
+    [dash.dependencies.Input('travel_risk_severity', 'value'),
+     dash.dependencies.Input('distance-dropdown', 'value'),
+     dash.dependencies.Input('people-living-count', 'value'),
+     dash.dependencies.Input('exposure_affected_severity', 'value'),
+     dash.dependencies.Input('severity-dropdown', 'value'),
+     dash.dependencies.Input('health_risk_severity', 'value')],
+    [dash.dependencies.State('shared-dropdown-data', 'data')]
+)
+def update_advance_table(travel_risk, work_dist, living_with, redzone, covid_contact, health_risk, cache):
+    adv_out_df = read_data.df_adv_col_out.copy()
+
+    adv_out_df = calc_counts.filter_advance_data(adv_out_df, travel_risk, work_dist, living_with,
+                                                 redzone, covid_contact, health_risk, cache)
+
+    data = adv_out_df.to_dict("rows")
+
+    return data, str(len(adv_out_df.index)) + ' Employees'
+
+########################################################################
 # App Callback: Button
 ########################################################################
 @app.callback(
@@ -360,7 +384,132 @@ def update_table(team_name, design_name, gender, age, exp):
 def update_filter(reset_btn):
     return 'All', 'All', 'All', 'All', 'All', 'All'
 
+#######################################################################
 
+@app.callback(
+    [dash.dependencies.Output('travel-severity', 'figure'),
+     dash.dependencies.Output('work-distance', 'figure'),
+     dash.dependencies.Output('living-with', 'figure'),
+     dash.dependencies.Output('redzone-exposure', 'figure'),
+     dash.dependencies.Output('covid-exposure', 'figure'),
+     dash.dependencies.Output('health', 'figure')],
+    [dash.dependencies.Input('shared-dropdown-data', 'data')]
+)
+def update_Advancefilter_figures(data):
+    return [
+        {
+        'data': [
+            {
+                'values': calc_counts.calculate_Travel_count(data['Team']),
+                'type': 'pie',
+                'name': 'Travel Severity',
+                "labels": ['High', 'Medium', 'Low'],
+            }],
+        'layout': {
+            'font': {
+                'color': 'black'
+            },
+            'title': 'Travel Risk Distribution',
+        }
+
+       },
+
+       {
+            'data': [
+                {
+                    'x': ['0-5 Km', '5-10 kms', '10-15 kms','15-20 kms', '> 20 Kms'],
+                    'y': calc_counts.calcWork_home_distance(data['Team']),
+                    'type': 'bar'
+                },
+            ],
+            'layout': {
+                'font': {
+                    'color': 'black'
+                },
+                'title': 'Work-Home Distance Distribution',
+            }
+        },
+
+        {
+            'data': [
+                {'x': ['0-5 members', '5-10 members', '>10 members'],
+                 'y': calc_counts.calculate_staying_people_counts(data['Team']),
+                 'type': 'bar'},
+            ],
+            'layout': {
+                # experiment and finalise colors
+                # 'plot_bgcolor': '#90EE90',
+                # 'paper_bgcolor': '#90EE90',
+                'font': {
+                    'color': 'black'
+                },
+                'title': 'Members Staying With Distribution'
+            }
+        },
+
+
+        {
+            'data': [
+                {
+                    'values': calc_counts.calculate_hotspot_exposure_counts(data['Team']),
+                    'type': 'pie',
+                    'name': 'Red Zone exposure Severity',
+                    'labels': ['High', 'Medium', 'Low'],
+
+                },
+            ],
+            'layout': {
+                # experiment and finalise colors
+                # 'plot_bgcolor': '#90EE90',
+                # 'paper_bgcolor': '#90EE90',
+                'font': {
+                    'color': 'black'
+                },
+                'title': 'RedZone Exposed Employees '
+            }
+        },
+
+        {
+            'data': [
+                {
+                    'values': calc_counts.calculate_covid_exposure_counts(data['Team']),
+                    'type': 'pie',
+                    'name': 'Red Zone exposure Severity',
+                    'labels': ['High', 'Medium', 'Low'],
+                },
+            ],
+            'layout': {
+                # experiment and finalise colors
+                # 'plot_bgcolor': '#90EE90',
+                # 'paper_bgcolor': '#90EE90',
+                'font': {
+                    'color': 'black'
+                },
+                'title': 'Covid19 Contact Risk Employees'
+            }
+        },
+
+        {
+            'data': [
+                {'x': ['High', 'Medium', 'Low'],
+                 'y': calc_counts.calculate_health_risk_counts(data['Team']),
+                 'type': 'bar'},
+            ],
+            'layout': {
+                # experiment and finalise colors
+                # 'plot_bgcolor': '#90EE90',
+                # 'paper_bgcolor': '#90EE90',
+                'font': {
+                    'color': 'black'
+                },
+                'title': 'Health risk assessment '
+            }
+       }
+
+    ]
+
+
+#######################################################################
 ########################################################################
 # Start Server Here
 ########################################################################
