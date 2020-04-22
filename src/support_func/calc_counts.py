@@ -172,9 +172,9 @@ def calculate_hotspot_exposure_counts(team):
     if team != 'All':
         is_rzoneperteam = df_rzone['Team'] == team
         df_rzone = df_rzone[is_rzoneperteam]
-    listA.append(len(df_rzone[df_rzone['Covid Exposure Risk'] == 'High']))
-    listA.append(len(df_rzone[df_rzone['Covid Exposure Risk'] == 'Medium']))
-    listA.append(len(df_rzone[df_rzone['Covid Exposure Risk'] == 'Low']))
+    listA.append(len(df_rzone[df_rzone['RedZone Exposure Risk'] == 'High']))
+    listA.append(len(df_rzone[df_rzone['RedZone Exposure Risk'] == 'Medium']))
+    listA.append(len(df_rzone[df_rzone['RedZone Exposure Risk'] == 'Low']))
     # debug code
     if debug is True:
         print(listA)

@@ -276,8 +276,6 @@ advance_layout = html.Div([
         ], className='five columns'),
 
      ], style={"border": "2px black solid"}, className="row"),
-  ]
-)
     #############################################################
     html.Div([
         html.H3(children='Display Data',

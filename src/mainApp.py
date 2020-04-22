@@ -159,8 +159,8 @@ def render_content(tab):
      dash.dependencies.Input('designation-dropdown', 'value'),
      dash.dependencies.Input('gender-dropdown', 'value'),
      dash.dependencies.Input('age-dropdown', 'value'),
-     dash.dependencies.Input('exp-dropdown', 'value'),
-     dash.dependencies.Input('tab-app', 'value')]
+     dash.dependencies.Input('exp-dropdown', 'value')],
+    [dash.dependencies.State('tab-app', 'value')],
 )
 def update_dropdown_cache(team, designation, gender, age, exp, tabval):
     data = {}
