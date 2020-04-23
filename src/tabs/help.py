@@ -16,27 +16,24 @@ help_layout = html.Div([
     html.Div([
         html.Label(
             children='This page contains the information of how to use POST COVID 19 EVALUATION dashboard.',
-            style={'textAlign': 'center', 'color': 'black', 'font-weight': 'bold'}
+            style={'textAlign': 'center', 'font': "16px Arial", 'color': 'black', 'font-weight': 'bold'}
         ),
-        dcc.Markdown('''[Dependency / Installation Required]''')
+        dcc.Markdown('''
+                        > * **Dependency - Installation Required**
+                        > * **Tabs on Dashboard **
+                            * _Basic_
+                            * _Advanced_
+                            * _Help_
+                            * _About_ 
+                    ''',
+                     style={'color': 'black', 'font': "18px Arial", 'font-weight': 'bold'})
     ]),
 
-    html.Div([
-        html.Label(
-            children='Tabs on Dashboard',
-            style={'color': 'black', 'font-weight': 'bold'}
-        ),
-        dcc.Markdown('''1. [Basic Filters]'''),
-        dcc.Markdown('''2. [Advanced Filters]'''),
-        dcc.Markdown('''3. [Help]'''),
-        html.Div(id='Help'),
-        dcc.Markdown('''4. [About](about_detail)''')
-    ]),
 
     html.Div([
         html.Label(
             children='\nDependency / Installation Required',
-            style={'color': 'black', 'font-weight': 'bold'}
+            style={'color': 'black', 'font': "18px Arial",'font-weight': 'bold'}
         ),
         dcc.Markdown('''
             ```
@@ -49,7 +46,7 @@ help_layout = html.Div([
 
             ```
             `*** The` **`Install.bat`** `batch file provided with this tool will help to install / solve the dependency.***`
-        ''', style={"border": "1px black solid"}, className="row")
+        ''', style={"border": "1px black solid", 'font': "18px Arial"}, className="row")
     ]),
 
     html.Div([

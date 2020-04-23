@@ -45,7 +45,8 @@ about_layout = html.Div([
                 ''',
                 style={
                     'textAlign': 'center',
-                    'color': 'black'
+                    'color': 'black',
+                    'font': "16px Arial",
                 }
             ),
 
@@ -59,7 +60,8 @@ about_layout = html.Div([
                 ''',
                 style={
                     'textAlign': 'left',
-                    'color': 'black'
+                    'color': 'black',
+                    'font': "20px Arial",
                 }
             )
 
