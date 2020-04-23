@@ -1,4 +1,5 @@
 from support_func import read_data as rd
+from support_func import filtering as filt
 ############################################################
 # Debug Variables
 ############################################################
@@ -56,10 +57,10 @@ def calculate_age_counts(team):
     if team != 'All':
         is_ageperteam = df_age['Team'] == team
         df_age = df_age[is_ageperteam]
-    listA.append(len(df_age[df_age['Age'] == '20 - 30']))
-    listA.append(len(df_age[df_age['Age'] == '30 - 40']))
-    listA.append(len(df_age[df_age['Age'] == '40 - 50']))
-    listA.append(len(df_age[df_age['Age'] == '> 50']))
+    listA.append(len(df_age[df_age['Age'] == filt.age['20-30 Years']]))
+    listA.append(len(df_age[df_age['Age'] == filt.age['30-40 Years']]))
+    listA.append(len(df_age[df_age['Age'] == filt.age['40-50 Years']]))
+    listA.append(len(df_age[df_age['Age'] == filt.age['> 50 Years']]))
     # debug code
     if debug is True:
         print(listA)
@@ -124,10 +125,10 @@ def calcWorkExperience(team):
     if team != 'All':
         is_work = df_work['Team'] == team
         df_work = df_work[is_work]
-    listWE.append(len(df_work[df_work['Experience'] == '0 - 2']))
-    listWE.append(len(df_work[df_work['Experience'] == '2 - 5']))
-    listWE.append(len(df_work[df_work['Experience'] == '5 - 10']))
-    listWE.append(len(df_work[df_work['Experience'] == '> 10']))
+    listWE.append(len(df_work[df_work['Experience'] == filt.experience['0-2 Years']]))
+    listWE.append(len(df_work[df_work['Experience'] == filt.experience['2-5 Years']]))
+    listWE.append(len(df_work[df_work['Experience'] == filt.experience['5-10 Years']]))
+    listWE.append(len(df_work[df_work['Experience'] == filt.experience['> 10 Years']]))
 
     # debug code
     if debug is True:
@@ -149,11 +150,11 @@ def calcWork_home_distance(team):
     if team != 'All':
         is_work = df_work['Team'] == team
         df_work = df_work[is_work]
-    listWE.append(len(df_work[df_work['Distance'] == '0 - 5']))
-    listWE.append(len(df_work[df_work['Distance'] == '6 - 10']))
-    listWE.append(len(df_work[df_work['Distance'] == '10 - 15']))
-    listWE.append(len(df_work[df_work['Distance'] == '15 - 20']))
-    listWE.append(len(df_work[df_work['Distance'] == '> 20']))
+    listWE.append(len(df_work[df_work['Distance'] == filt.distance['0-5 Kms']]))
+    listWE.append(len(df_work[df_work['Distance'] == filt.distance['6-10 kms']]))
+    listWE.append(len(df_work[df_work['Distance'] == filt.distance['10-15 Kms']]))
+    listWE.append(len(df_work[df_work['Distance'] == filt.distance['15-20 Kms']]))
+    listWE.append(len(df_work[df_work['Distance'] == filt.distance['>20 Kms']]))
 
     # debug code
     if debug is True:
@@ -215,9 +216,9 @@ def calculate_staying_people_counts(team):
     if team != 'All':
         is_memperteam = df_mem['Team'] == team
         df_mem = df_mem[is_memperteam]
-    listA.append(len(df_mem[df_mem['Members'] == '0 - 5']))
-    listA.append(len(df_mem[df_mem['Members'] == '5 - 10']))
-    listA.append(len(df_mem[df_mem['Members'] == '> 10']))
+    listA.append(len(df_mem[df_mem['Members'] == filt.personcount['0-5 persons']]))
+    listA.append(len(df_mem[df_mem['Members'] == filt.personcount['5-10 persons']]))
+    listA.append(len(df_mem[df_mem['Members'] == filt.personcount['> 10 persons']]))
     # debug code
     if debug is True:
         print(listA)
