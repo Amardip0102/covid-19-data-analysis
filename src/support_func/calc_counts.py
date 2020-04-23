@@ -150,10 +150,10 @@ def calcWork_home_distance(team):
         is_work = df_work['Team'] == team
         df_work = df_work[is_work]
     listWE.append(len(df_work[df_work['Distance'] == '0 - 5']))
-    listWE.append(len(df_work[df_work['Distance'] == '6-10']))
-    listWE.append(len(df_work[df_work['Distance'] == '10-15']))
-    listWE.append(len(df_work[df_work['Distance'] == '15-20']))
-    listWE.append(len(df_work[df_work['Distance'] == '>20']))
+    listWE.append(len(df_work[df_work['Distance'] == '6 - 10']))
+    listWE.append(len(df_work[df_work['Distance'] == '10 - 15']))
+    listWE.append(len(df_work[df_work['Distance'] == '15 - 20']))
+    listWE.append(len(df_work[df_work['Distance'] == '> 20']))
 
     # debug code
     if debug is True:
@@ -216,7 +216,7 @@ def calculate_staying_people_counts(team):
         is_memperteam = df_mem['Team'] == team
         df_mem = df_mem[is_memperteam]
     listA.append(len(df_mem[df_mem['Members'] == '0 - 5']))
-    listA.append(len(df_mem[df_mem['Members'] == '5 - 10  ']))
+    listA.append(len(df_mem[df_mem['Members'] == '5 - 10']))
     listA.append(len(df_mem[df_mem['Members'] == '> 10']))
     # debug code
     if debug is True:

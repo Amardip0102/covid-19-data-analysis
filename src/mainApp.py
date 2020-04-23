@@ -74,7 +74,7 @@ app.layout = html.Div([
         # Start : Heading of the report
         #####################################################
         html.Div([
-            html.H1(children='POST COVID 19 EVALUATION DASHBOARD RESULT',
+            html.H1(children='POST LOCK DOWN EVALUATION DASHBOARD',
                     style={
                         'textAlign': 'center',
                         'color': 'black',
