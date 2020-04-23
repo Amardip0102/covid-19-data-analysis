@@ -281,6 +281,7 @@ basic_layout = html.Div([
             # sorting data in table
             sort_action="native",
             sort_mode="single",
+            export_format = 'xlsx'
         )
     ],
         style=filtering.layout_table,

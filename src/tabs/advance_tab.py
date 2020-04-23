@@ -310,7 +310,7 @@ advance_layout = html.Div([
     html.Div([
         dash_table.DataTable(
             id='table-adv',
-            columns=[{"name": i, "id": i} for i in read_data.df_adv_col_out.loc[:,['Name','Team','Distance',
+            columns=[{"name": i, "id": i} for i in read_data.df_adv_col_out.loc[:,['Name','ID','Team','Distance',
                                                                                    'Members', 'Health Risk',
                                                                                    'Covid Contact Risk',
                                                                                    'RedZone Exposure Risk',
@@ -324,7 +324,7 @@ advance_layout = html.Div([
                 {'if': {'column_id': 'Name'},
                  'width': '10%'},
                 {'if': {'column_id': 'ID'},
-                 'width': '5%'},
+                 'width': '10%'},
                 {'if': {'column_id': 'Team'},
                  'width': '10%'},
                 {'if': {'column_id': 'Designation'},
@@ -340,6 +340,7 @@ advance_layout = html.Div([
             # sorting data in table
             sort_action="native",
             sort_mode="single",
+            export_format = 'xlsx'
         )
     ],
         style=filtering.layout_table,

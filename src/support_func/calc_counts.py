@@ -126,7 +126,7 @@ def calcWorkExperience(team):
         df_work = df_work[is_work]
     listWE.append(len(df_work[df_work['Experience'] == '0 - 2']))
     listWE.append(len(df_work[df_work['Experience'] == '2 - 5']))
-    listWE.append(len(df_work[df_work['Experience'] == '5 -10']))
+    listWE.append(len(df_work[df_work['Experience'] == '5 - 10']))
     listWE.append(len(df_work[df_work['Experience'] == '> 10']))
 
     # debug code

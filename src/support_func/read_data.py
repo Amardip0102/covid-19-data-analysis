@@ -65,7 +65,7 @@ df_sel_col.columns = ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 
 # Select only Specific Columns those which are required for advanced filter
 ##########################################################################################################
 
-df_adv_col_in = df[["Your Name",
+df_adv_col_in = df[["Your Name", "Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )",
                     "Your Team", "Work Experience (Approx. in Years)", "Designation", "Age (In Years)","Gender",
                     "What is the distance between office and place of residence ? (Approx. in KM )",
                     "How many members are currently staying along with you ?",
@@ -85,7 +85,7 @@ df_adv_col_in = df[["Your Name",
                     "Have you Recovered from COVID-19 ?"
                     ]]
 
-df_adv_col_in.columns = ['Name', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance', 'Members',
+df_adv_col_in.columns = ['Name', 'ID','Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance', 'Members',
                          'Contact_Travel','Living_with_Govt_HealthCare', 'Contact_Covid', 'Travel out Pune',
                          'Stll There', 'When Came Back', 'Transportation','Redzone_visit','Healthcare_visit',
                          'Symptoms', 'Pre_Existing_Disease', 'Tested_For_COVID',
@@ -97,7 +97,7 @@ df_adv_col_in.columns = ['Name', 'Team', 'Experience', 'Designation', 'Age', 'Ge
 # copy 1ast six columns from "df_adv_col_in"
 #######################################################
 
-df_adv_col_out = df_adv_col_in[['Name', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance',
+df_adv_col_out = df_adv_col_in[['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance',
                                 'Members']].copy()
 
 
