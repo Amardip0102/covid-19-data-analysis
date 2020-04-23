@@ -8,6 +8,7 @@ import dash_html_components as html
 from tabs import basic_tab
 from tabs import advance_tab
 from tabs import about
+from tabs import help
 from support_func import calc_counts
 from support_func import read_data
 from support_func import filtering
@@ -124,7 +125,7 @@ app.layout = html.Div([
 
             # Enter Different Tabs Section
             dcc.Tab(label='Advanced Filter',children=advance_tab.advance_layout, value='advance-tab', style=tab_style),
-            dcc.Tab(label='Help', children=[],style=tab_style),
+            dcc.Tab(label='Help', children=help.help_layout, value='help-tab', style=tab_style),
             dcc.Tab(label='About', children=about.about_layout, value='about-tab',style=tab_style),
         ], style=tabs_styles),
         html.Div(id='tabs-content-app')
@@ -149,6 +150,8 @@ def render_content(tab):
         return basic_tab.basic_layout
     elif tab == 'advance-tab':
         return advance_tab.advance_layout
+    elif tab == 'help-tab':
+        return help.help_layout
     elif tab == 'about-tab':
         return about.about_layout
 '''
