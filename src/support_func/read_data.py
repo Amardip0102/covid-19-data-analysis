@@ -11,11 +11,22 @@ from support_func import severity as sv
 debug_flag = True
 ############################################################
 
+############################################################
+# Filter variable
+filter_flag = True
+############################################################
+
+
 #from src.support_func.severity import eval_health_risk_severity
 
 # Parsing input config file
 config_rd = configparser.ConfigParser()
 
+
+def clean_redundant_data_from_excel(df_data):
+    df_select_col = df_data.sort_values(['Completion time'], ascending=False)
+    df_filter_data = df_select_col.drop_duplicates(subset=["Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )"])
+    return df_filter_data
 
 def read_config_file(path, config):
     """
@@ -55,12 +66,19 @@ WORK_EXP_IDX    = df.columns.get_loc("Work Experience (Approx. in Years)")
 #############################################################
 
 ##########################################################################################################
+# Filter excel based on ID and select latest data per user
+##########################################################################################################
+if filter_flag :
+    df_dupfilter_data = clean_redundant_data_from_excel(df)
+else:
+    df_dupfilter_data = df
+
+##########################################################################################################
 # Select only Specific Columns those which are required
 ##########################################################################################################
-df_sel_col = df[["Your Name", "Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )",
+df_sel_col = df_dupfilter_data[["Your Name", "Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )",
                  "Your Team", "Work Experience (Approx. in Years)", "Designation", "Age (In Years)",
-                 "Gender"]].drop_duplicates()
-
+                 "Gender"]]
 ''' Renaming name of columns
 '''
 df_sel_col.columns = ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
@@ -70,7 +88,7 @@ df_sel_col.columns = ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 
 # Select only Specific Columns those which are required for advanced filter
 ##########################################################################################################
 
-df_adv_col_in = df[["Your Name", "Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )",
+df_adv_col_in = df_dupfilter_data[["Your Name", "Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )",
                     "Your Team", "Work Experience (Approx. in Years)", "Designation", "Age (In Years)","Gender",
                     "What is the distance between office and place of residence ? (Approx. in KM )",
                     "How many members are currently staying along with you ?",
