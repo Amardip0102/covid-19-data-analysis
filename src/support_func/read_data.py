@@ -30,6 +30,8 @@ def read_config_file(path, config):
     data = {}
     config.read(path)
     data['excel_path'] = config['input_params']['input_excel_path']
+    data['username'] = config['input_params']['username']
+    data['password'] = config['input_params']['password']
 
     return data
 
@@ -37,6 +39,9 @@ def read_config_file(path, config):
 path = read_config_file('..\src\input.config', config_rd)
 
 df = pd.read_excel(path['excel_path'])
+
+username = path['username']
+password = path['password']
 
 
 #############################################################

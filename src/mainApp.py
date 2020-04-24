@@ -2,6 +2,7 @@
 # Importing all module dependencies
 #############################################################
 import dash
+import dash_auth
 import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
@@ -26,8 +27,16 @@ debug = False
 ############################################################
 org_name = "HELLA India Automotive Pvt. Ltd. Pune"
 ############################################################
+VALID_USERNAME_PASSWORD_PAIRS = {
+    read_data.username: read_data.password
+}
 
 app = dash.Dash(__name__)
+
+auth = dash_auth.BasicAuth(
+    app,
+    VALID_USERNAME_PASSWORD_PAIRS
+)
 #############################################################
 
 app.config['suppress_callback_exceptions'] = True
