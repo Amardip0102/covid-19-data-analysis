@@ -123,7 +123,7 @@ app.layout = html.Div([
         #############################################################
 
         dcc.Store(id='shared-dropdown-data',  data={'Team': 'All', 'Designation': 'All',
-                                                    'Gender': 'All', 'Age': 'All', 'Exp': 'All'}),
+                                                    'Gender': 'All', 'Age': 'All', 'Exp': 'All', 'SrCtzn_Kids': 'All'}),
 
         dcc.Tabs(id ='tab-app',value='basic-tab',children=[
             ################################################################################################
@@ -174,10 +174,11 @@ def render_content(tab):
      dash.dependencies.Input('designation-dropdown', 'value'),
      dash.dependencies.Input('gender-dropdown', 'value'),
      dash.dependencies.Input('age-dropdown', 'value'),
-     dash.dependencies.Input('exp-dropdown', 'value')],
+     dash.dependencies.Input('exp-dropdown', 'value'),
+     dash.dependencies.Input('sr-cit-kids', 'value')],
     [dash.dependencies.State('tab-app', 'value')],
 )
-def update_dropdown_cache(team, designation, gender, age, exp, tabval):
+def update_dropdown_cache(team, designation, gender, age, exp, srCitKids, tabval):
     data = {}
     if tabval == 'basic-tab':
         data['Team'] = team
@@ -185,6 +186,7 @@ def update_dropdown_cache(team, designation, gender, age, exp, tabval):
         data['Gender'] = gender
         data['Age'] = age
         data['Exp'] = exp
+        data['SrCtzn_Kids'] = srCitKids
     if debug is True:
         print(data)
     return data
@@ -321,9 +323,11 @@ def update_gender(team):
      dash.dependencies.Input('designation-dropdown', 'value'),
      dash.dependencies.Input('gender-dropdown', 'value'),
      dash.dependencies.Input('age-dropdown', 'value'),
-     dash.dependencies.Input('exp-dropdown', 'value')]
+     dash.dependencies.Input('exp-dropdown', 'value'),
+     dash.dependencies.Input('sr-cit-kids', 'value')]
+
 )
-def update_table(team_name, design_name, gender, age, exp):
+def update_table(team_name, design_name, gender, age, exp, srCitKids):
     # create a copy of main data here
     out_df = read_data.df_sel_col.copy()
     # print(out_df.head(5))
@@ -353,6 +357,12 @@ def update_table(team_name, design_name, gender, age, exp):
     if age != 'All':
         is_age = out_df['Age'] == age
         out_df = out_df[is_age]
+
+    if srCitKids != 'All':
+        is_srCitKids = out_df['SrCitizen_Kids'] == srCitKids
+        out_df = out_df[is_srCitKids]
+
+
 
     data = out_df.to_dict("rows")
 
@@ -394,11 +404,12 @@ def update_advance_table(travel_risk, work_dist, living_with, redzone, covid_con
     dash.dependencies.Output('designation-dropdown', 'value'),
     dash.dependencies.Output('gender-dropdown', 'value'),
     dash.dependencies.Output('age-dropdown', 'value'),
-    dash.dependencies.Output('exp-dropdown', 'value')],
+    dash.dependencies.Output('exp-dropdown', 'value'),
+     dash.dependencies.Output('sr-cit-kids', 'value')],
     [dash.dependencies.Input('reset-filter-button', 'n_clicks')]
 )
 def update_filter(reset_btn):
-    return 'All', 'All', 'All', 'All', 'All', 'All'
+    return 'All', 'All', 'All', 'All', 'All', 'All', 'All'
 
 ########################################################################
 # App Callback: reset-adv-filter-button

@@ -78,6 +78,16 @@ basic_layout = html.Div([
                 value='All',
                 disabled=False,
                 multi=False
+            ),
+
+            html.Label(
+                children='Sr Citizen / Kids',
+                style={'color': 'black', 'font-weight': 'bold'}
+            ),
+            dcc.Dropdown(
+                id='sr-cit-kids',
+                options=[{'label': v, 'value': v} for v in filtering.srCitizensKids],
+                value='All'
             )
         ], className="four columns"),
         ##############################################################

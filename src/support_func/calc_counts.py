@@ -276,6 +276,10 @@ def filter_advance_data(origdata, travel_risk, work_dist, living_with, redzone, 
         is_age = origdata['Age'] == cache['Age']
         origdata = origdata[is_age]
 
+    if cache['SrCtzn_Kids'] != 'All':
+        is_srctznkids = origdata['SrCitizen_Kids'] == cache['SrCtzn_Kids']
+        origdata = origdata[is_srctznkids]
+
     ###########################################################
     # Advance Filter: travel_risk, work_dist, living_with, redzone, covid_contact, health_risk,
     ###########################################################

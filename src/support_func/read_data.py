@@ -52,6 +52,7 @@ DESIGNATION_IDX = df.columns.get_loc("Designation")
 AGE_IDX         = df.columns.get_loc("Age (In Years)")
 GENDER_IDX      = df.columns.get_loc("Gender")
 WORK_EXP_IDX    = df.columns.get_loc("Work Experience (Approx. in Years)")
+SR_CITIZEN_KIDS = df.columns.get_loc("Do you have a kid(s)(<5 years) or a senior citizen(s) staying with you in PUNE ?")
 #############################################################
 
 ##########################################################################################################
@@ -59,11 +60,11 @@ WORK_EXP_IDX    = df.columns.get_loc("Work Experience (Approx. in Years)")
 ##########################################################################################################
 df_sel_col = df[["Your Name", "Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )",
                  "Your Team", "Work Experience (Approx. in Years)", "Designation", "Age (In Years)",
-                 "Gender"]].drop_duplicates()
+                 "Gender", "Do you have a kid(s)(<5 years) or a senior citizen(s) staying with you in PUNE ?"]].drop_duplicates()
 
 ''' Renaming name of columns
 '''
-df_sel_col.columns = ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
+df_sel_col.columns = ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'SrCitizen_Kids']
 ######################################################################################################
 
 ##########################################################################################################
@@ -87,23 +88,23 @@ df_adv_col_in = df[["Your Name", "Employee ID (e.g. HEDCI-123) (Please put ID nu
                     "Any Pre-Existing Health Conditions ? (Medical History)",
                     "Have you been tested for COVID-19 ?",
                     "What is the result of your Test ?",
-                    "Have you Recovered from COVID-19 ?"
+                    "Have you Recovered from COVID-19 ?",
+                    "Do you have a kid(s)(<5 years) or a senior citizen(s) staying with you in PUNE ?"
                     ]]
 
 df_adv_col_in.columns = ['Name', 'ID','Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance', 'Members',
                          'Contact_Travel','Living_with_Govt_HealthCare', 'Contact_Covid', 'Travel out Pune',
                          'Stll There', 'When Came Back', 'Transportation','Redzone_visit','Healthcare_visit',
                          'Symptoms', 'Pre_Existing_Disease', 'Tested_For_COVID',
-                         'Result_Of_Test', 'Recovered'
+                         'Result_Of_Test', 'Recovered', 'SrCitizen_Kids'
                          ]
-
 
 #######################################################
 # copy 1ast six columns from "df_adv_col_in"
 #######################################################
 
 df_adv_col_out = df_adv_col_in[['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance',
-                                'Members']].copy()
+                                'Members', 'SrCitizen_Kids']].copy()
 
 
 df_adv_col_out['Health Risk'] = None
