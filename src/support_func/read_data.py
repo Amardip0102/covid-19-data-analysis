@@ -23,7 +23,7 @@ filter_flag = True
 config_rd = configparser.ConfigParser()
 
 
-def clean_redundent_data_from_excel(df_data):
+def clean_redundant_data_from_excel(df_data):
     df_select_col = df_data.sort_values(['Completion time'], ascending=False)
     df_filter_data = df_select_col.drop_duplicates(subset=["Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )"])
     return df_filter_data
@@ -63,7 +63,10 @@ WORK_EXP_IDX    = df.columns.get_loc("Work Experience (Approx. in Years)")
 ##########################################################################################################
 # Filter excel based on ID and select latest data per user
 ##########################################################################################################
-df_dupfilter_data = clean_redundent_data_from_excel(df)
+if filter_flag :
+    df_dupfilter_data = clean_redundant_data_from_excel(df)
+else:
+    df_dupfilter_data = df
 
 ##########################################################################################################
 # Select only Specific Columns those which are required
