@@ -11,11 +11,22 @@ from support_func import severity as sv
 debug_flag = True
 ############################################################
 
+############################################################
+# Filter variable
+filter_flag = True
+############################################################
+
+
 #from src.support_func.severity import eval_health_risk_severity
 
 # Parsing input config file
 config_rd = configparser.ConfigParser()
 
+
+def clean_redundent_data_from_excel(df_data):
+    df_select_col = df_data.sort_values(['Completion time'], ascending=False)
+    df_filter_data = df_select_col.drop_duplicates(subset=["Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )"])
+    return df_filter_data
 
 def read_config_file(path, config):
     """
@@ -50,15 +61,16 @@ WORK_EXP_IDX    = df.columns.get_loc("Work Experience (Approx. in Years)")
 #############################################################
 
 ##########################################################################################################
+# Filter excel based on ID and select latest data per user
+##########################################################################################################
+df_dupfilter_data = clean_redundent_data_from_excel(df)
+
+##########################################################################################################
 # Select only Specific Columns those which are required
 ##########################################################################################################
-
-df_sort_col = df.sort_values(['Completion time'], ascending=False)
-df_dupfilter_data =df_sort_col.drop_duplicates(subset=["Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )"])
 df_sel_col = df_dupfilter_data[["Your Name", "Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )",
                  "Your Team", "Work Experience (Approx. in Years)", "Designation", "Age (In Years)",
                  "Gender"]]
-
 ''' Renaming name of columns
 '''
 df_sel_col.columns = ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
