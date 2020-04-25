@@ -5,14 +5,14 @@ teamsList = {
             'All' : ['All'],
             'SupportFunctions': ['HR','ADMIN','SALES','FINANCE'],
             'IT+ToolsAndQuality': ['PMT','IT','QUALITY','INSTRU'],
-            'advanceEngineering+2W/3W': ['AE-ML','AE','2W/3W'],
+            'AdvanceEngineering+2W/3W': ['AE-ML','AE','2W/3W'],
             'MechanicalDesign': ['MECHANICAL-DESIGN'],
             'System_Fusa': ['SYSTEM/FuSa'],
             'Software': ['SW-DEV-EST','SW-DEV-DIAG','SW-DEV-EPS','SW-DEV-GL','SW-DEV-VBS','SW-DEV-STAR3','SW-DEV-ADAS',
                           'SW-DEV-TBCM','SW-DEV-RPAS','SW-DEV-DCDC','SW-DEV-OTHER'],
-            'SystemTesting': ['SYS_TEST-AudiSAR','SYS_TEST-STAR3','SYS_TEST-EPS','SYS_TEST-TATA','SYS_TEST-BCM2Evo',
-                              'SYS_TEST-COBAS-VBS','SYS_TEST-RPAS','SYS-TEST-OTHER'],
-            'Hardware': ['HW-LAYOUT-LIBRARY','HW-DESIGN','HW-RADIO-HOMOLOGATION','HW-OTHER'],
+            'Testing': ['TEST-AudiSAR','TEST-STAR3','TEST-EPS','TEST-TATA','TEST-BCM2Evo',
+                              'TEST-COBAS-VBS','TEST-RPAS','TEST-OTHER'],
+            'Hardware': ['HW-LAYOUT','HW-DESIGN','HW-OTHER'],
             'Others': ['OTHERS-NOT-LISTED']
             }
 
