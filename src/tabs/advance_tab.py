@@ -116,6 +116,19 @@ advance_layout = html.Div([
                     value='All',
                     multi=False
 
+                ),
+
+                html.Label(
+                    'Mode of Transportation to office',
+                    style={'color': 'black', 'font-weight': 'bold'}
+                ),
+                dcc.Dropdown
+                    (
+                    id='office-mode-transport',
+                    options=[{'label': k, 'value': v} for k, v in filtering.transportmode.items()],
+                    value='All',
+                    multi=False
+
                 )
             ], className="four columns"),
         ##############################################################
@@ -324,7 +337,7 @@ advance_layout = html.Div([
                                                                                    'Members', 'SrCitizen_Kids',
                                                                                    'Health Risk', 'Covid Contact Risk',
                                                                                    'RedZone Exposure Risk',
-                                                                                   'Travel Risk']]],
+                                                                                   'Travel Risk','Transport mode office']]],
             data=read_data.df_adv_col_out.to_dict("rows"),
             editable=False,
             # scroll enabled

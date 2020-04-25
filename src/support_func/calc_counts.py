@@ -249,7 +249,7 @@ def calculate_health_risk_counts(team):
 ##############################################################
 #
 ##############################################################
-def filter_advance_data(origdata, travel_risk, work_dist, living_with, kids_srcitizen,
+def filter_advance_data(origdata, travel_risk, work_dist, living_with, kids_srcitizen,office_mode_transport,
                         redzone, covid_contact, health_risk, cache):
 
     # check if team name is not All
@@ -294,9 +294,16 @@ def filter_advance_data(origdata, travel_risk, work_dist, living_with, kids_srci
         is_member = origdata['Members'] == living_with
         origdata = origdata[is_member]
 
+    #check if senior citizen kids
     if kids_srcitizen != 'All':
         is_kids_srcitizen = origdata['SrCitizen_Kids'] == kids_srcitizen
         origdata = origdata[is_kids_srcitizen]
+
+    # check if office mode of transport
+    if office_mode_transport != 'All':
+        is_transportmode = origdata['Transport mode office'] == office_mode_transport
+        origdata = origdata[is_transportmode]
+
 
     # check if redZOne Exposed
     if redzone != 'All':
