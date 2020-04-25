@@ -10,14 +10,17 @@ import numpy as np
 ######################################################################
 const_num_days = 14
 
+
 ########################################################################
 # Calculate Number of days
 #######################################################################
 def calculate_num_days(df_date):
     df_days = pd.DataFrame(columns=['days'])
     df_days['days'] = pd.to_datetime('today') - pd.to_datetime(df_date)
-    df_days['days'] = df_days['days']/np.timedelta64(1,'D')
+    df_days['days'] = df_days['days'] / np.timedelta64(1, 'D')
     return df_days['days']
+
+
 #########################################################################
 
 
@@ -42,17 +45,17 @@ def eval_affected_areas_exposure_severity():
 
     df_intermediate = rd.df_adv_col_in.copy()
 
-    conditions =[
-         ((df_intermediate['Redzone_visit'] == 'No') & (df_intermediate['Healthcare_visit'] == 'No')),
+    conditions = [
+        ((df_intermediate['Redzone_visit'] == 'No') & (df_intermediate['Healthcare_visit'] == 'No')),
         ((rd.df_adv_col_in['Redzone_visit'] == 'Yes') & (rd.df_adv_col_in['Healthcare_visit'] == 'No')),
         ((rd.df_adv_col_in['Redzone_visit'] == 'No') & (rd.df_adv_col_in['Healthcare_visit'] == 'Yes')),
         ((rd.df_adv_col_in['Redzone_visit'] == 'Yes') & (rd.df_adv_col_in['Healthcare_visit'] == 'Yes'))
 
-     ]
-    output=['High','Medium','Medium','Low']
+    ]
+    output = ['High', 'Medium', 'Medium', 'Low']
 
     for k in range(len(output)):
-        rd.df_adv_col_out.loc[conditions[k],'RedZone Exposure Risk'] = output[k]
+        rd.df_adv_col_out.loc[conditions[k], 'RedZone Exposure Risk'] = output[k]
 
     return 0
 
@@ -70,9 +73,9 @@ def eval_contact_covid_severity():
     --------------------------------------------------------------------------------------------------------
     :return: ['High', 'Medium', 'Low']
     '''
-    #todo: Add Healthcare facility visited column here..
+    # todo: Add Healthcare facility visited column here..
     # creating a local copy
-    df_contact_covid = rd.df_adv_col_in[['Contact_Travel','Living_with_Govt_HealthCare', 'Contact_Covid']].copy()
+    df_contact_covid = rd.df_adv_col_in[['Contact_Travel', 'Living_with_Govt_HealthCare', 'Contact_Covid']].copy()
 
     # decision table:
 
@@ -92,108 +95,126 @@ def eval_contact_covid_severity():
 
 def eval_health_risk_severity():
     '''
-      -Symptoms
-      -pre-existing
-      -TESTED for covid19
-      -if positive
-      -recovered
-    :return: list = ['Low' , 'Medium' , 'High']
-    Low -> Healthy
-    Medium -> Moderate Healthy and tending towards unhealthy
-    High -> Unhealthy
+    ---------------------------------------------------------------------------------------------------------------------
+   	symptoms | Pre-Existing Health Condition |	tested for COVID-19	 | Result of your test | Recovered	|       Risk
+	---------------------------------------------------------------------------------------------------------------------
+     NO	            	NO	                            NO	                    X	                X	        LOW
+	 NO	            	NO	                            YES	                    NEGATIVE	        X	        LOW
+	 NO					NO								YES						POSITIVE			YES			MEDIUM
+	 NO					NO								YES						POSITIVE			NO			HIGH
+	 NO					YES 							NO						X					X			LOW
+	 NO					YES 							YES						NEGATIVE			X			LOW
+	 NO					YES 							YES						POSITIVE			YES			HIGH
+	 NO					YES 							YES						POSITIVE			NO			HIGH
+	 YES				NO								NO						X					X			HIGH
+	 YES				NO								YES						NEGATIVE			X			MEDIUM
+	 YES				NO								YES						POSITIVE			YES			HIGH
+	 YES				NO								YES						POSITIVE			NO			HIGH
+	 YES			    YES 							NO						X					X			MEDIUM
+	 YES				YES 							YES						NEGATIVE			X			MEDIUM
+	 YES				YES 							YES						POSITIVE			YES			HIGH
+	 YES				YES 							YES						POSITIVE			NO			HIGH
+
     '''
-    df_health_risk = rd.df_adv_col_in[['Symptoms','Pre_Existing_Disease','Tested_For_COVID',
-                                       'Result_Of_Test','Recovered']].copy()
+    df_health_risk = rd.df_adv_col_in[['Symptoms', 'Pre_Existing_Disease', 'Tested_For_COVID',
+                                       'Result_Of_Test', 'Recovered']].copy()
 
-    conditions = [ #Low
-                   (df_health_risk["Symptoms"] == "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "No"),
-                   (df_health_risk["Symptoms"] == "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "No"),
-                   (df_health_risk["Symptoms"] == "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "Yes") & (
-                           df_health_risk["Result_Of_Test"] == "Negative"),
-                   (df_health_risk["Symptoms"] == "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "Yes") & (
-                           df_health_risk["Result_Of_Test"] == "Negative"),
+    df_health_risk['Pre_Existing_Disease'] = df_health_risk['Pre_Existing_Disease'].replace(np.nan, 'No')
 
-                    #Medium
-                   (df_health_risk["Symptoms"] == "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "Yes") & (
-                           df_health_risk["Result_Of_Test"] == "Positive") & (
-                           df_health_risk["Recovered"] == "Yes"),
+    df_health_risk['Pre_Existing_Disease'] = np.where(df_health_risk['Pre_Existing_Disease'] == 'None of the above', 'No',
+                                                      df_health_risk['Pre_Existing_Disease'])
 
-                   (df_health_risk["Symptoms"] != "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "Yes") & (
-                           df_health_risk["Result_Of_Test"] == "Negative"),
-
-                   (df_health_risk["Symptoms"] != "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "No"),
-
-                   (df_health_risk["Symptoms"] != "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "Yes") & (
-                           df_health_risk["Result_Of_Test"] == "Negative"),
+    df_health_risk['Pre_Existing_Disease'] = np.where(df_health_risk['Pre_Existing_Disease'] == '','No',
+                                                      df_health_risk['Pre_Existing_Disease'])
 
 
-                   #High
-                   (df_health_risk["Symptoms"] == "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "Yes") & (
-                           df_health_risk["Result_Of_Test"] == "Positive") & (
-                           df_health_risk["Recovered"] == "No"),
+    conditions = [  # Low
+        (df_health_risk["Symptoms"] == "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] == "No") & (
+                df_health_risk["Tested_For_COVID"] == "No"),
+        (df_health_risk["Symptoms"] == "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] != "No") & (
+                df_health_risk["Tested_For_COVID"] == "No"),
+        (df_health_risk["Symptoms"] == "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] == "No") & (
+                df_health_risk["Tested_For_COVID"] == "Yes") & (
+                df_health_risk["Result_Of_Test"] == "Negative"),
+        (df_health_risk["Symptoms"] == "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] != "No")  & (
+                df_health_risk["Tested_For_COVID"] == "Yes") & (
+                df_health_risk["Result_Of_Test"] == "Negative"),
 
-                   (df_health_risk["Symptoms"] == "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "Yes") & (
-                           df_health_risk["Result_Of_Test"] == "Positive") & (
-                           df_health_risk["Recovered"] == "Yes"),
+        # Medium
+        (df_health_risk["Symptoms"] == "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] == "No") & (
+                df_health_risk["Tested_For_COVID"] == "Yes") & (
+                df_health_risk["Result_Of_Test"] == "Positive") & (
+                df_health_risk["Recovered"] == "Yes"),
 
+        (df_health_risk["Symptoms"] != "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] == "No") & (
+                df_health_risk["Tested_For_COVID"] == "Yes") & (
+                df_health_risk["Result_Of_Test"] == "Negative"),
 
-                   (df_health_risk["Symptoms"] == "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "Yes") & (
-                           df_health_risk["Result_Of_Test"] == "Positive")& (
-                           df_health_risk["Recovered"] == "No"),
+        (df_health_risk["Symptoms"] != "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] != "No") & (
+                df_health_risk["Tested_For_COVID"] == "No"),
 
-                   (df_health_risk["Symptoms"] != "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "No"),
+        (df_health_risk["Symptoms"] != "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] != "No") & (
+                df_health_risk["Tested_For_COVID"] == "Yes") & (
+                df_health_risk["Result_Of_Test"] == "Negative"),
 
-                   (df_health_risk["Symptoms"] != "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "Yes") & (
-                           df_health_risk["Result_Of_Test"] == "Positive") & (
-                           df_health_risk["Recovered"] == "Yes"),
+        # High
+        (df_health_risk["Symptoms"] == "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] == "No")  & (
+                df_health_risk["Tested_For_COVID"] == "Yes") & (
+                df_health_risk["Result_Of_Test"] == "Positive") & (
+                df_health_risk["Recovered"] == "No"),
 
-                   (df_health_risk["Symptoms"] != "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] == "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "Yes") & (
-                           df_health_risk["Result_Of_Test"] == "Positive") & (
-                           df_health_risk["Recovered"] == "No"),
+        (df_health_risk["Symptoms"] == "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] != "No") & (
+                df_health_risk["Tested_For_COVID"] == "Yes") & (
+                df_health_risk["Result_Of_Test"] == "Positive") & (
+                df_health_risk["Recovered"] == "Yes"),
 
-                   (df_health_risk["Symptoms"] != "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "Yes") & (
-                           df_health_risk["Result_Of_Test"] == "Positive") & (
-                           df_health_risk["Recovered"] == "Yes"),
+        (df_health_risk["Symptoms"] == "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] != "No") & (
+                df_health_risk["Tested_For_COVID"] == "Yes") & (
+                df_health_risk["Result_Of_Test"] == "Positive") & (
+                df_health_risk["Recovered"] == "No"),
 
-                   (df_health_risk["Symptoms"] != "None of the above") & (
-                           df_health_risk["Pre_Existing_Disease"] != "None of the above") & (
-                           df_health_risk["Tested_For_COVID"] == "Yes") & (
-                           df_health_risk["Result_Of_Test"] == "Positive") & (
-                           df_health_risk["Recovered"] == "No"),
+        (df_health_risk["Symptoms"] != "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] == "No") & (
+                df_health_risk["Tested_For_COVID"] == "No"),
 
-                ]
-    outputs = ['Low','Low','Low','Low','Medium','Medium','Medium','Medium','High','High','High','High',
-               'High','High','High','High']
+        (df_health_risk["Symptoms"] != "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] == "No") & (
+                df_health_risk["Tested_For_COVID"] == "Yes") & (
+                df_health_risk["Result_Of_Test"] == "Positive") & (
+                df_health_risk["Recovered"] == "Yes"),
+
+        (df_health_risk["Symptoms"] != "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] == "No") & (
+                df_health_risk["Tested_For_COVID"] == "Yes") & (
+                df_health_risk["Result_Of_Test"] == "Positive") & (
+                df_health_risk["Recovered"] == "No"),
+
+        (df_health_risk["Symptoms"] != "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] != "No") & (
+                df_health_risk["Tested_For_COVID"] == "Yes") & (
+                df_health_risk["Result_Of_Test"] == "Positive") & (
+                df_health_risk["Recovered"] == "Yes"),
+
+        (df_health_risk["Symptoms"] != "None of the above") & (
+                df_health_risk["Pre_Existing_Disease"] != "No") & (
+                df_health_risk["Tested_For_COVID"] == "Yes") & (
+                df_health_risk["Result_Of_Test"] == "Positive") & (
+                df_health_risk["Recovered"] == "No"),
+
+    ]
+    outputs = ['Low', 'Low', 'Low', 'Low', 'Medium', 'Medium', 'Medium', 'Medium', 'High', 'High', 'High', 'High',
+               'High', 'High', 'High', 'High']
 
     rd.df_adv_col_out['Health Risk'] = np.select(conditions, outputs)
 
@@ -240,9 +261,9 @@ def eval_travel_risk_severity():
     conditions = [
         (df_travel_risk['Travel out Pune'] == 'Yes') & (df_travel_risk['Stll There'] == "Yes"),
         (df_travel_risk['Stll There'] == "No") & (df_travel_risk['When Came Back'] <= const_num_days) &
-        (df_travel_risk['When Came Back'] >= 0)& (df_travel_risk['Transportation'] == "Public Transport"),
+        (df_travel_risk['When Came Back'] >= 0) & (df_travel_risk['Transportation'] == "Public Transport"),
         (df_travel_risk['Stll There'] == "No") & (df_travel_risk['When Came Back'] <= const_num_days) &
-        (df_travel_risk['When Came Back'] >= 0)&(df_travel_risk['Transportation'] == "Personal Vehicle"),
+        (df_travel_risk['When Came Back'] >= 0) & (df_travel_risk['Transportation'] == "Personal Vehicle"),
         (df_travel_risk['Stll There'] == "No") & (df_travel_risk['When Came Back'] > const_num_days) &
         (df_travel_risk['Transportation'] == "Public Transport"),
         (df_travel_risk['Stll There'] == "No") & (df_travel_risk['When Came Back'] > const_num_days) &
