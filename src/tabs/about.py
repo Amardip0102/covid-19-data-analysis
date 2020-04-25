@@ -28,9 +28,6 @@ about_layout = html.Div([
             
             This program is proprietary software belongs to **HELLA India Automotive Pvt Ltd.**
 
-            This program is distributed in the hope that it will be useful, but **WITHOUT ANY WARRANTY**; 
-            without even the implied warranty of **MAINTAINABILITY**.
-
             ''',
              style={
                  'textAlign': 'left',
@@ -46,7 +43,7 @@ about_layout = html.Div([
                 style={
                     'textAlign': 'center',
                     'color': 'black',
-                    'font': "16px Arial",
+                    'font': "18px Arial",
                 }
             ),
 
@@ -54,14 +51,19 @@ about_layout = html.Div([
                 '''
                 > * **SW VERSION** - _HIA-ADAS-COVID-19-Beta-1.2_
                 > * **Contact:**
-                    *   _HIA-ADAS-TEAM_
+                    *   Amardip Ghodichor  (Amardip.Ghodichor@hella.com)
+                    *   Mahammadajar Awati (Mahammadajar.Awati@hella.com)
+                    *   Swapnil Balpande   (swapnil.balpnade@external.hella.com)
+                    *   Keyur Joshi        (Keyur.Joshi@hella.com)
+                    *   Ammolh Kulkarni    (Ammolh.Kulkarni@hella.com)
+                    )
                 > * **Support:**
-                    *  _covidatahelp@hotmail.com_
+                    *  _HIA-ADAS-TEAM_
                 ''',
                 style={
                     'textAlign': 'left',
                     'color': 'black',
-                    'font': "20px Arial",
+                    'font': "18px Arial",
                 }
             )
 
