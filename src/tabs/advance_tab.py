@@ -79,6 +79,16 @@ advance_layout = html.Div([
                 options=[{'label': k, 'value': k} for k in filtering.severity],
                 value='All',
                 multi=False
+            ),
+
+            html.Label(
+                children='Sr Citizen / Kids',
+                style={'color': 'black', 'font-weight': 'bold'}
+            ),
+            dcc.Dropdown(
+                id='sr-cit-kids',
+                options=[{'label': v, 'value': v} for v in filtering.srCitizensKids],
+                value='All'
             )
         ], className="four columns"),
         ##############################################################
@@ -311,8 +321,8 @@ advance_layout = html.Div([
         dash_table.DataTable(
             id='table-adv',
             columns=[{"name": i, "id": i} for i in read_data.df_adv_col_out.loc[:,['Name','ID','Team','Distance',
-                                                                                   'Members', 'Health Risk',
-                                                                                   'Covid Contact Risk',
+                                                                                   'Members', 'SrCitizen_Kids',
+                                                                                   'Health Risk', 'Covid Contact Risk',
                                                                                    'RedZone Exposure Risk',
                                                                                    'Travel Risk']]],
             data=read_data.df_adv_col_out.to_dict("rows"),

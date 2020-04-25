@@ -369,16 +369,17 @@ def update_table(team_name, design_name, gender, age, exp):
     [dash.dependencies.Input('travel_risk_severity', 'value'),
      dash.dependencies.Input('distance-dropdown', 'value'),
      dash.dependencies.Input('people-living-count', 'value'),
+     dash.dependencies.Input('sr-cit-kids', 'value'),
      dash.dependencies.Input('exposure_affected_severity', 'value'),
      dash.dependencies.Input('severity-dropdown', 'value'),
      dash.dependencies.Input('health_risk_severity', 'value'),
      dash.dependencies.Input('tab-app', 'value')],
     [dash.dependencies.State('shared-dropdown-data', 'data')]
 )
-def update_advance_table(travel_risk, work_dist, living_with, redzone, covid_contact, health_risk, tab, cache):
+def update_advance_table(travel_risk, work_dist, living_with, kids_srcitizen,  redzone, covid_contact, health_risk, tab, cache):
     adv_out_df = read_data.df_adv_col_out.copy()
 
-    adv_out_df = calc_counts.filter_advance_data(adv_out_df, travel_risk, work_dist, living_with,
+    adv_out_df = calc_counts.filter_advance_data(adv_out_df, travel_risk, work_dist, living_with, kids_srcitizen,
                                                  redzone, covid_contact, health_risk, cache)
 
     data = adv_out_df.to_dict("rows")

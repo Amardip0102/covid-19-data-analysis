@@ -249,7 +249,8 @@ def calculate_health_risk_counts(team):
 ##############################################################
 #
 ##############################################################
-def filter_advance_data(origdata, travel_risk, work_dist, living_with, redzone, covid_contact, health_risk, cache):
+def filter_advance_data(origdata, travel_risk, work_dist, living_with, kids_srcitizen,
+                        redzone, covid_contact, health_risk, cache):
 
     # check if team name is not All
     if cache['Team'] != 'All':
@@ -292,6 +293,10 @@ def filter_advance_data(origdata, travel_risk, work_dist, living_with, redzone, 
     if living_with != 'All':
         is_member = origdata['Members'] == living_with
         origdata = origdata[is_member]
+
+    if kids_srcitizen != 'All':
+        is_kids_srcitizen = origdata['SrCitizen_Kids'] == kids_srcitizen
+        origdata = origdata[is_kids_srcitizen]
 
     # check if redZOne Exposed
     if redzone != 'All':

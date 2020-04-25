@@ -92,6 +92,7 @@ df_adv_col_in = df_dupfilter_data[["Your Name", "Employee ID (e.g. HEDCI-123) (P
                     "Your Team", "Work Experience (Approx. in Years)", "Designation", "Age (In Years)","Gender",
                     "What is the distance between office and place of residence ? (Approx. in KM )",
                     "How many members are currently staying along with you ?",
+                    "Do you have a kid(s)(<5 years) or a senior citizen(s) staying with you in PUNE ?",
                     "Have you come in contact with anyone with a travel history (within India/ abroad) ?",
                     "Are any of the people you are living with, allowed to work under Government regulations ?( Ex: Govt. servants, Healthcare personnel etc)",
                     "Have you come in contact with any person who tested POSITIVE for COVID-19 (directly/indirectly) ?",
@@ -109,9 +110,9 @@ df_adv_col_in = df_dupfilter_data[["Your Name", "Employee ID (e.g. HEDCI-123) (P
                     ]]
 
 df_adv_col_in.columns = ['Name', 'ID','Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance', 'Members',
-                         'Contact_Travel','Living_with_Govt_HealthCare', 'Contact_Covid', 'Travel out Pune',
-                         'Stll There', 'When Came Back', 'Transportation','Redzone_visit','Healthcare_visit',
-                         'Symptoms', 'Pre_Existing_Disease', 'Tested_For_COVID',
+                        'SrCitizen_Kids','Contact_Travel','Living_with_Govt_HealthCare', 'Contact_Covid',
+                         'Travel out Pune','Stll There', 'When Came Back', 'Transportation','Redzone_visit',
+                         'Healthcare_visit','Symptoms', 'Pre_Existing_Disease', 'Tested_For_COVID',
                          'Result_Of_Test', 'Recovered'
                          ]
 
@@ -121,7 +122,7 @@ df_adv_col_in.columns = ['Name', 'ID','Team', 'Experience', 'Designation', 'Age'
 #######################################################
 
 df_adv_col_out = df_adv_col_in[['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance',
-                                'Members']].copy()
+                                'Members', 'SrCitizen_Kids']].copy()
 
 
 df_adv_col_out['Health Risk'] = None
