@@ -32,6 +32,8 @@ distance = {'All' :'All', '0-5 Kms':'0 - 5', '6-10 kms':'6 - 10', '10-15 Kms':'1
 
 personcount= {'All' :'All', '0-5 persons':'0 - 5', '5-10 persons':'5 - 10', '> 10 persons':'> 10'}
 
+transportmode= {'All' :'All', '2 Wheeler':'2 Wheeler', '4 Wheeler':'4 Wheeler', 'Shared Car':'Shared Car','Public Transport':'Public Transport','By Walk':'By Walk'}
+
 severity = ['All', 'Low', 'Medium', 'High']
 
 srCitizensKids = ['All', 'Yes', 'No']

@@ -13,7 +13,7 @@ debug_flag = True
 
 ############################################################
 # Filter variable
-filter_flag = True
+filter_flag = False
 ############################################################
 
 
@@ -106,14 +106,15 @@ df_adv_col_in = df_dupfilter_data[["Your Name", "Employee ID (e.g. HEDCI-123) (P
                     "Any Pre-Existing Health Conditions ? (Medical History)",
                     "Have you been tested for COVID-19 ?",
                     "What is the result of your Test ?",
-                    "Have you Recovered from COVID-19 ?"
+                    "Have you Recovered from COVID-19 ?",
+                    "Which mode of transportation will you use to come to the office ?"
                     ]]
 
 df_adv_col_in.columns = ['Name', 'ID','Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance', 'Members',
                         'SrCitizen_Kids','Contact_Travel','Living_with_Govt_HealthCare', 'Contact_Covid',
                          'Travel out Pune','Stll There', 'When Came Back', 'Transportation','Redzone_visit',
                          'Healthcare_visit','Symptoms', 'Pre_Existing_Disease', 'Tested_For_COVID',
-                         'Result_Of_Test', 'Recovered'
+                         'Result_Of_Test', 'Recovered','Transport mode office'
                          ]
 
 
@@ -122,7 +123,7 @@ df_adv_col_in.columns = ['Name', 'ID','Team', 'Experience', 'Designation', 'Age'
 #######################################################
 
 df_adv_col_out = df_adv_col_in[['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance',
-                                'Members', 'SrCitizen_Kids']].copy()
+                                'Members', 'SrCitizen_Kids','Transport mode office']].copy()
 
 
 df_adv_col_out['Health Risk'] = None
