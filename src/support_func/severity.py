@@ -4,11 +4,16 @@
 from support_func import read_data as rd
 import pandas as pd
 import numpy as np
-
 #######################################################################
 # Constant Section : which shall be later replaced by dynamic values
 ######################################################################
 const_num_days = 14
+
+debug = False
+
+output_redzone=['Low','Medium','Medium','High']
+outputs_covidexposure = ['High', 'High', 'Medium', 'Medium', 'Low']
+outputs_travelseverity = ['High', 'High', 'Medium', 'Medium', 'Low']
 
 
 ########################################################################
@@ -53,11 +58,15 @@ def eval_affected_areas_exposure_severity():
         ((df_intermediate['Redzone_visit'] == 'No') & (df_intermediate['Healthcare_visit'] == 'Yes')),
         ((df_intermediate['Redzone_visit'] == 'Yes') & (df_intermediate['Healthcare_visit'] == 'Yes'))
 
-    ]
-    output = ['Low', 'Medium', 'Medium', 'High']
 
-    for k in range(len(output)):
-        rd.df_adv_col_out.loc[conditions[k], 'RedZone Exposure Risk'] = output[k]
+    ]
+    #output=['High','Medium','Medium','Low']
+    outputs=output_redzone
+    if debug is True:
+        print(outputs)
+
+    for k in range(len(outputs)):
+        rd.df_adv_col_out.loc[conditions[k],'RedZone Exposure Risk'] = outputs[k]
 
     return 0
 
@@ -89,8 +98,10 @@ def eval_contact_covid_severity():
         (df_contact_covid['Contact_Travel'] == 'No') & (df_contact_covid['Living_with_Govt_HealthCare'] == 'No')
     ]
 
-    outputs = ['High', 'High', 'Medium', 'Medium', 'Low']
-
+    #outputs = ['High', 'High', 'Medium', 'Medium', 'Low']
+    outputs=outputs_covidexposure
+    if debug is True:
+        print(outputs)
     rd.df_adv_col_out['Covid Contact Risk'] = np.select(conditions, outputs, default='Low')
     return 0
 
@@ -272,7 +283,10 @@ def eval_travel_risk_severity():
         (df_travel_risk['Transportation'] == "Personal Vehicle")
     ]
 
-    outputs = ['High', 'High', 'Medium', 'Medium', 'Low']
+    #outputs = ['High', 'High', 'Medium', 'Medium', 'Low']
+    outputs = outputs_travelseverity
+    if debug is True:
+        print(outputs)
     rd.df_adv_col_out['Travel Risk'] = np.select(conditions, outputs, default='Low')
 
     return 0

@@ -10,9 +10,12 @@ from tabs import basic_tab
 from tabs import advance_tab
 from tabs import about
 from tabs import help
+from tabs import config_tab
 from support_func import calc_counts
 from support_func import read_data
 from support_func import filtering
+from support_func import severity
+import pandas as pd
 #############################################################
 
 
@@ -142,6 +145,7 @@ app.layout = html.Div([
             dcc.Tab(label='Advanced Filter',children=advance_tab.advance_layout, value='advance-tab', style=tab_style),
             dcc.Tab(label='Help', children=help.help_layout, value='help-tab', style=tab_style),
             dcc.Tab(label='About', children=about.about_layout, value='about-tab',style=tab_style),
+            dcc.Tab(label='Config', children=config_tab.config_layout, value='config-tab',style=tab_style),
         ], style=tabs_styles),
         html.Div(id='tabs-content-app')
 ], className='ten columns offset-by-one')
@@ -550,7 +554,42 @@ def update_Advancefilter_figures(data):
        }
 
     ]
+###########################################################################
+@app.callback(
+    dash.dependencies.Output('shared-temporary-data', 'data'),
+    [dash.dependencies.Input('config-button', 'n_clicks')],
+    [dash.dependencies.State('affected_areas_exposure', 'data'),
+     dash.dependencies.State('contact_covid', 'data'),
+    dash.dependencies.State('travel_exposure_severity', 'data')]
+)
 
+def update_severity_tables(n_clicks,value_rzone,value_covid,value_travel):
+    data=[]
+    data1 =[]
+    data2 =[]
+    dummy=[]
+
+    dummy=data
+    if n_clicks is not 0:
+        data=value_rzone
+        data=pd.DataFrame(data)
+        data=data['redzone_severity']
+        data=data.to_numpy()
+        severity.output_redzone=data
+        severity.eval_affected_areas_exposure_severity()
+        data1 = value_covid
+        data1 = pd.DataFrame(data1)
+        data1 = data1['covid_exposure_severity']
+        data1 = data1.to_numpy()
+        severity.outputs_covidexposure = data1
+        severity.eval_contact_covid_severity()
+        data2 = value_travel
+        data2 = pd.DataFrame(data2)
+        data2 = data2['travel_severity']
+        data2 = data2.to_numpy()
+        severity.outputs_travelseverity = data2
+        severity.eval_travel_risk_severity()
+    return dummy
 
 #######################################################################
 ########################################################################
