@@ -20,6 +20,7 @@ from support_func import filtering
 # Debug Variables
 ############################################################
 debug = False
+production = False
 ############################################################
 
 ############################################################
@@ -31,7 +32,12 @@ VALID_USERNAME_PASSWORD_PAIRS = {
     read_data.username: read_data.password
 }
 
-app = dash.Dash(__name__)
+if production:
+    from flask import Flask
+    server = Flask(__name__)
+    app = dash.Dash(__name__, server=server)
+else:
+    app = dash.Dash(__name__)
 
 auth = dash_auth.BasicAuth(
     app,
@@ -413,11 +419,13 @@ def update_filter(reset_btn):
      dash.dependencies.Output('distance-dropdown', 'value'),
      dash.dependencies.Output('severity-dropdown', 'value'),
      dash.dependencies.Output('health_risk_severity', 'value'),
-     dash.dependencies.Output('people-living-count', 'value')],
+     dash.dependencies.Output('people-living-count', 'value'),
+     dash.dependencies.Output('sr-cit-kids', 'value'),
+     dash.dependencies.Output('office-mode-transport', 'value')],
     [dash.dependencies.Input('reset-adv-filter-button', 'n_clicks')]
 )
 def reset_adv_filter(adv_reset):
-    return 'All', 'All', 'All', 'All', 'All', 'All'
+    return 'All', 'All', 'All', 'All', 'All', 'All', 'All', 'All'
 
 #######################################################################
 
