@@ -44,12 +44,14 @@ def eval_affected_areas_exposure_severity():
     '''
 
     df_intermediate = rd.df_adv_col_in.copy()
+    df_intermediate['Redzone_visit'] = df_intermediate['Redzone_visit'].replace(np.nan, 'No')
+    df_intermediate['Healthcare_visit'] = df_intermediate['Healthcare_visit'].replace(np.nan, 'No')
 
     conditions = [
         ((df_intermediate['Redzone_visit'] == 'No') & (df_intermediate['Healthcare_visit'] == 'No')),
-        ((rd.df_adv_col_in['Redzone_visit'] == 'Yes') & (rd.df_adv_col_in['Healthcare_visit'] == 'No')),
-        ((rd.df_adv_col_in['Redzone_visit'] == 'No') & (rd.df_adv_col_in['Healthcare_visit'] == 'Yes')),
-        ((rd.df_adv_col_in['Redzone_visit'] == 'Yes') & (rd.df_adv_col_in['Healthcare_visit'] == 'Yes'))
+        ((df_intermediate['Redzone_visit'] == 'Yes') & (df_intermediate['Healthcare_visit'] == 'No')),
+        ((df_intermediate['Redzone_visit'] == 'No') & (df_intermediate['Healthcare_visit'] == 'Yes')),
+        ((df_intermediate['Redzone_visit'] == 'Yes') & (df_intermediate['Healthcare_visit'] == 'Yes'))
 
     ]
     output = ['High', 'Medium', 'Medium', 'Low']
