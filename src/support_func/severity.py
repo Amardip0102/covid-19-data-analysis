@@ -54,7 +54,7 @@ def eval_affected_areas_exposure_severity():
         ((df_intermediate['Redzone_visit'] == 'Yes') & (df_intermediate['Healthcare_visit'] == 'Yes'))
 
     ]
-    output = ['High', 'Medium', 'Medium', 'Low']
+    output = ['Low', 'Medium', 'Medium', 'High']
 
     for k in range(len(output)):
         rd.df_adv_col_out.loc[conditions[k], 'RedZone Exposure Risk'] = output[k]
