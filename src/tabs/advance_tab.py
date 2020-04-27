@@ -184,7 +184,7 @@ advance_layout = html.Div([
                 figure={
                     'data': [
                         {
-                            'values': calc_counts.calculate_Travel_count('All'),
+                            'values': calc_counts.calculate_Travel_count('All', 'All'),
                             'type': 'pie',
                             'name': 'Travel Severity',
                             "labels": ['High', 'Medium','Low'],
@@ -206,7 +206,7 @@ advance_layout = html.Div([
                     'data': [
                         {
                             'x': ['0-5 Km', '5-10 kms', '10-15 kms','15-20 kms', '> 20 Kms'],
-                            'y': calc_counts.calcWork_home_distance('All'),
+                            'y': calc_counts.calcWork_home_distance('All', 'All'),
                             'type': 'bar'
                         },
                     ],
@@ -226,7 +226,7 @@ advance_layout = html.Div([
                 figure={
                     'data': [
                         {'x': ['0-5 members', '5-10 members', '>10 members'],
-                         'y': calc_counts.calculate_staying_people_counts('All'),
+                         'y': calc_counts.calculate_staying_people_counts('All', 'All'),
                          'type': 'bar'},
                     ],
                     'layout': {
@@ -248,7 +248,7 @@ advance_layout = html.Div([
                 figure={
                     'data': [
                       {
-                         'values': calc_counts.calculate_hotspot_exposure_counts('All'),
+                         'values': calc_counts.calculate_hotspot_exposure_counts('All', 'All'),
                          'type': 'pie',
                          'name': 'Red Zone exposure Severity',
                          'labels': ['High', 'Medium', 'Low'],
@@ -274,7 +274,7 @@ advance_layout = html.Div([
                 figure={
                     'data': [
                          {
-                         'values': calc_counts.calculate_covid_exposure_counts('All'),
+                         'values': calc_counts.calculate_covid_exposure_counts('All', 'All'),
                          'type': 'pie',
                          'name': 'Red Zone exposure Severity',
                          'labels': ['High', 'Medium', 'Low'],
@@ -299,7 +299,7 @@ advance_layout = html.Div([
                 figure={
                     'data': [
                         {'x': ['High', 'Medium', 'Low'],
-                         'y': calc_counts.calculate_health_risk_counts('All'),
+                         'y': calc_counts.calculate_health_risk_counts('All', 'All'),
                          'type': 'bar'},
                     ],
                     'layout': {

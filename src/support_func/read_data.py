@@ -1,9 +1,10 @@
 import pandas as pd
 import configparser
+import numpy as np
 #############################################################
 # READING EXCEL and CREATING DATAFRAME
 #############################################################
-
+from support_func import filtering as ft
 from support_func import severity as sv
 
 ############################################################
@@ -18,6 +19,14 @@ filter_flag = True
 
 
 #from src.support_func.severity import eval_health_risk_severity
+
+def prepare_data_with_team_category(dataframe):
+    dataframe.loc[:, 'Team_Category'] = None
+
+    for k, v in ft.teamsList.items():
+        for i in range(len(v)):
+            dataframe['Team_Category'] = np.where(dataframe['Team'] == v[i], k, dataframe['Team_Category'])
+    return 0
 
 # Parsing input config file
 config_rd = configparser.ConfigParser()
@@ -73,6 +82,7 @@ if filter_flag :
 else:
     df_dupfilter_data = df
 
+
 ##########################################################################################################
 # Select only Specific Columns those which are required
 ##########################################################################################################
@@ -82,6 +92,8 @@ df_sel_col = df_dupfilter_data[["Your Name", "Employee ID (e.g. HEDCI-123) (Plea
 ''' Renaming name of columns
 '''
 df_sel_col.columns = ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
+
+prepare_data_with_team_category(df_sel_col)
 ######################################################################################################
 
 ##########################################################################################################
@@ -110,7 +122,7 @@ df_adv_col_in = df_dupfilter_data[["Your Name", "Employee ID (e.g. HEDCI-123) (P
                     "Which mode of transportation will you use to come to the office ?"
                     ]]
 
-df_adv_col_in.columns = ['Name', 'ID','Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance', 'Members',
+df_adv_col_in.columns = ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance', 'Members',
                         'SrCitizen_Kids','Contact_Travel','Living_with_Govt_HealthCare', 'Contact_Covid',
                          'Travel out Pune','Stll There', 'When Came Back', 'Transportation','Redzone_visit',
                          'Healthcare_visit','Symptoms', 'Pre_Existing_Disease', 'Tested_For_COVID',
@@ -122,10 +134,10 @@ df_adv_col_in.columns = ['Name', 'ID','Team', 'Experience', 'Designation', 'Age'
 # copy 1ast six columns from "df_adv_col_in"
 #######################################################
 
-df_adv_col_out = df_adv_col_in[['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance',
+df_adv_col_out = df_adv_col_in[['Name', 'ID','Team', 'Experience', 'Designation', 'Age', 'Gender', 'Distance',
                                 'Members', 'SrCitizen_Kids','Transport mode office']].copy()
 
-
+df_adv_col_out['Team_Category'] = df_sel_col['Team_Category'].copy()
 df_adv_col_out['Health Risk'] = None
 df_adv_col_out['Covid Contact Risk'] = None
 df_adv_col_out['RedZone Exposure Risk'] = None

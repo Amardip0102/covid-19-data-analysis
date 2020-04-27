@@ -128,7 +128,7 @@ app.layout = html.Div([
         ], className='row'),
         #############################################################
 
-        dcc.Store(id='shared-dropdown-data',  data={'Team': 'All', 'Designation': 'All',
+        dcc.Store(id='shared-dropdown-data',  data={'Team_Category': 'All', 'Team': 'All', 'Designation': 'All',
                                                     'Gender': 'All', 'Age': 'All', 'Exp': 'All'}),
 
         dcc.Tabs(id ='tab-app',value='basic-tab',children=[
@@ -176,16 +176,18 @@ def render_content(tab):
 ############################################################
 @app.callback(
     dash.dependencies.Output('shared-dropdown-data', 'data'),
-    [dash.dependencies.Input('spec-team-dropdown', 'value'),
+    [dash.dependencies.Input('team-cat-dropdown', 'value'),
+     dash.dependencies.Input('spec-team-dropdown', 'value'),
      dash.dependencies.Input('designation-dropdown', 'value'),
      dash.dependencies.Input('gender-dropdown', 'value'),
      dash.dependencies.Input('age-dropdown', 'value'),
      dash.dependencies.Input('exp-dropdown', 'value')],
     [dash.dependencies.State('tab-app', 'value')],
 )
-def update_dropdown_cache(team, designation, gender, age, exp, tabval):
+def update_dropdown_cache(main_team, team, designation, gender, age, exp, tabval):
     data = {}
     if tabval == 'basic-tab':
+        data['Team_Category'] = main_team
         data['Team'] = team
         data['Designation'] = designation
         data['Gender'] = gender
@@ -213,14 +215,15 @@ def update_spc_team_dropdown(name):
 #############################################################
 @app.callback(
     dash.dependencies.Output('work-exp', 'figure'),
-    [dash.dependencies.Input('spec-team-dropdown', 'value')]
+    [dash.dependencies.Input('spec-team-dropdown', 'value'),
+     dash.dependencies.Input('team-cat-dropdown', 'value')]
 )
-def update_work_experience(team):
+def update_work_experience(team, main_cat):
 
     return {
         'data': [
         {
-            'values': calc_counts.calcWorkExperience(team),
+            'values': calc_counts.calcWorkExperience(team,main_cat),
             'type': 'pie',
             'name': 'WorkExp',
             "labels": ['0-2 Years', '2-5 Years', '5-10 Years', '> 10 years']
@@ -240,14 +243,15 @@ def update_work_experience(team):
 #############################################################
 @app.callback(
     dash.dependencies.Output('gender-pie', 'figure'),
-    [dash.dependencies.Input('spec-team-dropdown', 'value')]
+    [dash.dependencies.Input('spec-team-dropdown', 'value'),
+     dash.dependencies.Input('team-cat-dropdown', 'value')]
 )
-def update_gender(team):
+def update_gender(team, main_cat):
 
     return {
         'data': [
             {
-                'values': calc_counts.calculate_gender_count(team),
+                'values': calc_counts.calculate_gender_count(team,main_cat),
                 'type': 'pie',
                 'name': 'genderPie',
                 "labels": ['Male', 'Female', 'Others'],
@@ -267,14 +271,15 @@ def update_gender(team):
 #######################################################################
 @app.callback(
     dash.dependencies.Output('age-Id', 'figure'),
-    [dash.dependencies.Input('spec-team-dropdown', 'value')]
+    [dash.dependencies.Input('spec-team-dropdown', 'value'),
+     dash.dependencies.Input('team-cat-dropdown', 'value')]
 )
-def update_age(team):
+def update_age(team, main_cat):
 
     return {
         'data': [
             {'x': ['20-30 Years', '30-40 Years', '40-50 Years', '> 50 Years'],
-             'y': calc_counts.calculate_age_counts(team),
+             'y': calc_counts.calculate_age_counts(team, main_cat),
              'type': 'bar'},
         ],
         'layout': {
@@ -295,15 +300,16 @@ def update_age(team):
 #######################################################################
 @app.callback(
     dash.dependencies.Output('designations-Id', 'figure'),
-    [dash.dependencies.Input('spec-team-dropdown', 'value')]
+    [dash.dependencies.Input('spec-team-dropdown', 'value'),
+     dash.dependencies.Input('team-cat-dropdown', 'value')]
 )
-def update_gender(team):
+def update_gender(team, main_cat):
     return {
         'data': [
             {'x': ['Engineer', 'Sr. Engineer', 'Specialist', 'Sr. Specialist', 'Tech-Team Lead',
                    'Dy. Manager', 'Manager', 'Assistant Manager', 'Sr. Manager', 'Dy. Architect',
                    'Architect', 'Sr. Architect', 'Dy. General Manager', 'General Manager', 'Other'],
-             'y': calc_counts.calculate_designations_count(team),
+             'y': calc_counts.calculate_designations_count(team, main_cat),
              'type': 'bar'},
         ],
         'layout': {
@@ -323,19 +329,24 @@ def update_gender(team):
 @app.callback(
     [dash.dependencies.Output('table', 'data'),
     dash.dependencies.Output('data-processed-count', 'children')],
-    [dash.dependencies.Input('spec-team-dropdown', 'value'),
+    [dash.dependencies.Input('team-cat-dropdown', 'value'),
+     dash.dependencies.Input('spec-team-dropdown', 'value'),
      dash.dependencies.Input('designation-dropdown', 'value'),
      dash.dependencies.Input('gender-dropdown', 'value'),
      dash.dependencies.Input('age-dropdown', 'value'),
      dash.dependencies.Input('exp-dropdown', 'value')]
 )
-def update_table(team_name, design_name, gender, age, exp):
+def update_table(main_cat, team_name, design_name, gender, age, exp):
     # create a copy of main data here
     out_df = read_data.df_sel_col.copy()
     # print(out_df.head(5))
     # ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender'] for reference
 
     # check if team name is not All
+    if main_cat != 'All':
+        is_main = out_df['Team_Category'] == main_cat
+        out_df = out_df[is_main]
+
     if team_name != 'All':
         is_team = out_df['Team'] == team_name
         out_df = out_df[is_team]
@@ -443,7 +454,7 @@ def update_Advancefilter_figures(data):
         {
         'data': [
             {
-                'values': calc_counts.calculate_Travel_count(data['Team']),
+                'values': calc_counts.calculate_Travel_count(data['Team'], data['Team_Category']),
                 'type': 'pie',
                 'name': 'Travel Severity',
                 "labels": ['High', 'Medium', 'Low'],
@@ -461,7 +472,7 @@ def update_Advancefilter_figures(data):
             'data': [
                 {
                     'x': ['0-5 Km', '5-10 kms', '10-15 kms','15-20 kms', '> 20 Kms'],
-                    'y': calc_counts.calcWork_home_distance(data['Team']),
+                    'y': calc_counts.calcWork_home_distance(data['Team'], data['Team_Category']),
                     'type': 'bar'
                 },
             ],
@@ -476,7 +487,7 @@ def update_Advancefilter_figures(data):
         {
             'data': [
                 {'x': ['0-5 members', '5-10 members', '>10 members'],
-                 'y': calc_counts.calculate_staying_people_counts(data['Team']),
+                 'y': calc_counts.calculate_staying_people_counts(data['Team'], data['Team_Category']),
                  'type': 'bar'},
             ],
             'layout': {
@@ -494,7 +505,7 @@ def update_Advancefilter_figures(data):
         {
             'data': [
                 {
-                    'values': calc_counts.calculate_hotspot_exposure_counts(data['Team']),
+                    'values': calc_counts.calculate_hotspot_exposure_counts(data['Team'], data['Team_Category']),
                     'type': 'pie',
                     'name': 'Red Zone exposure Severity',
                     'labels': ['High', 'Medium', 'Low'],
@@ -515,7 +526,7 @@ def update_Advancefilter_figures(data):
         {
             'data': [
                 {
-                    'values': calc_counts.calculate_covid_exposure_counts(data['Team']),
+                    'values': calc_counts.calculate_covid_exposure_counts(data['Team'], data['Team_Category']),
                     'type': 'pie',
                     'name': 'Red Zone exposure Severity',
                     'labels': ['High', 'Medium', 'Low'],
@@ -535,7 +546,7 @@ def update_Advancefilter_figures(data):
         {
             'data': [
                 {'x': ['High', 'Medium', 'Low'],
-                 'y': calc_counts.calculate_health_risk_counts(data['Team']),
+                 'y': calc_counts.calculate_health_risk_counts(data['Team'], data['Team_Category']),
                  'type': 'bar'},
             ],
             'layout': {

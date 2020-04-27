@@ -13,14 +13,18 @@ debug = False
 # FUNCTION : calculate designations counts based on teams
 #
 #############################################################
-def calculate_designations_count(team):
+def calculate_designations_count(team, main_cat):
     listD = []
     if debug is True:
         print(team)
     df_designation = rd.df_sel_col.copy()
+    if main_cat != 'All':
+        is_mainteam = df_designation['Team_Category'] == main_cat
+        df_designation = df_designation[is_mainteam]
+
     if team != 'All':
-        is_perteam = df_designation['Team'] == team
-        df_designation = df_designation[is_perteam]
+        is_team = df_designation['Team'] == team
+        df_designation = df_designation[is_team]
     # Sequence to Append
     # 'All', 'Engineer', 'Sr. Engineer', 'Specialist', 'Sr.  Specialist', 'Tech-Team Lead', 'Dy. Manager', 'Manager',
     #                 'Assistant Manager', 'Sr. Manager', 'Dy. Architect', 'Architect', 'Sr. Architect',
@@ -48,12 +52,16 @@ def calculate_designations_count(team):
 # FUNCTION : calculate Age counts based on teams
 #
 #############################################################
-def calculate_age_counts(team):
+def calculate_age_counts(team, main_cat):
     listA = []
     if debug is True:
         print(team)
 
     df_age = rd.df_sel_col.copy()
+    if main_cat != 'All':
+        is_mainteam = df_age['Team_Category'] == main_cat
+        df_age = df_age[is_mainteam]
+
     if team != 'All':
         is_ageperteam = df_age['Team'] == team
         df_age = df_age[is_ageperteam]
@@ -72,12 +80,16 @@ def calculate_age_counts(team):
 # FUNCTION : calculate work experience counts based on teams
 #
 #############################################################
-def calculate_gender_count(team):
+def calculate_gender_count(team, main_cat):
     listG = []
     if debug is True:
         print(team)
 
     df_gender = rd.df_sel_col.copy()
+    if main_cat != 'All':
+        is_mainteam = df_gender['Team_Category'] == main_cat
+        df_gender = df_gender[is_mainteam]
+
     if team != 'All':
         is_genderperteam = df_gender['Team'] == team
         df_gender = df_gender[is_genderperteam]
@@ -94,12 +106,16 @@ def calculate_gender_count(team):
 #
 #############################################################
 
-def calculate_Travel_count(team):
+def calculate_Travel_count(team, main_cat):
     listG = []
     if debug is True:
         print(team)
 
     df_travel = rd.df_adv_col_out.copy()
+    if main_cat != 'All':
+        is_mainteam = df_travel['Team_Category'] == main_cat
+        df_travel = df_travel[is_mainteam]
+
     if team != 'All':
         is_travelperteam = df_travel['Team'] == team
         df_travel = df_travel[is_travelperteam]
@@ -116,12 +132,17 @@ def calculate_Travel_count(team):
 # FUNCTION : calculate work experience counts based on teams
 #
 #############################################################
-def calcWorkExperience(team):
+def calcWorkExperience(team, main_cat):
     if debug is True:
         print(team)
     listWE = []
     # ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
     df_work = rd.df_sel_col.copy()
+
+    if main_cat != 'All':
+        is_mainteam = df_work['Team_Category'] == main_cat
+        df_work = df_work[is_mainteam]
+
     if team != 'All':
         is_work = df_work['Team'] == team
         df_work = df_work[is_work]
@@ -141,12 +162,16 @@ def calcWorkExperience(team):
 # FUNCTION : calculate wwork home distance counts based on teams
 #
 #############################################################
-def calcWork_home_distance(team):
+def calcWork_home_distance(team, main_cat):
     if debug is True:
         print(team)
     listWE = []
     # ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
     df_work = rd.df_adv_col_out.copy()
+    if main_cat != 'All':
+        is_mainteam = df_work['Team_Category'] == main_cat
+        df_work = df_work[is_mainteam]
+
     if team != 'All':
         is_work = df_work['Team'] == team
         df_work = df_work[is_work]
@@ -165,12 +190,16 @@ def calcWork_home_distance(team):
 # FUNCTION : calculate hotspot exposure counts based on teams
 #
 #############################################################
-def calculate_hotspot_exposure_counts(team):
+def calculate_hotspot_exposure_counts(team, main_cat):
     listA = []
     if debug is True:
         print(team)
 
     df_rzone = rd.df_adv_col_out.copy()
+    if main_cat != 'All':
+        is_mainteam = df_rzone['Team_Category'] == main_cat
+        df_rzone = df_rzone[is_mainteam]
+
     if team != 'All':
         is_rzoneperteam = df_rzone['Team'] == team
         df_rzone = df_rzone[is_rzoneperteam]
@@ -187,12 +216,16 @@ def calculate_hotspot_exposure_counts(team):
 # FUNCTION : calculate Covid19 exposure counts based on teams
 #
 #############################################################
-def calculate_covid_exposure_counts(team):
+def calculate_covid_exposure_counts(team, main_cat):
     listA = []
     if debug is True:
         print(team)
 
     df_cvd= rd.df_adv_col_out.copy()
+    if main_cat != 'All':
+        is_mainteam = df_cvd['Team_Category'] == main_cat
+        df_cvd = df_cvd[is_mainteam]
+
     if team != 'All':
         is_cvdperteam = df_cvd['Team'] == team
         df_cvd = df_cvd[is_cvdperteam]
@@ -207,12 +240,17 @@ def calculate_covid_exposure_counts(team):
 
 
 #############################################################
-def calculate_staying_people_counts(team):
+def calculate_staying_people_counts(team, main_cat):
     listA = []
     if debug is True:
         print(team)
 
     df_mem= rd.df_adv_col_out.copy()
+
+    if main_cat != 'All':
+        is_mainteam = df_mem['Team_Category'] == main_cat
+        df_mem = df_mem[is_mainteam]
+
     if team != 'All':
         is_memperteam = df_mem['Team'] == team
         df_mem = df_mem[is_memperteam]
@@ -227,12 +265,16 @@ def calculate_staying_people_counts(team):
 
 
 #############################################################
-def calculate_health_risk_counts(team):
+def calculate_health_risk_counts(team, main_cat):
     listA = []
     if debug is True:
         print(team)
 
     df_heal= rd.df_adv_col_out.copy()
+    if main_cat != 'All':
+        is_mainteam = df_heal['Team_Category'] == main_cat
+        df_heal = df_heal[is_mainteam]
+
     if team != 'All':
         is_memperteam = df_heal['Team'] == team
         df_heal = df_heal[is_memperteam]
@@ -251,6 +293,11 @@ def calculate_health_risk_counts(team):
 ##############################################################
 def filter_advance_data(origdata, travel_risk, work_dist, living_with, kids_srcitizen,office_mode_transport,
                         redzone, covid_contact, health_risk, cache):
+
+    # check main team
+    if cache['Team_Category'] != 'All':
+        is_mainteam = origdata['Team_Category'] == cache['Team_Category']
+        origdata = origdata[is_mainteam]
 
     # check if team name is not All
     if cache['Team'] != 'All':
