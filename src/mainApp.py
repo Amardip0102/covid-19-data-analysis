@@ -131,6 +131,8 @@ app.layout = html.Div([
         dcc.Store(id='shared-dropdown-data',  data={'Team_Category': 'All', 'Team': 'All', 'Designation': 'All',
                                                     'Gender': 'All', 'Age': 'All', 'Exp': 'All'}),
 
+        dcc.Store(id='shared-specific-team'),
+
         dcc.Tabs(id ='tab-app',value='basic-tab',children=[
             ################################################################################################
             # Basic Tab Content
@@ -206,9 +208,22 @@ def update_dropdown_cache(main_team, team, designation, gender, age, exp, tabval
     [dash.dependencies.Input('team-cat-dropdown', 'value')]
 )
 def update_spc_team_dropdown(name):
+    calc_counts.specific_team='All'
     return [{'label': i, 'value': i} for i in filtering.teamsList[name]]
 #############################################################
+#############################################################
+#
+############################################################
+@app.callback(
+    dash.dependencies.Output('shared-specific-team', 'data'),
+   [dash.dependencies.Input('spec-team-dropdown', 'value')],
 
+)
+def update_dropdown_cache(val):
+
+    calc_counts.specific_team=val
+
+    return val
 
 #############################################################
 # callback for updating work experience as per teams
@@ -346,6 +361,9 @@ def update_table(main_cat, team_name, design_name, gender, age, exp):
     if main_cat != 'All':
         is_main = out_df['Team_Category'] == main_cat
         out_df = out_df[is_main]
+
+    if (team_name != calc_counts.specific_team):
+        team_name = calc_counts.specific_team
 
     if team_name != 'All':
         is_team = out_df['Team'] == team_name
@@ -561,6 +579,10 @@ def update_Advancefilter_figures(data):
        }
 
     ]
+
+
+
+
 
 
 #######################################################################

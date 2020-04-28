@@ -4,6 +4,8 @@ from support_func import filtering as filt
 # Debug Variables
 ############################################################
 debug = False
+
+specific_team='All'
 ############################################################
 
 ###########################################################
@@ -21,6 +23,9 @@ def calculate_designations_count(team, main_cat):
     if main_cat != 'All':
         is_mainteam = df_designation['Team_Category'] == main_cat
         df_designation = df_designation[is_mainteam]
+
+    if (team!=specific_team):
+        team=specific_team
 
     if team != 'All':
         is_team = df_designation['Team'] == team
@@ -62,6 +67,9 @@ def calculate_age_counts(team, main_cat):
         is_mainteam = df_age['Team_Category'] == main_cat
         df_age = df_age[is_mainteam]
 
+    if (team != specific_team):
+        team = specific_team
+
     if team != 'All':
         is_ageperteam = df_age['Team'] == team
         df_age = df_age[is_ageperteam]
@@ -90,6 +98,9 @@ def calculate_gender_count(team, main_cat):
         is_mainteam = df_gender['Team_Category'] == main_cat
         df_gender = df_gender[is_mainteam]
 
+    if (team != specific_team):
+        team = specific_team
+
     if team != 'All':
         is_genderperteam = df_gender['Team'] == team
         df_gender = df_gender[is_genderperteam]
@@ -115,6 +126,9 @@ def calculate_Travel_count(team, main_cat):
     if main_cat != 'All':
         is_mainteam = df_travel['Team_Category'] == main_cat
         df_travel = df_travel[is_mainteam]
+
+    if (team != specific_team):
+        team = specific_team
 
     if team != 'All':
         is_travelperteam = df_travel['Team'] == team
@@ -142,6 +156,9 @@ def calcWorkExperience(team, main_cat):
     if main_cat != 'All':
         is_mainteam = df_work['Team_Category'] == main_cat
         df_work = df_work[is_mainteam]
+
+    if (team != specific_team):
+        team = specific_team
 
     if team != 'All':
         is_work = df_work['Team'] == team
@@ -172,6 +189,9 @@ def calcWork_home_distance(team, main_cat):
         is_mainteam = df_work['Team_Category'] == main_cat
         df_work = df_work[is_mainteam]
 
+    if (team != specific_team):
+        team = specific_team
+
     if team != 'All':
         is_work = df_work['Team'] == team
         df_work = df_work[is_work]
@@ -200,6 +220,9 @@ def calculate_hotspot_exposure_counts(team, main_cat):
         is_mainteam = df_rzone['Team_Category'] == main_cat
         df_rzone = df_rzone[is_mainteam]
 
+    if (team != specific_team):
+        team = specific_team
+
     if team != 'All':
         is_rzoneperteam = df_rzone['Team'] == team
         df_rzone = df_rzone[is_rzoneperteam]
@@ -226,6 +249,9 @@ def calculate_covid_exposure_counts(team, main_cat):
         is_mainteam = df_cvd['Team_Category'] == main_cat
         df_cvd = df_cvd[is_mainteam]
 
+    if (team != specific_team):
+        team = specific_team
+
     if team != 'All':
         is_cvdperteam = df_cvd['Team'] == team
         df_cvd = df_cvd[is_cvdperteam]
@@ -251,6 +277,9 @@ def calculate_staying_people_counts(team, main_cat):
         is_mainteam = df_mem['Team_Category'] == main_cat
         df_mem = df_mem[is_mainteam]
 
+    if (team != specific_team):
+        team = specific_team
+
     if team != 'All':
         is_memperteam = df_mem['Team'] == team
         df_mem = df_mem[is_memperteam]
@@ -275,6 +304,9 @@ def calculate_health_risk_counts(team, main_cat):
         is_mainteam = df_heal['Team_Category'] == main_cat
         df_heal = df_heal[is_mainteam]
 
+    if (team != specific_team):
+        team = specific_team
+
     if team != 'All':
         is_memperteam = df_heal['Team'] == team
         df_heal = df_heal[is_memperteam]
@@ -298,6 +330,9 @@ def filter_advance_data(origdata, travel_risk, work_dist, living_with, kids_srci
     if cache['Team_Category'] != 'All':
         is_mainteam = origdata['Team_Category'] == cache['Team_Category']
         origdata = origdata[is_mainteam]
+
+    if (cache['Team'] != specific_team):
+        cache['Team'] = specific_team
 
     # check if team name is not All
     if cache['Team'] != 'All':
