@@ -25,6 +25,7 @@ config_rd = configparser.ConfigParser()
 
 def clean_redundant_data_from_excel(df_data):
     df_select_col = df_data.sort_values(['Completion time'], ascending=False)
+    df_duplicates =df_select_col[df_select_col.duplicated(subset=["Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )"])]
     df_filter_data = df_select_col.drop_duplicates(subset=["Employee ID (e.g. HEDCI-123) (Please put ID number only in this case 123 )"])
     return df_filter_data
 
