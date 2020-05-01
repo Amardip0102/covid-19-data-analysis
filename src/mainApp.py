@@ -425,7 +425,7 @@ def update_filter(reset_btn):
     [dash.dependencies.Input('reset-adv-filter-button', 'n_clicks')]
 )
 def reset_adv_filter(adv_reset):
-    return 'All', 'All', 'All', 'All', 'All', 'All', 'All', 'All'
+    return ['All'], ['All'], ['All'], ['All'], ['All'], ['All'], 'All', ['All']
 
 #######################################################################
 

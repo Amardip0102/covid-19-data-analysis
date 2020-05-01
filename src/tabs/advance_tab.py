@@ -26,8 +26,8 @@ advance_layout = html.Div([
                 dcc.Dropdown(
                     id='travel_risk_severity',
                     options=[{'label': k, 'value': k} for k in filtering.severity],
-                    value= 'All',
-                    multi=False
+                    value=['All'],
+                    multi=True
                 ),
 
                 html.Label(
@@ -38,8 +38,8 @@ advance_layout = html.Div([
                     (
                     id='exposure_affected_severity',
                     options=[{'label': k, 'value': k} for k in filtering.severity],
-                    value= 'All',
-                    multi=False
+                    value=['All'],
+                    multi=True
                 ),
 
                 html.Label(
@@ -66,8 +66,8 @@ advance_layout = html.Div([
             dcc.Dropdown(
                 id='distance-dropdown',
                 options=[{'label': k, 'value': v} for k, v in filtering.distance.items()],
-                value='All',
-                multi=False
+                value=['All'],
+                multi=True
             ),
 
             html.Label(
@@ -77,8 +77,8 @@ advance_layout = html.Div([
             dcc.Dropdown(
                 id='severity-dropdown',
                 options=[{'label': k, 'value': k} for k in filtering.severity],
-                value='All',
-                multi=False
+                value=['All'],
+                multi=True
             ),
 
             html.Label(
@@ -101,8 +101,8 @@ advance_layout = html.Div([
                 dcc.Dropdown(
                     id='health_risk_severity',
                     options=[{'label': k, 'value': k} for k in filtering.severity],
-                    value = 'All',
-                    multi=False
+                    value =['All'],
+                    multi=True
                 ),
 
                 html.Label(
@@ -113,8 +113,8 @@ advance_layout = html.Div([
                     (
                     id='people-living-count',
                     options=[{'label': k, 'value': v} for k, v in filtering.personcount.items()],
-                    value='All',
-                    multi=False
+                    value=['All'],
+                    multi=True
 
                 ),
 
@@ -126,8 +126,8 @@ advance_layout = html.Div([
                     (
                     id='office-mode-transport',
                     options=[{'label': k, 'value': v} for k, v in filtering.transportmode.items()],
-                    value='All',
-                    multi=False
+                    value=['All'],
+                    multi=True
 
                 )
             ], className="four columns"),
