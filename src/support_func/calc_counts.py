@@ -280,19 +280,19 @@ def filter_advance_data(origdata, travel_risk, work_dist, living_with, kids_srci
     ###########################################################
     # Advance Filter: travel_risk, work_dist, living_with, redzone, covid_contact, health_risk,
     ###########################################################
-    if travel_risk != 'All':
-        is_travelRisk = origdata['Travel Risk'] == travel_risk
-        origdata = origdata[is_travelRisk]
+    if 'All' not in travel_risk:
+        if travel_risk:
+            origdata = origdata[(origdata['Travel Risk'].isin(travel_risk))]
 
     # check if work_dist
-    if work_dist != 'All':
-        is_work_dist = origdata['Distance'] == work_dist
-        origdata = origdata[is_work_dist]
+    if 'All' not in work_dist:
+        if work_dist:
+            origdata = origdata[(origdata['Distance'].isin(work_dist))]
 
     # check if living_with
-    if living_with != 'All':
-        is_member = origdata['Members'] == living_with
-        origdata = origdata[is_member]
+    if 'All' not in living_with:
+        if living_with:
+            origdata = origdata[(origdata['Members'].isin(living_with))]
 
     #check if senior citizen kids
     if kids_srcitizen != 'All':
@@ -300,23 +300,22 @@ def filter_advance_data(origdata, travel_risk, work_dist, living_with, kids_srci
         origdata = origdata[is_kids_srcitizen]
 
     # check if office mode of transport
-    if office_mode_transport != 'All':
-        is_transportmode = origdata['Transport mode office'] == office_mode_transport
-        origdata = origdata[is_transportmode]
-
+    if 'All' not in office_mode_transport:
+        if office_mode_transport:
+            origdata = origdata[(origdata['Transport mode office'].isin(office_mode_transport))]
 
     # check if redZOne Exposed
-    if redzone != 'All':
-        is_redZone = origdata['RedZone Exposure Risk'] == redzone
-        origdata = origdata[is_redZone]
+    if 'All' not in redzone:
+        if redzone:
+            origdata = origdata[(origdata['RedZone Exposure Risk'].isin(redzone))]
 
     # check if covid contact
-    if covid_contact != 'All':
-        is_covidContact = origdata['Covid Contact Risk'] == covid_contact
-        origdata = origdata[is_covidContact]
+    if 'All' not in covid_contact:
+        if covid_contact:
+            origdata = origdata[(origdata['Covid Contact Risk'].isin(covid_contact))]
 
-    if health_risk != 'All':
-        is_healthy = origdata['Health Risk'] == health_risk
-        origdata = origdata[is_healthy]
+    if 'All' not in health_risk:
+        if health_risk:
+            origdata = origdata[(origdata['Health Risk'].isin(health_risk))]
 
     return origdata
