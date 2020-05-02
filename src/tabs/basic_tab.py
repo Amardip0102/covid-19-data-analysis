@@ -272,7 +272,7 @@ basic_layout = html.Div([
                  'width': '15%'},
             ],
             row_selectable="multi",
-            selected_rows=[0],
+            selected_rows=[],
             style_cell={"fontFamily": "Arial", "size": 15, 'textAlign': 'center'},
             style_data={'border': '1px solid blue'},
             style_header={'border': '2px solid black'},
