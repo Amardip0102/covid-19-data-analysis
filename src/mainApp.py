@@ -534,9 +534,9 @@ def update_Advancefilter_figures(data):
 
         {
             'data': [
-                {'x': ['High', 'Medium', 'Low'],
-                 'y': calc_counts.calculate_health_risk_counts(data['Team']),
-                 'type': 'bar'},
+                {'labels': ['High', 'Medium', 'Low'],
+                 'values': calc_counts.calculate_health_risk_counts('All'),
+                 'type': 'pie'},
             ],
             'layout': {
                 # experiment and finalise colors
@@ -545,7 +545,7 @@ def update_Advancefilter_figures(data):
                 'font': {
                     'color': 'black'
                 },
-                'title': 'Health risk assessment '
+                'title': 'Health Risk Distribution'
             }
        }
 

@@ -298,9 +298,9 @@ advance_layout = html.Div([
                 id='health',
                 figure={
                     'data': [
-                        {'x': ['High', 'Medium', 'Low'],
-                         'y': calc_counts.calculate_health_risk_counts('All'),
-                         'type': 'bar'},
+                        {'labels': ['High', 'Medium', 'Low'],
+                         'values': calc_counts.calculate_health_risk_counts('All'),
+                         'type': 'pie'},
                     ],
                     'layout': {
                         # experiment and finalise colors
