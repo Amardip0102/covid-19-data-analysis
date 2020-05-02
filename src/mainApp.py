@@ -128,8 +128,8 @@ app.layout = html.Div([
         ], className='row'),
         #############################################################
 
-        dcc.Store(id='shared-dropdown-data',  data={'Team': 'All', 'Designation': 'All',
-                                                    'Gender': 'All', 'Age': 'All', 'Exp': 'All'}),
+        dcc.Store(id='shared-dropdown-data',  data={'Team': ['All'], 'Designation': ['All'],
+                                                    'Gender': ['All'], 'Age': ['All'], 'Exp': ['All']}),
 
         dcc.Tabs(id ='tab-app',value='basic-tab',children=[
             ################################################################################################
@@ -336,29 +336,29 @@ def update_table(team_name, design_name, gender, age, exp):
     # ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender'] for reference
 
     # check if team name is not All
-    if team_name != 'All':
-        is_team = out_df['Team'] == team_name
-        out_df = out_df[is_team]
+    if 'All' not in team_name:
+        if team_name:
+            out_df = out_df[(out_df['Team'].isin(team_name))]
 
     # check if designation is not all and filtering is required
-    if design_name != 'All':
-        is_design = out_df['Designation'] == design_name
-        out_df = out_df[is_design]
+    if 'All' not in design_name:
+        if design_name:
+            out_df = out_df[(out_df['Designation'].isin(design_name))]
 
     # check if experience is not All
-    if exp != 'All':
-        is_exp = out_df['Experience'] == exp
-        out_df = out_df[is_exp]
+    if 'All' not in exp:
+        if exp:
+            out_df = out_df[(out_df['Experience'].isin(exp))]
 
     # check if gender is not all
-    if gender != 'All':
-        is_gender = out_df['Gender'] == gender
-        out_df = out_df[is_gender]
+    if 'All' not in gender:
+        if gender:
+            out_df = out_df[(out_df['Gender'].isin(gender))]
 
     # check if age is not All
-    if age != 'All':
-        is_age = out_df['Age'] == age
-        out_df = out_df[is_age]
+    if 'All' not in age:
+        if age:
+            out_df = out_df[(out_df['Age'].isin(age))]
 
     data = out_df.to_dict("rows")
 
@@ -406,7 +406,7 @@ def update_advance_table(travel_risk, work_dist, living_with, kids_srcitizen, of
     [dash.dependencies.Input('reset-filter-button', 'n_clicks')]
 )
 def update_filter(reset_btn):
-    return 'All', 'All', 'All', 'All', 'All', 'All'
+    return ['All'], 'All', ['All'], ['All'], ['All'], ['All']
 
 ########################################################################
 # App Callback: reset-adv-filter-button

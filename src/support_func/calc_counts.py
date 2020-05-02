@@ -18,9 +18,11 @@ def calculate_designations_count(team):
     if debug is True:
         print(team)
     df_designation = rd.df_sel_col.copy()
-    if team != 'All':
-        is_perteam = df_designation['Team'] == team
-        df_designation = df_designation[is_perteam]
+    # check if team name is not All
+    if 'All' not in team:
+        if team:
+            df_designation = df_designation[(df_designation['Team'].isin(team))]
+
     # Sequence to Append
     # 'All', 'Engineer', 'Sr. Engineer', 'Specialist', 'Sr.  Specialist', 'Tech-Team Lead', 'Dy. Manager', 'Manager',
     #                 'Assistant Manager', 'Sr. Manager', 'Dy. Architect', 'Architect', 'Sr. Architect',
@@ -54,9 +56,11 @@ def calculate_age_counts(team):
         print(team)
 
     df_age = rd.df_sel_col.copy()
-    if team != 'All':
-        is_ageperteam = df_age['Team'] == team
-        df_age = df_age[is_ageperteam]
+
+    if 'All' not in team:
+        if team:
+            df_age = df_age[(df_age['Team'].isin(team))]
+
     listA.append(len(df_age[df_age['Age'] == filt.age['20-30 Years']]))
     listA.append(len(df_age[df_age['Age'] == filt.age['30-40 Years']]))
     listA.append(len(df_age[df_age['Age'] == filt.age['40-50 Years']]))
@@ -78,9 +82,10 @@ def calculate_gender_count(team):
         print(team)
 
     df_gender = rd.df_sel_col.copy()
-    if team != 'All':
-        is_genderperteam = df_gender['Team'] == team
-        df_gender = df_gender[is_genderperteam]
+    if 'All' not in team:
+        if team:
+            df_gender = df_gender[(df_gender['Team'].isin(team))]
+
     listG.append(len(df_gender[df_gender['Gender'] == 'Male']))
     listG.append(len(df_gender[df_gender['Gender'] == 'Female']))
     listG.append(len(df_gender[df_gender['Gender'] == 'Other']))
@@ -100,9 +105,11 @@ def calculate_Travel_count(team):
         print(team)
 
     df_travel = rd.df_adv_col_out.copy()
-    if team != 'All':
-        is_travelperteam = df_travel['Team'] == team
-        df_travel = df_travel[is_travelperteam]
+
+    if 'All' not in team:
+        if team:
+            df_travel = df_travel[(df_travel['Team'].isin(team))]
+
     listG.append(len(df_travel[df_travel['Travel Risk'] == 'High']))
     listG.append(len(df_travel[df_travel['Travel Risk'] == 'Medium']))
     listG.append(len(df_travel[df_travel['Travel Risk'] == 'Low']))
@@ -122,9 +129,11 @@ def calcWorkExperience(team):
     listWE = []
     # ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
     df_work = rd.df_sel_col.copy()
-    if team != 'All':
-        is_work = df_work['Team'] == team
-        df_work = df_work[is_work]
+
+    if 'All' not in team:
+        if team:
+            df_work = df_work[(df_work['Team'].isin(team))]
+
     listWE.append(len(df_work[df_work['Experience'] == filt.experience['0-2 Years']]))
     listWE.append(len(df_work[df_work['Experience'] == filt.experience['2-5 Years']]))
     listWE.append(len(df_work[df_work['Experience'] == filt.experience['5-10 Years']]))
@@ -147,9 +156,11 @@ def calcWork_home_distance(team):
     listWE = []
     # ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
     df_work = rd.df_adv_col_out.copy()
-    if team != 'All':
-        is_work = df_work['Team'] == team
-        df_work = df_work[is_work]
+
+    if 'All' not in team:
+        if team:
+            df_work = df_work[(df_work['Team'].isin(team))]
+
     listWE.append(len(df_work[df_work['Distance'] == filt.distance['0-5 Kms']]))
     listWE.append(len(df_work[df_work['Distance'] == filt.distance['6-10 kms']]))
     listWE.append(len(df_work[df_work['Distance'] == filt.distance['10-15 Kms']]))
@@ -171,9 +182,10 @@ def calculate_hotspot_exposure_counts(team):
         print(team)
 
     df_rzone = rd.df_adv_col_out.copy()
-    if team != 'All':
-        is_rzoneperteam = df_rzone['Team'] == team
-        df_rzone = df_rzone[is_rzoneperteam]
+    if 'All' not in team:
+        if team:
+            df_rzone = df_rzone[(df_rzone['Team'].isin(team))]
+
     listA.append(len(df_rzone[df_rzone['RedZone Exposure Risk'] == 'High']))
     listA.append(len(df_rzone[df_rzone['RedZone Exposure Risk'] == 'Medium']))
     listA.append(len(df_rzone[df_rzone['RedZone Exposure Risk'] == 'Low']))
@@ -193,9 +205,10 @@ def calculate_covid_exposure_counts(team):
         print(team)
 
     df_cvd= rd.df_adv_col_out.copy()
-    if team != 'All':
-        is_cvdperteam = df_cvd['Team'] == team
-        df_cvd = df_cvd[is_cvdperteam]
+    if 'All' not in team:
+        if team:
+            df_cvd = df_cvd[(df_cvd['Team'].isin(team))]
+
     listA.append(len(df_cvd[df_cvd['Covid Contact Risk'] == 'High']))
     listA.append(len(df_cvd[df_cvd['Covid Contact Risk'] == 'Medium']))
     listA.append(len(df_cvd[df_cvd['Covid Contact Risk'] == 'Low']))
@@ -213,9 +226,10 @@ def calculate_staying_people_counts(team):
         print(team)
 
     df_mem= rd.df_adv_col_out.copy()
-    if team != 'All':
-        is_memperteam = df_mem['Team'] == team
-        df_mem = df_mem[is_memperteam]
+    if 'All' not in team:
+        if team:
+            df_mem = df_mem[(df_mem['Team'].isin(team))]
+
     listA.append(len(df_mem[df_mem['Members'] == filt.personcount['0-5 persons']]))
     listA.append(len(df_mem[df_mem['Members'] == filt.personcount['5-10 persons']]))
     listA.append(len(df_mem[df_mem['Members'] == filt.personcount['> 10 persons']]))
@@ -233,9 +247,10 @@ def calculate_health_risk_counts(team):
         print(team)
 
     df_heal= rd.df_adv_col_out.copy()
-    if team != 'All':
-        is_memperteam = df_heal['Team'] == team
-        df_heal = df_heal[is_memperteam]
+    if 'All' not in team:
+        if team:
+            df_heal = df_heal[(df_heal['Team'].isin(team))]
+
     listA.append(len(df_heal[df_heal['Health Risk'] == 'High']))
     listA.append(len(df_heal[df_heal['Health Risk'] == 'Medium']))
     listA.append(len(df_heal[df_heal['Health Risk'] == 'Low']))
@@ -253,29 +268,29 @@ def filter_advance_data(origdata, travel_risk, work_dist, living_with, kids_srci
                         redzone, covid_contact, health_risk, cache):
 
     # check if team name is not All
-    if cache['Team'] != 'All':
-        is_team = origdata['Team'] == cache['Team']
-        origdata = origdata[is_team]
+    if 'All' not in cache['Team']:
+        if cache['Team']:
+            origdata = origdata[(origdata['Team'].isin(cache['Team']))]
 
     # check if designation is not all and filtering is required
-    if cache['Designation'] != 'All':
-        is_design = origdata['Designation'] == cache['Designation']
-        origdata = origdata[is_design]
+    if 'All' not in cache['Designation']:
+        if cache['Designation']:
+            origdata = origdata[(origdata['Designation'].isin(cache['Designation']))]
 
     # check if experience is not All
-    if cache['Exp'] != 'All':
-        is_exp = origdata['Experience'] == cache['Exp']
-        origdata = origdata[is_exp]
+    if 'All' not in cache['Exp']:
+        if cache['Exp']:
+            origdata = origdata[(origdata['Experience'].isin(cache['Exp']))]
 
     # check if gender is not all
-    if cache['Gender'] != 'All':
-        is_gender = origdata['Gender'] == cache['Gender']
-        origdata = origdata[is_gender]
+    if 'All' not in cache['Gender']:
+        if cache['Gender']:
+            origdata = origdata[(origdata['Gender'].isin(cache['Gender']))]
 
     # check if age is not All
-    if cache['Age'] != 'All':
-        is_age = origdata['Age'] == cache['Age']
-        origdata = origdata[is_age]
+    if 'All' not in cache['Age']:
+        if cache['Age']:
+            origdata = origdata[(origdata['Age'].isin(cache['Age']))]
 
     ###########################################################
     # Advance Filter: travel_risk, work_dist, living_with, redzone, covid_contact, health_risk,
