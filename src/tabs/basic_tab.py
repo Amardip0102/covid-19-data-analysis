@@ -34,8 +34,8 @@ basic_layout = html.Div([
             dcc.Dropdown(
                 id='spec-team-dropdown',
                 options=[{'label': v[i], 'value': v[i]} for k, v in filtering.teamsList.items() for i in range(len(v))],
-                value='All',
-                multi=False
+                value=['All'],
+                multi=True
             ),
 
             html.Label(
@@ -63,9 +63,9 @@ basic_layout = html.Div([
             dcc.Dropdown(
                 id='designation-dropdown',
                 options=[{'label': k, 'value': k} for k in filtering.designations],
-                value='All',
+                value=['All'],
                 disabled=False,
-                multi=False
+                multi=True
             ),
 
             html.Label(
@@ -75,9 +75,9 @@ basic_layout = html.Div([
             dcc.Dropdown(
                 id='exp-dropdown',
                 options=[{'label': k, 'value': v} for k, v in filtering.experience.items()],
-                value='All',
+                value=['All'],
                 disabled=False,
-                multi=False
+                multi=True
             )
         ], className="four columns"),
         ##############################################################
@@ -93,9 +93,9 @@ basic_layout = html.Div([
             dcc.Dropdown(
                 id='gender-dropdown',
                 options=[{'label': k, 'value': k} for k in filtering.gender],
-                value='All',
+                value=['All'],
                 disabled=False,
-                multi=False
+                multi=True
             ),
 
             html.Label(
@@ -105,9 +105,9 @@ basic_layout = html.Div([
             dcc.Dropdown(
                 id='age-dropdown',
                 options=[{'label': k, 'value': v} for k, v in filtering.age.items()],
-                value='All',
+                value=['All'],
                 disabled=False,
-                multi=False
+                multi=True
             )
         ], className="four columns"),
         ##############################################################
@@ -272,7 +272,7 @@ basic_layout = html.Div([
                  'width': '15%'},
             ],
             row_selectable="multi",
-            selected_rows=[0],
+            selected_rows=[],
             style_cell={"fontFamily": "Arial", "size": 15, 'textAlign': 'center'},
             style_data={'border': '1px solid blue'},
             style_header={'border': '2px solid black'},
