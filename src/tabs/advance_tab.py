@@ -184,7 +184,7 @@ advance_layout = html.Div([
                 figure={
                     'data': [
                         {
-                            'values': calc_counts.calculate_Travel_count('All'),
+                            'values': calc_counts.calculate_Travel_count(read_data.df_adv_col_out),
                             'type': 'pie',
                             'name': 'Travel Severity',
                             "labels": ['High', 'Medium','Low'],
@@ -206,7 +206,7 @@ advance_layout = html.Div([
                     'data': [
                         {
                             'x': ['0-5 Km', '5-10 kms', '10-15 kms','15-20 kms', '> 20 Kms'],
-                            'y': calc_counts.calcWork_home_distance('All'),
+                            'y': calc_counts.calcWork_home_distance(read_data.df_adv_col_out),
                             'type': 'bar'
                         },
                     ],
@@ -226,7 +226,7 @@ advance_layout = html.Div([
                 figure={
                     'data': [
                         {'x': ['0-5 members', '5-10 members', '>10 members'],
-                         'y': calc_counts.calculate_staying_people_counts('All'),
+                         'y': calc_counts.calculate_staying_people_counts(read_data.df_adv_col_out),
                          'type': 'bar'},
                     ],
                     'layout': {
@@ -248,7 +248,7 @@ advance_layout = html.Div([
                 figure={
                     'data': [
                       {
-                         'values': calc_counts.calculate_hotspot_exposure_counts('All'),
+                         'values': calc_counts.calculate_hotspot_exposure_counts(read_data.df_adv_col_out),
                          'type': 'pie',
                          'name': 'Red Zone exposure Severity',
                          'labels': ['High', 'Medium', 'Low'],
@@ -274,7 +274,7 @@ advance_layout = html.Div([
                 figure={
                     'data': [
                          {
-                         'values': calc_counts.calculate_covid_exposure_counts('All'),
+                         'values': calc_counts.calculate_covid_exposure_counts(read_data.df_adv_col_out),
                          'type': 'pie',
                          'name': 'Red Zone exposure Severity',
                          'labels': ['High', 'Medium', 'Low'],
@@ -299,7 +299,7 @@ advance_layout = html.Div([
                 figure={
                     'data': [
                         {'labels': ['High', 'Medium', 'Low'],
-                         'values': calc_counts.calculate_health_risk_counts('All'),
+                         'values': calc_counts.calculate_health_risk_counts(read_data.df_adv_col_out),
                          'type': 'pie'},
                     ],
                     'layout': {
@@ -310,6 +310,53 @@ advance_layout = html.Div([
                             'color': 'black'
                         },
                         'title': 'Health risk assessment '
+                    }
+                }
+            )
+        ], className='five columns'),
+
+        html.Div([
+            dcc.Graph(
+                id='sr-citizen-graph',
+                figure={
+                    'data': [
+                        {
+                            'values': calc_counts.calculate_srcitizen_kids_counts(read_data.df_adv_col_out),
+                            'type': 'pie',
+                            'name': 'Senior Citizen Kids',
+                            'labels': ['Yes', 'No'],
+                        },
+                    ],
+                    'layout': {
+                        # experiment and finalise colors
+                        # 'plot_bgcolor': '#90EE90',
+                        # 'paper_bgcolor': '#90EE90',
+                        'font': {
+                            'color': 'black'
+                        },
+                        'title': 'Senior Citizen/Kids'
+                    }
+                }
+            )
+        ], className='six columns'),
+
+        html.Div([
+            dcc.Graph(
+                id='transport-mode',
+                figure={
+                    'data': [
+                        {'x': ['2 Wheeler', '4 Wheeler', 'Shared Car', 'Public Transport', 'By Walk'],
+                         'y': calc_counts.calculate_mode_transport_counts(read_data.df_adv_col_out),
+                         'type': 'bar'},
+                    ],
+                    'layout': {
+                        # experiment and finalise colors
+                        # 'plot_bgcolor': '#90EE90',
+                        # 'paper_bgcolor': '#90EE90',
+                        'font': {
+                            'color': 'black'
+                        },
+                        'title': 'Mode of Transport to Office'
                     }
                 }
             )

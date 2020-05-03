@@ -13,35 +13,29 @@ debug = False
 # FUNCTION : calculate designations counts based on teams
 #
 #############################################################
-def calculate_designations_count(team):
+def calculate_designations_count(data_table):
     listD = []
-    if debug is True:
-        print(team)
-    df_designation = rd.df_sel_col.copy()
-    # check if team name is not All
-    if 'All' not in team:
-        if team:
-            df_designation = df_designation[(df_designation['Team'].isin(team))]
+
 
     # Sequence to Append
     # 'All', 'Engineer', 'Sr. Engineer', 'Specialist', 'Sr.  Specialist', 'Tech-Team Lead', 'Dy. Manager', 'Manager',
     #                 'Assistant Manager', 'Sr. Manager', 'Dy. Architect', 'Architect', 'Sr. Architect',
     #                 'Dy. General Manager', 'General Manager', 'Other'
-    listD.append(len(df_designation[df_designation['Designation'] == 'Engineer']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Sr. Engineer']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Specialist']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Sr. Specialist']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Tech/Team Lead']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Dy. Manager']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Manager']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Assistant Manager']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Sr. Manager']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Dy. Architect']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Architect']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Sr. Architect']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Dy. General Manager']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'General Manager']))
-    listD.append(len(df_designation[df_designation['Designation'] == 'Other']))
+    listD.append(len(data_table[data_table['Designation'] == 'Engineer']))
+    listD.append(len(data_table[data_table['Designation'] == 'Sr. Engineer']))
+    listD.append(len(data_table[data_table['Designation'] == 'Specialist']))
+    listD.append(len(data_table[data_table['Designation'] == 'Sr. Specialist']))
+    listD.append(len(data_table[data_table['Designation'] == 'Tech/Team Lead']))
+    listD.append(len(data_table[data_table['Designation'] == 'Dy. Manager']))
+    listD.append(len(data_table[data_table['Designation'] == 'Manager']))
+    listD.append(len(data_table[data_table['Designation'] == 'Assistant Manager']))
+    listD.append(len(data_table[data_table['Designation'] == 'Sr. Manager']))
+    listD.append(len(data_table[data_table['Designation'] == 'Dy. Architect']))
+    listD.append(len(data_table[data_table['Designation'] == 'Architect']))
+    listD.append(len(data_table[data_table['Designation'] == 'Sr. Architect']))
+    listD.append(len(data_table[data_table['Designation'] == 'Dy. General Manager']))
+    listD.append(len(data_table[data_table['Designation'] == 'General Manager']))
+    listD.append(len(data_table[data_table['Designation'] == 'Other']))
     return listD
 ############################################################
 
@@ -50,24 +44,14 @@ def calculate_designations_count(team):
 # FUNCTION : calculate Age counts based on teams
 #
 #############################################################
-def calculate_age_counts(team):
+def calculate_age_counts(data_table):
     listA = []
-    if debug is True:
-        print(team)
 
-    df_age = rd.df_sel_col.copy()
+    listA.append(len(data_table[data_table['Age'] == filt.age['20-30 Years']]))
+    listA.append(len(data_table[data_table['Age'] == filt.age['30-40 Years']]))
+    listA.append(len(data_table[data_table['Age'] == filt.age['40-50 Years']]))
+    listA.append(len(data_table[data_table['Age'] == filt.age['> 50 Years']]))
 
-    if 'All' not in team:
-        if team:
-            df_age = df_age[(df_age['Team'].isin(team))]
-
-    listA.append(len(df_age[df_age['Age'] == filt.age['20-30 Years']]))
-    listA.append(len(df_age[df_age['Age'] == filt.age['30-40 Years']]))
-    listA.append(len(df_age[df_age['Age'] == filt.age['40-50 Years']]))
-    listA.append(len(df_age[df_age['Age'] == filt.age['> 50 Years']]))
-    # debug code
-    if debug is True:
-        print(listA)
     return listA
 #############################################################
 
@@ -76,22 +60,13 @@ def calculate_age_counts(team):
 # FUNCTION : calculate work experience counts based on teams
 #
 #############################################################
-def calculate_gender_count(team):
+def calculate_gender_count(data_table):
     listG = []
-    if debug is True:
-        print(team)
 
-    df_gender = rd.df_sel_col.copy()
-    if 'All' not in team:
-        if team:
-            df_gender = df_gender[(df_gender['Team'].isin(team))]
+    listG.append(len(data_table[data_table['Gender'] == 'Male']))
+    listG.append(len(data_table[data_table['Gender'] == 'Female']))
+    listG.append(len(data_table[data_table['Gender'] == 'Other']))
 
-    listG.append(len(df_gender[df_gender['Gender'] == 'Male']))
-    listG.append(len(df_gender[df_gender['Gender'] == 'Female']))
-    listG.append(len(df_gender[df_gender['Gender'] == 'Other']))
-     # debug code
-    if debug is True:
-        print(listG)
     return listG
 #############################################################
 #############################################################
@@ -99,23 +74,13 @@ def calculate_gender_count(team):
 #
 #############################################################
 
-def calculate_Travel_count(team):
+def calculate_Travel_count(data_table):
     listG = []
-    if debug is True:
-        print(team)
 
-    df_travel = rd.df_adv_col_out.copy()
+    listG.append(len(data_table[data_table['Travel Risk'] == 'High']))
+    listG.append(len(data_table[data_table['Travel Risk'] == 'Medium']))
+    listG.append(len(data_table[data_table['Travel Risk'] == 'Low']))
 
-    if 'All' not in team:
-        if team:
-            df_travel = df_travel[(df_travel['Team'].isin(team))]
-
-    listG.append(len(df_travel[df_travel['Travel Risk'] == 'High']))
-    listG.append(len(df_travel[df_travel['Travel Risk'] == 'Medium']))
-    listG.append(len(df_travel[df_travel['Travel Risk'] == 'Low']))
-     # debug code
-    if debug is True:
-        print(listG)
     return listG
 
 
@@ -123,21 +88,15 @@ def calculate_Travel_count(team):
 # FUNCTION : calculate work experience counts based on teams
 #
 #############################################################
-def calcWorkExperience(team):
-    if debug is True:
-        print(team)
+def calcWorkExperience(data_table):
+
     listWE = []
     # ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
-    df_work = rd.df_sel_col.copy()
 
-    if 'All' not in team:
-        if team:
-            df_work = df_work[(df_work['Team'].isin(team))]
-
-    listWE.append(len(df_work[df_work['Experience'] == filt.experience['0-2 Years']]))
-    listWE.append(len(df_work[df_work['Experience'] == filt.experience['2-5 Years']]))
-    listWE.append(len(df_work[df_work['Experience'] == filt.experience['5-10 Years']]))
-    listWE.append(len(df_work[df_work['Experience'] == filt.experience['> 10 Years']]))
+    listWE.append(len(data_table[data_table['Experience'] == filt.experience['0-2 Years']]))
+    listWE.append(len(data_table[data_table['Experience'] == filt.experience['2-5 Years']]))
+    listWE.append(len(data_table[data_table['Experience'] == filt.experience['5-10 Years']]))
+    listWE.append(len(data_table[data_table['Experience'] == filt.experience['> 10 Years']]))
 
     # debug code
     if debug is True:
@@ -150,48 +109,28 @@ def calcWorkExperience(team):
 # FUNCTION : calculate wwork home distance counts based on teams
 #
 #############################################################
-def calcWork_home_distance(team):
-    if debug is True:
-        print(team)
+def calcWork_home_distance(data_table):
     listWE = []
-    # ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
-    df_work = rd.df_adv_col_out.copy()
 
-    if 'All' not in team:
-        if team:
-            df_work = df_work[(df_work['Team'].isin(team))]
+    listWE.append(len(data_table[data_table['Distance'] == filt.distance['0-5 Kms']]))
+    listWE.append(len(data_table[data_table['Distance'] == filt.distance['6-10 kms']]))
+    listWE.append(len(data_table[data_table['Distance'] == filt.distance['10-15 Kms']]))
+    listWE.append(len(data_table[data_table['Distance'] == filt.distance['15-20 Kms']]))
+    listWE.append(len(data_table[data_table['Distance'] == filt.distance['>20 Kms']]))
 
-    listWE.append(len(df_work[df_work['Distance'] == filt.distance['0-5 Kms']]))
-    listWE.append(len(df_work[df_work['Distance'] == filt.distance['6-10 kms']]))
-    listWE.append(len(df_work[df_work['Distance'] == filt.distance['10-15 Kms']]))
-    listWE.append(len(df_work[df_work['Distance'] == filt.distance['15-20 Kms']]))
-    listWE.append(len(df_work[df_work['Distance'] == filt.distance['>20 Kms']]))
-
-    # debug code
-    if debug is True:
-        print(listWE)
     return listWE
 #############################################################
 #############################################################
 # FUNCTION : calculate hotspot exposure counts based on teams
 #
 #############################################################
-def calculate_hotspot_exposure_counts(team):
+def calculate_hotspot_exposure_counts(data_table):
     listA = []
-    if debug is True:
-        print(team)
 
-    df_rzone = rd.df_adv_col_out.copy()
-    if 'All' not in team:
-        if team:
-            df_rzone = df_rzone[(df_rzone['Team'].isin(team))]
+    listA.append(len(data_table[data_table['RedZone Exposure Risk'] == 'High']))
+    listA.append(len(data_table[data_table['RedZone Exposure Risk'] == 'Medium']))
+    listA.append(len(data_table[data_table['RedZone Exposure Risk'] == 'Low']))
 
-    listA.append(len(df_rzone[df_rzone['RedZone Exposure Risk'] == 'High']))
-    listA.append(len(df_rzone[df_rzone['RedZone Exposure Risk'] == 'Medium']))
-    listA.append(len(df_rzone[df_rzone['RedZone Exposure Risk'] == 'Low']))
-    # debug code
-    if debug is True:
-        print(listA)
     return listA
 #############################################################
 
@@ -199,64 +138,37 @@ def calculate_hotspot_exposure_counts(team):
 # FUNCTION : calculate Covid19 exposure counts based on teams
 #
 #############################################################
-def calculate_covid_exposure_counts(team):
+def calculate_covid_exposure_counts(data_table):
     listA = []
-    if debug is True:
-        print(team)
 
-    df_cvd= rd.df_adv_col_out.copy()
-    if 'All' not in team:
-        if team:
-            df_cvd = df_cvd[(df_cvd['Team'].isin(team))]
+    listA.append(len(data_table[data_table['Covid Contact Risk'] == 'High']))
+    listA.append(len(data_table[data_table['Covid Contact Risk'] == 'Medium']))
+    listA.append(len(data_table[data_table['Covid Contact Risk'] == 'Low']))
 
-    listA.append(len(df_cvd[df_cvd['Covid Contact Risk'] == 'High']))
-    listA.append(len(df_cvd[df_cvd['Covid Contact Risk'] == 'Medium']))
-    listA.append(len(df_cvd[df_cvd['Covid Contact Risk'] == 'Low']))
-    # debug code
-    if debug is True:
-        print(listA)
     return listA
 #############################################################
 
 
 #############################################################
-def calculate_staying_people_counts(team):
+def calculate_staying_people_counts(data_table):
     listA = []
-    if debug is True:
-        print(team)
 
-    df_mem= rd.df_adv_col_out.copy()
-    if 'All' not in team:
-        if team:
-            df_mem = df_mem[(df_mem['Team'].isin(team))]
+    listA.append(len(data_table[data_table['Members'] == filt.personcount['0-5 persons']]))
+    listA.append(len(data_table[data_table['Members'] == filt.personcount['5-10 persons']]))
+    listA.append(len(data_table[data_table['Members'] == filt.personcount['> 10 persons']]))
 
-    listA.append(len(df_mem[df_mem['Members'] == filt.personcount['0-5 persons']]))
-    listA.append(len(df_mem[df_mem['Members'] == filt.personcount['5-10 persons']]))
-    listA.append(len(df_mem[df_mem['Members'] == filt.personcount['> 10 persons']]))
-    # debug code
-    if debug is True:
-        print(listA)
     return listA
 #############################################################
 
 
 #############################################################
-def calculate_health_risk_counts(team):
+def calculate_health_risk_counts(data_table):
     listA = []
-    if debug is True:
-        print(team)
 
-    df_heal= rd.df_adv_col_out.copy()
-    if 'All' not in team:
-        if team:
-            df_heal = df_heal[(df_heal['Team'].isin(team))]
+    listA.append(len(data_table[data_table['Health Risk'] == 'High']))
+    listA.append(len(data_table[data_table['Health Risk'] == 'Medium']))
+    listA.append(len(data_table[data_table['Health Risk'] == 'Low']))
 
-    listA.append(len(df_heal[df_heal['Health Risk'] == 'High']))
-    listA.append(len(df_heal[df_heal['Health Risk'] == 'Medium']))
-    listA.append(len(df_heal[df_heal['Health Risk'] == 'Low']))
-    # debug code
-    if debug is True:
-        print(listA)
     return listA
 #############################################################
 
@@ -334,3 +246,24 @@ def filter_advance_data(origdata, travel_risk, work_dist, living_with, kids_srci
             origdata = origdata[(origdata['Health Risk'].isin(health_risk))]
 
     return origdata
+
+
+def calculate_srcitizen_kids_counts(data_table):
+    listS = []
+
+    listS.append(len(data_table[data_table['SrCitizen_Kids'] == 'Yes']))
+    listS.append(len(data_table[data_table['SrCitizen_Kids'] == 'No']))
+
+    return listS
+
+
+def calculate_mode_transport_counts(data_table):
+    listT = []
+
+    listT.append(len(data_table[data_table['Transport mode office'] == '2 Wheeler']))
+    listT.append(len(data_table[data_table['Transport mode office'] == '4 Wheeler']))
+    listT.append(len(data_table[data_table['Transport mode office'] == 'Shared Car']))
+    listT.append(len(data_table[data_table['Transport mode office'] == 'Public Transport']))
+    listT.append(len(data_table[data_table['Transport mode office'] == 'By Walk']))
+
+    return listT
