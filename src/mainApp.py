@@ -4,6 +4,7 @@
 import dash
 import dash_auth
 import dash_table
+import pandas as pd
 import dash_core_components as dcc
 import dash_html_components as html
 from tabs import basic_tab
@@ -213,14 +214,14 @@ def update_spc_team_dropdown(name):
 #############################################################
 @app.callback(
     dash.dependencies.Output('work-exp', 'figure'),
-    [dash.dependencies.Input('spec-team-dropdown', 'value')]
+    [dash.dependencies.Input('table', 'data')]
 )
-def update_work_experience(team):
-
+def update_work_experience(data_table):
+    data_table = pd.DataFrame.from_dict(data_table)
     return {
         'data': [
         {
-            'values': calc_counts.calcWorkExperience(team),
+            'values': calc_counts.calcWorkExperience(data_table),
             'type': 'pie',
             'name': 'WorkExp',
             "labels": ['0-2 Years', '2-5 Years', '5-10 Years', '> 10 years']
@@ -240,14 +241,14 @@ def update_work_experience(team):
 #############################################################
 @app.callback(
     dash.dependencies.Output('gender-pie', 'figure'),
-    [dash.dependencies.Input('spec-team-dropdown', 'value')]
+    [dash.dependencies.Input('table', 'data')]
 )
-def update_gender(team):
-
+def update_gender(data_table):
+    data_table = pd.DataFrame.from_dict(data_table)
     return {
         'data': [
             {
-                'values': calc_counts.calculate_gender_count(team),
+                'values': calc_counts.calculate_gender_count(data_table),
                 'type': 'pie',
                 'name': 'genderPie',
                 "labels": ['Male', 'Female', 'Others'],
@@ -267,14 +268,14 @@ def update_gender(team):
 #######################################################################
 @app.callback(
     dash.dependencies.Output('age-Id', 'figure'),
-    [dash.dependencies.Input('spec-team-dropdown', 'value')]
+    [dash.dependencies.Input('table', 'data')]
 )
-def update_age(team):
-
+def update_age(data_table):
+    data_table = pd.DataFrame.from_dict(data_table)
     return {
         'data': [
             {'x': ['20-30 Years', '30-40 Years', '40-50 Years', '> 50 Years'],
-             'y': calc_counts.calculate_age_counts(team),
+             'y': calc_counts.calculate_age_counts(data_table),
              'type': 'bar'},
         ],
         'layout': {
@@ -295,15 +296,16 @@ def update_age(team):
 #######################################################################
 @app.callback(
     dash.dependencies.Output('designations-Id', 'figure'),
-    [dash.dependencies.Input('spec-team-dropdown', 'value')]
+    [dash.dependencies.Input('table', 'data')]
 )
-def update_gender(team):
+def update_designations(data_table):
+    data_table = pd.DataFrame.from_dict(data_table)
     return {
         'data': [
             {'x': ['Engineer', 'Sr. Engineer', 'Specialist', 'Sr. Specialist', 'Tech-Team Lead',
                    'Dy. Manager', 'Manager', 'Assistant Manager', 'Sr. Manager', 'Dy. Architect',
                    'Architect', 'Sr. Architect', 'Dy. General Manager', 'General Manager', 'Other'],
-             'y': calc_counts.calculate_designations_count(team),
+             'y': calc_counts.calculate_designations_count(data_table),
              'type': 'bar'},
         ],
         'layout': {
@@ -435,15 +437,18 @@ def reset_adv_filter(adv_reset):
      dash.dependencies.Output('living-with', 'figure'),
      dash.dependencies.Output('redzone-exposure', 'figure'),
      dash.dependencies.Output('covid-exposure', 'figure'),
-     dash.dependencies.Output('health', 'figure')],
-    [dash.dependencies.Input('shared-dropdown-data', 'data')]
+     dash.dependencies.Output('health', 'figure'),
+     dash.dependencies.Output('sr-citizen-graph', 'figure'),
+     dash.dependencies.Output('transport-mode', 'figure')],
+    [dash.dependencies.Input('table-adv', 'data')]
 )
-def update_Advancefilter_figures(data):
+def update_Advancefilter_figures(data_table):
+    data_table = pd.DataFrame.from_dict(data_table)
     return [
         {
         'data': [
             {
-                'values': calc_counts.calculate_Travel_count(data['Team']),
+                'values': calc_counts.calculate_Travel_count(data_table),
                 'type': 'pie',
                 'name': 'Travel Severity',
                 "labels": ['High', 'Medium', 'Low'],
@@ -461,7 +466,7 @@ def update_Advancefilter_figures(data):
             'data': [
                 {
                     'x': ['0-5 Km', '5-10 kms', '10-15 kms','15-20 kms', '> 20 Kms'],
-                    'y': calc_counts.calcWork_home_distance(data['Team']),
+                    'y': calc_counts.calcWork_home_distance(data_table),
                     'type': 'bar'
                 },
             ],
@@ -476,7 +481,7 @@ def update_Advancefilter_figures(data):
         {
             'data': [
                 {'x': ['0-5 members', '5-10 members', '>10 members'],
-                 'y': calc_counts.calculate_staying_people_counts(data['Team']),
+                 'y': calc_counts.calculate_staying_people_counts(data_table),
                  'type': 'bar'},
             ],
             'layout': {
@@ -494,7 +499,7 @@ def update_Advancefilter_figures(data):
         {
             'data': [
                 {
-                    'values': calc_counts.calculate_hotspot_exposure_counts(data['Team']),
+                    'values': calc_counts.calculate_hotspot_exposure_counts(data_table),
                     'type': 'pie',
                     'name': 'Red Zone exposure Severity',
                     'labels': ['High', 'Medium', 'Low'],
@@ -515,7 +520,7 @@ def update_Advancefilter_figures(data):
         {
             'data': [
                 {
-                    'values': calc_counts.calculate_covid_exposure_counts(data['Team']),
+                    'values': calc_counts.calculate_covid_exposure_counts(data_table),
                     'type': 'pie',
                     'name': 'Red Zone exposure Severity',
                     'labels': ['High', 'Medium', 'Low'],
@@ -535,7 +540,7 @@ def update_Advancefilter_figures(data):
         {
             'data': [
                 {'labels': ['High', 'Medium', 'Low'],
-                 'values': calc_counts.calculate_health_risk_counts('All'),
+                 'values': calc_counts.calculate_health_risk_counts(data_table),
                  'type': 'pie'},
             ],
             'layout': {
@@ -547,7 +552,44 @@ def update_Advancefilter_figures(data):
                 },
                 'title': 'Health Risk Distribution'
             }
-       }
+       },
+
+        {
+            'data': [
+                {
+                'values': calc_counts.calculate_srcitizen_kids_counts(data_table),
+                'type': 'pie',
+                'name': 'Senior Citizen Kids',
+                'labels': ['Yes', 'No'],
+                },
+            ],
+           'layout': {
+                # experiment and finalise colors
+                # 'plot_bgcolor': '#90EE90',
+                # 'paper_bgcolor': '#90EE90',
+                'font': {
+                    'color': 'black'
+                },
+                'title': 'Senior Citizen/Kids'
+            }
+        },
+
+        {
+            'data': [
+                {'x': ['2 Wheeler', '4 Wheeler', 'Shared Car', 'Public Transport', 'By Walk'],
+                 'y': calc_counts.calculate_mode_transport_counts(data_table),
+                 'type': 'bar'},
+            ],
+            'layout': {
+                # experiment and finalise colors
+                # 'plot_bgcolor': '#90EE90',
+                # 'paper_bgcolor': '#90EE90',
+                'font': {
+                    'color': 'black'
+                },
+                'title': 'Mode of Transport to Office'
+            }
+        }
 
     ]
 

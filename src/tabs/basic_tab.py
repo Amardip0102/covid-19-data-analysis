@@ -162,7 +162,7 @@ basic_layout = html.Div([
                         {'x': ['Engineer', 'Sr. Engineer', 'Specialist', 'Sr. Specialist', 'Tech-Team Lead',
                                'Dy. Manager', 'Manager', 'Assistant Manager', 'Sr. Manager', 'Dy. Architect',
                                'Architect', 'Sr. Architect', 'Dy. General Manager', 'General Manager', 'Other'],
-                         'y': calc_counts.calculate_designations_count('All'),
+                         'y': calc_counts.calculate_designations_count(read_data.df_sel_col),
                          'type': 'bar'},
                     ],
                     'layout': {
@@ -184,7 +184,7 @@ basic_layout = html.Div([
                 figure={
                     'data': [
                         {
-                            'values': calc_counts.calcWorkExperience('All'),
+                            'values': calc_counts.calcWorkExperience(read_data.df_sel_col),
                             'type': 'pie',
                             'name': 'WorkExp',
                             "labels": ['0-2 Years', '2-5 Years', '5-10 Years', '> 10 years'],
@@ -205,7 +205,7 @@ basic_layout = html.Div([
                 figure={
                     'data': [
                         {
-                            'values': calc_counts.calculate_gender_count('All'),
+                            'values': calc_counts.calculate_gender_count(read_data.df_sel_col),
                             'type': 'pie',
                             'name': 'genderPie',
                             "labels": ['Male', 'Female', 'Others'],
@@ -226,7 +226,7 @@ basic_layout = html.Div([
                 figure={
                     'data': [
                         {'x': ['20-30 Years', '30-40 Years', '40-50 Years', '> 50 Years'],
-                         'y': calc_counts.calculate_age_counts('All'),
+                         'y': calc_counts.calculate_age_counts(read_data.df_sel_col),
                          'type': 'bar'},
                     ],
                     'layout': {
