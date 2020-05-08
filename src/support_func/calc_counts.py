@@ -21,21 +21,25 @@ def calculate_designations_count(data_table):
     # 'All', 'Engineer', 'Sr. Engineer', 'Specialist', 'Sr.  Specialist', 'Tech-Team Lead', 'Dy. Manager', 'Manager',
     #                 'Assistant Manager', 'Sr. Manager', 'Dy. Architect', 'Architect', 'Sr. Architect',
     #                 'Dy. General Manager', 'General Manager', 'Other'
-    listD.append(len(data_table[data_table['Designation'] == 'Engineer']))
-    listD.append(len(data_table[data_table['Designation'] == 'Sr. Engineer']))
-    listD.append(len(data_table[data_table['Designation'] == 'Specialist']))
-    listD.append(len(data_table[data_table['Designation'] == 'Sr. Specialist']))
-    listD.append(len(data_table[data_table['Designation'] == 'Tech/Team Lead']))
-    listD.append(len(data_table[data_table['Designation'] == 'Dy. Manager']))
-    listD.append(len(data_table[data_table['Designation'] == 'Manager']))
-    listD.append(len(data_table[data_table['Designation'] == 'Assistant Manager']))
-    listD.append(len(data_table[data_table['Designation'] == 'Sr. Manager']))
-    listD.append(len(data_table[data_table['Designation'] == 'Dy. Architect']))
-    listD.append(len(data_table[data_table['Designation'] == 'Architect']))
-    listD.append(len(data_table[data_table['Designation'] == 'Sr. Architect']))
-    listD.append(len(data_table[data_table['Designation'] == 'Dy. General Manager']))
-    listD.append(len(data_table[data_table['Designation'] == 'General Manager']))
-    listD.append(len(data_table[data_table['Designation'] == 'Other']))
+    if data_table.empty:
+        listD = [None] * 15
+    else:
+        listD.append(len(data_table[data_table['Designation'] == 'Engineer']))
+        listD.append(len(data_table[data_table['Designation'] == 'Sr. Engineer']))
+        listD.append(len(data_table[data_table['Designation'] == 'Specialist']))
+        listD.append(len(data_table[data_table['Designation'] == 'Sr. Specialist']))
+        listD.append(len(data_table[data_table['Designation'] == 'Tech/Team Lead']))
+        listD.append(len(data_table[data_table['Designation'] == 'Dy. Manager']))
+        listD.append(len(data_table[data_table['Designation'] == 'Manager']))
+        listD.append(len(data_table[data_table['Designation'] == 'Assistant Manager']))
+        listD.append(len(data_table[data_table['Designation'] == 'Sr. Manager']))
+        listD.append(len(data_table[data_table['Designation'] == 'Dy. Architect']))
+        listD.append(len(data_table[data_table['Designation'] == 'Architect']))
+        listD.append(len(data_table[data_table['Designation'] == 'Sr. Architect']))
+        listD.append(len(data_table[data_table['Designation'] == 'Dy. General Manager']))
+        listD.append(len(data_table[data_table['Designation'] == 'General Manager']))
+        listD.append(len(data_table[data_table['Designation'] == 'Other']))
+
     return listD
 ############################################################
 
@@ -47,11 +51,13 @@ def calculate_designations_count(data_table):
 def calculate_age_counts(data_table):
     listA = []
 
-    listA.append(len(data_table[data_table['Age'] == filt.age['20-30 Years']]))
-    listA.append(len(data_table[data_table['Age'] == filt.age['30-40 Years']]))
-    listA.append(len(data_table[data_table['Age'] == filt.age['40-50 Years']]))
-    listA.append(len(data_table[data_table['Age'] == filt.age['> 50 Years']]))
-
+    if data_table.empty:
+        listA = [None] * 4
+    else:
+        listA.append(len(data_table[data_table['Age'] == filt.age['20-30 Years']]))
+        listA.append(len(data_table[data_table['Age'] == filt.age['30-40 Years']]))
+        listA.append(len(data_table[data_table['Age'] == filt.age['40-50 Years']]))
+        listA.append(len(data_table[data_table['Age'] == filt.age['> 50 Years']]))
     return listA
 #############################################################
 
@@ -62,10 +68,12 @@ def calculate_age_counts(data_table):
 #############################################################
 def calculate_gender_count(data_table):
     listG = []
-
-    listG.append(len(data_table[data_table['Gender'] == 'Male']))
-    listG.append(len(data_table[data_table['Gender'] == 'Female']))
-    listG.append(len(data_table[data_table['Gender'] == 'Other']))
+    if data_table.empty:
+        listG = [None] * 3
+    else:
+        listG.append(len(data_table[data_table['Gender'] == 'Male']))
+        listG.append(len(data_table[data_table['Gender'] == 'Female']))
+        listG.append(len(data_table[data_table['Gender'] == 'Other']))
 
     return listG
 #############################################################
@@ -77,9 +85,12 @@ def calculate_gender_count(data_table):
 def calculate_Travel_count(data_table):
     listG = []
 
-    listG.append(len(data_table[data_table['Travel Risk'] == 'High']))
-    listG.append(len(data_table[data_table['Travel Risk'] == 'Medium']))
-    listG.append(len(data_table[data_table['Travel Risk'] == 'Low']))
+    if data_table.empty:
+        listG = [None] * 3
+    else:
+        listG.append(len(data_table[data_table['Travel Risk'] == 'High']))
+        listG.append(len(data_table[data_table['Travel Risk'] == 'Medium']))
+        listG.append(len(data_table[data_table['Travel Risk'] == 'Low']))
 
     return listG
 
@@ -93,11 +104,13 @@ def calcWorkExperience(data_table):
     listWE = []
     # ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender']
 
-    listWE.append(len(data_table[data_table['Experience'] == filt.experience['0-2 Years']]))
-    listWE.append(len(data_table[data_table['Experience'] == filt.experience['2-5 Years']]))
-    listWE.append(len(data_table[data_table['Experience'] == filt.experience['5-10 Years']]))
-    listWE.append(len(data_table[data_table['Experience'] == filt.experience['> 10 Years']]))
-
+    if data_table.empty:
+        listWE = [None] * 4
+    else:
+        listWE.append(len(data_table[data_table['Experience'] == filt.experience['0-2 Years']]))
+        listWE.append(len(data_table[data_table['Experience'] == filt.experience['2-5 Years']]))
+        listWE.append(len(data_table[data_table['Experience'] == filt.experience['5-10 Years']]))
+        listWE.append(len(data_table[data_table['Experience'] == filt.experience['> 10 Years']]))
     # debug code
     if debug is True:
         print(listWE)
@@ -112,11 +125,14 @@ def calcWorkExperience(data_table):
 def calcWork_home_distance(data_table):
     listWE = []
 
-    listWE.append(len(data_table[data_table['Distance'] == filt.distance['0-5 Kms']]))
-    listWE.append(len(data_table[data_table['Distance'] == filt.distance['6-10 kms']]))
-    listWE.append(len(data_table[data_table['Distance'] == filt.distance['10-15 Kms']]))
-    listWE.append(len(data_table[data_table['Distance'] == filt.distance['15-20 Kms']]))
-    listWE.append(len(data_table[data_table['Distance'] == filt.distance['>20 Kms']]))
+    if data_table.empty:
+        listWE = [None] * 5
+    else:
+        listWE.append(len(data_table[data_table['Distance'] == filt.distance['0-5 Kms']]))
+        listWE.append(len(data_table[data_table['Distance'] == filt.distance['6-10 kms']]))
+        listWE.append(len(data_table[data_table['Distance'] == filt.distance['10-15 Kms']]))
+        listWE.append(len(data_table[data_table['Distance'] == filt.distance['15-20 Kms']]))
+        listWE.append(len(data_table[data_table['Distance'] == filt.distance['>20 Kms']]))
 
     return listWE
 #############################################################
@@ -127,9 +143,12 @@ def calcWork_home_distance(data_table):
 def calculate_hotspot_exposure_counts(data_table):
     listA = []
 
-    listA.append(len(data_table[data_table['RedZone Exposure Risk'] == 'High']))
-    listA.append(len(data_table[data_table['RedZone Exposure Risk'] == 'Medium']))
-    listA.append(len(data_table[data_table['RedZone Exposure Risk'] == 'Low']))
+    if data_table.empty:
+        listA = [None] * 3
+    else:
+        listA.append(len(data_table[data_table['RedZone Exposure Risk'] == 'High']))
+        listA.append(len(data_table[data_table['RedZone Exposure Risk'] == 'Medium']))
+        listA.append(len(data_table[data_table['RedZone Exposure Risk'] == 'Low']))
 
     return listA
 #############################################################
@@ -141,9 +160,12 @@ def calculate_hotspot_exposure_counts(data_table):
 def calculate_covid_exposure_counts(data_table):
     listA = []
 
-    listA.append(len(data_table[data_table['Covid Contact Risk'] == 'High']))
-    listA.append(len(data_table[data_table['Covid Contact Risk'] == 'Medium']))
-    listA.append(len(data_table[data_table['Covid Contact Risk'] == 'Low']))
+    if data_table.empty:
+        listA = [None] * 3
+    else:
+        listA.append(len(data_table[data_table['Covid Contact Risk'] == 'High']))
+        listA.append(len(data_table[data_table['Covid Contact Risk'] == 'Medium']))
+        listA.append(len(data_table[data_table['Covid Contact Risk'] == 'Low']))
 
     return listA
 #############################################################
@@ -153,9 +175,12 @@ def calculate_covid_exposure_counts(data_table):
 def calculate_staying_people_counts(data_table):
     listA = []
 
-    listA.append(len(data_table[data_table['Members'] == filt.personcount['0-5 persons']]))
-    listA.append(len(data_table[data_table['Members'] == filt.personcount['5-10 persons']]))
-    listA.append(len(data_table[data_table['Members'] == filt.personcount['> 10 persons']]))
+    if data_table.empty:
+        listA = [None] * 3
+    else:
+        listA.append(len(data_table[data_table['Members'] == filt.personcount['0-5 persons']]))
+        listA.append(len(data_table[data_table['Members'] == filt.personcount['5-10 persons']]))
+        listA.append(len(data_table[data_table['Members'] == filt.personcount['> 10 persons']]))
 
     return listA
 #############################################################
@@ -165,9 +190,12 @@ def calculate_staying_people_counts(data_table):
 def calculate_health_risk_counts(data_table):
     listA = []
 
-    listA.append(len(data_table[data_table['Health Risk'] == 'High']))
-    listA.append(len(data_table[data_table['Health Risk'] == 'Medium']))
-    listA.append(len(data_table[data_table['Health Risk'] == 'Low']))
+    if data_table.empty:
+        listA = [None] * 3
+    else:
+        listA.append(len(data_table[data_table['Health Risk'] == 'High']))
+        listA.append(len(data_table[data_table['Health Risk'] == 'Medium']))
+        listA.append(len(data_table[data_table['Health Risk'] == 'Low']))
 
     return listA
 #############################################################
@@ -251,8 +279,11 @@ def filter_advance_data(origdata, travel_risk, work_dist, living_with, kids_srci
 def calculate_srcitizen_kids_counts(data_table):
     listS = []
 
-    listS.append(len(data_table[data_table['SrCitizen_Kids'] == 'Yes']))
-    listS.append(len(data_table[data_table['SrCitizen_Kids'] == 'No']))
+    if data_table.empty:
+        listS = [None] * 2
+    else:
+        listS.append(len(data_table[data_table['SrCitizen_Kids'] == 'Yes']))
+        listS.append(len(data_table[data_table['SrCitizen_Kids'] == 'No']))
 
     return listS
 
@@ -260,10 +291,13 @@ def calculate_srcitizen_kids_counts(data_table):
 def calculate_mode_transport_counts(data_table):
     listT = []
 
-    listT.append(len(data_table[data_table['Transport mode office'] == '2 Wheeler']))
-    listT.append(len(data_table[data_table['Transport mode office'] == '4 Wheeler']))
-    listT.append(len(data_table[data_table['Transport mode office'] == 'Shared Car']))
-    listT.append(len(data_table[data_table['Transport mode office'] == 'Public Transport']))
-    listT.append(len(data_table[data_table['Transport mode office'] == 'By Walk']))
+    if data_table.empty:
+        listT = [None] * 5
+    else:
+        listT.append(len(data_table[data_table['Transport mode office'] == '2 Wheeler']))
+        listT.append(len(data_table[data_table['Transport mode office'] == '4 Wheeler']))
+        listT.append(len(data_table[data_table['Transport mode office'] == 'Shared Car']))
+        listT.append(len(data_table[data_table['Transport mode office'] == 'Public Transport']))
+        listT.append(len(data_table[data_table['Transport mode office'] == 'By Walk']))
 
     return listT
