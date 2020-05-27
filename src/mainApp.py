@@ -33,6 +33,10 @@ VALID_USERNAME_PASSWORD_PAIRS = {
     read_data.username: read_data.password
 }
 
+ALLOWED_TYPES = (
+    "text",
+)
+
 if production:
     from flask import Flask
     server = Flask(__name__)
@@ -45,6 +49,10 @@ auth = dash_auth.BasicAuth(
     VALID_USERNAME_PASSWORD_PAIRS
 )
 #############################################################
+colors = [
+    'rgb(238, 36, 47)',
+    'rgb(255, 217, 83)',
+    'rgb(39, 205, 59)']
 
 app.config['suppress_callback_exceptions'] = True
 #############################################################
@@ -118,6 +126,19 @@ app.layout = html.Div([
         # End : Heading of the report
         #############################################################
 
+
+        html.Div([
+             dcc.Dropdown(
+                 id='search_emp_name',
+                 options=[{'label': v, 'value': v} for v in read_data.df_adv_col_out['Name'].tolist()],
+                 value='',
+                 placeholder="Search Employee Name",
+                 style={'width': '1400px',
+                        'margin-top': 0,
+                        'margin-left': 0,
+                        }
+             ),
+        ],className='row'),
         #############################################################
         html.Div([
             html.H3(children='Filters',
@@ -329,13 +350,17 @@ def update_designations(data_table):
      dash.dependencies.Input('designation-dropdown', 'value'),
      dash.dependencies.Input('gender-dropdown', 'value'),
      dash.dependencies.Input('age-dropdown', 'value'),
-     dash.dependencies.Input('exp-dropdown', 'value')]
+     dash.dependencies.Input('exp-dropdown', 'value'),
+     dash.dependencies.Input('search_emp_name', 'value')]
 )
-def update_table(team_name, design_name, gender, age, exp):
+def update_table(team_name, design_name, gender, age, exp, emp_name):
     # create a copy of main data here
     out_df = read_data.df_sel_col.copy()
     # print(out_df.head(5))
     # ['Name', 'ID', 'Team', 'Experience', 'Designation', 'Age', 'Gender'] for reference
+    if emp_name:
+        emp_name = [emp_name]
+        out_df = out_df[(out_df['Name'].isin(emp_name))]
 
     # check if team name is not All
     if 'All' not in team_name:
@@ -382,14 +407,17 @@ def update_table(team_name, design_name, gender, age, exp):
      dash.dependencies.Input('exposure_affected_severity', 'value'),
      dash.dependencies.Input('severity-dropdown', 'value'),
      dash.dependencies.Input('health_risk_severity', 'value'),
-     dash.dependencies.Input('tab-app', 'value')],
+     dash.dependencies.Input('tab-app', 'value'),
+     dash.dependencies.Input('search_emp_name', 'value')],
     [dash.dependencies.State('shared-dropdown-data', 'data')]
 )
-def update_advance_table(travel_risk, work_dist, living_with, kids_srcitizen, office_mode_transport, redzone, covid_contact, health_risk, tab, cache):
+def update_advance_table(travel_risk, work_dist, living_with, kids_srcitizen, office_mode_transport, redzone,
+                         covid_contact, health_risk, tab, emp_name, cache):
     adv_out_df = read_data.df_adv_col_out.copy()
 
-    adv_out_df = calc_counts.filter_advance_data(adv_out_df, travel_risk, work_dist, living_with, kids_srcitizen,office_mode_transport,
-                                                 redzone, covid_contact, health_risk, cache)
+    adv_out_df = calc_counts.filter_advance_data(adv_out_df, travel_risk, work_dist, living_with, kids_srcitizen,
+                                                 office_mode_transport, redzone, covid_contact, health_risk, emp_name,
+                                                 cache)
 
     data = adv_out_df.to_dict("rows")
 
@@ -452,6 +480,7 @@ def update_Advancefilter_figures(data_table):
                 'type': 'pie',
                 'name': 'Travel Severity',
                 "labels": ['High', 'Medium', 'Low'],
+                'marker': {'colors': colors},
             }],
         'layout': {
             'font': {
@@ -467,7 +496,13 @@ def update_Advancefilter_figures(data_table):
                 {
                     'x': ['0-5 Km', '5-10 kms', '10-15 kms','15-20 kms', '> 20 Kms'],
                     'y': calc_counts.calcWork_home_distance(data_table),
-                    'type': 'bar'
+                    'type': 'bar',
+                    'marker': dict(color=[
+                        'rgb(39, 205, 59)',
+                        'rgb(39, 205, 59)',
+                        'rgb(255, 217, 83)',
+                        'rgb(255, 217, 83)',
+                        'rgb(238, 36, 47)'])
                 },
             ],
             'layout': {
@@ -482,7 +517,12 @@ def update_Advancefilter_figures(data_table):
             'data': [
                 {'x': ['0-5 members', '5-10 members', '>10 members'],
                  'y': calc_counts.calculate_staying_people_counts(data_table),
-                 'type': 'bar'},
+                 'type': 'bar',
+                 'marker':dict(color=[
+                     'rgb(39, 205, 59)',
+                     'rgb(255, 217, 83)',
+                     'rgb(238, 36, 47)'
+                 ])},
             ],
             'layout': {
                 # experiment and finalise colors
@@ -503,6 +543,7 @@ def update_Advancefilter_figures(data_table):
                     'type': 'pie',
                     'name': 'Red Zone exposure Severity',
                     'labels': ['High', 'Medium', 'Low'],
+                    'marker': {'colors':colors},
 
                 },
             ],
@@ -524,6 +565,7 @@ def update_Advancefilter_figures(data_table):
                     'type': 'pie',
                     'name': 'Red Zone exposure Severity',
                     'labels': ['High', 'Medium', 'Low'],
+                    'marker': {'colors': colors},
                 },
             ],
             'layout': {
@@ -541,7 +583,9 @@ def update_Advancefilter_figures(data_table):
             'data': [
                 {'labels': ['High', 'Medium', 'Low'],
                  'values': calc_counts.calculate_health_risk_counts(data_table),
-                 'type': 'pie'},
+                 'type': 'pie',
+                 'marker': {'colors':colors},
+                 }
             ],
             'layout': {
                 # experiment and finalise colors
@@ -561,6 +605,10 @@ def update_Advancefilter_figures(data_table):
                 'type': 'pie',
                 'name': 'Senior Citizen Kids',
                 'labels': ['Yes', 'No'],
+                'marker': {'colors': [
+                    'rgb(255, 0, 0)',
+                    'rgb(0, 255, 100)'
+                ]},
                 },
             ],
            'layout': {
@@ -578,7 +626,14 @@ def update_Advancefilter_figures(data_table):
             'data': [
                 {'x': ['2 Wheeler', '4 Wheeler', 'Shared Car', 'Public Transport', 'By Walk'],
                  'y': calc_counts.calculate_mode_transport_counts(data_table),
-                 'type': 'bar'},
+                 'type': 'bar',
+                 'marker': dict(color=[
+                     'rgb(39, 205, 59)',
+                     'rgb(39, 205, 59)',
+                     'rgb(255, 217, 83)',
+                     'rgb(238, 36, 47)',
+                     'rgb(39, 205, 59)'])
+                 },
             ],
             'layout': {
                 # experiment and finalise colors

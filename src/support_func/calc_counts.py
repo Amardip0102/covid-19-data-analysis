@@ -15,8 +15,6 @@ debug = False
 #############################################################
 def calculate_designations_count(data_table):
     listD = []
-
-
     # Sequence to Append
     # 'All', 'Engineer', 'Sr. Engineer', 'Specialist', 'Sr.  Specialist', 'Tech-Team Lead', 'Dy. Manager', 'Manager',
     #                 'Assistant Manager', 'Sr. Manager', 'Dy. Architect', 'Architect', 'Sr. Architect',
@@ -39,7 +37,6 @@ def calculate_designations_count(data_table):
         listD.append(len(data_table[data_table['Designation'] == 'Dy. General Manager']))
         listD.append(len(data_table[data_table['Designation'] == 'General Manager']))
         listD.append(len(data_table[data_table['Designation'] == 'Other']))
-
     return listD
 ############################################################
 
@@ -205,9 +202,12 @@ def calculate_health_risk_counts(data_table):
 #
 ##############################################################
 def filter_advance_data(origdata, travel_risk, work_dist, living_with, kids_srcitizen,office_mode_transport,
-                        redzone, covid_contact, health_risk, cache):
-
+                        redzone, covid_contact, health_risk, emp_name, cache):
     # check if team name is not All
+    if emp_name:
+        emp_name = [emp_name]
+        origdata = origdata[(origdata['Name'].isin(emp_name))]
+
     if 'All' not in cache['Team']:
         if cache['Team']:
             origdata = origdata[(origdata['Team'].isin(cache['Team']))]
