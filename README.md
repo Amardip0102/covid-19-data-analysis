@@ -1,5 +1,5 @@
 # covid-19-data-analysis
-covid 19 data analysis tool for Organisations
+Covid 19 data analysis tool for Organisations
 
 Collecting all data of employees whereabouts and based on the data giving suggestion to management about who shall come to office 
 and who shall not.
